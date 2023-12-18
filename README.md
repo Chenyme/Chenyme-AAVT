@@ -1,14 +1,14 @@
-# Chenyme-AAMT V0.1
+# Chenyme-AAMT V0.2
 
-非常感谢您来到我的 Chenyme-AAMT V0.1 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
+非常感谢您来到我的 Chenyme-AAMT V0.2 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
 
-![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/5cc191c6-7a0a-4929-8e18-56f05e0bf39a)
+![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/32ae6e4b-4998-47a6-a4b8-289949c3407d)
 
 
 
 ## 如何安装
 ### 更快速的安装（省去下载FFmpeg）
-**见**[releases](https://github.com/Chenyme/AAMT/releases)
+**见**[releases](https://github.com/Chenyme/Chenyme-AAMT/releases)
 ### 正常安装
 
 本项目需要依赖 Python 环境和 FFmpeg。
@@ -34,7 +34,12 @@
 
 ## 如何使用
 
-**运行程序**
+
+1. **设置参数**
+   - 在`config`内设置 `OPENAI_API_KEY`
+   - 您也可以在网页中设置OPENAI参数，但这不会保存到下一次的使用中去。
+
+2. **运行程序**
    - 运行 `webui.bat`
    - 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
    - 在侧边栏输入你的 `API_KEY`，若要使用代理请输入 `API_BASE`
@@ -43,8 +48,8 @@
 
 ## 注意事项
 
-1. 请确保您的系统已经正确安装了 Python，并且版本号为 3.8 或更高。
-2. 请确保已经安装了 FFmpeg，并设置 FFmpeg 为环境变量。
+1. 请确保您的系统已经正确安装了 `Python`，并且版本号为 3.8 或更高。
+2. 请确保已经安装了 `FFmpeg`，并设置 `FFmpeg` 为环境变量。
 3. 请确保运行 `install.bat`，安装所有依赖库。
 
 
@@ -53,4 +58,4 @@
 
 ### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 的开发人员！
 
-#### 如有不当还请大家指出!
+#### 如有问题和建议，随时联系我!
