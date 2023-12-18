@@ -1,6 +1,6 @@
-# C# Chenyme-AAMT V0.2
+# Chenyme-AAMT V0.1
 
-非常感谢您来到我的 Chenyme-AAMT V0.2 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
+非常感谢您来到我的 Chenyme-AAMT V0.1 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
 
 ![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/5cc191c6-7a0a-4929-8e18-56f05e0bf39a)
 
