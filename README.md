@@ -1,9 +1,9 @@
-# Chenyme-AAMT V0.2
+# Chenyme-AAMT V0.2.1
 
-非常感谢您来到我的 Chenyme-AAMT V0.2 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
+非常感谢您来到我的 Chenyme-AAMT V0.2.1 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
 
-![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/32ae6e4b-4998-47a6-a4b8-289949c3407d)
 
+![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/eba25a5d-d9b0-4128-a141-6a8a0667962c)
 
 
 ## 如何安装
@@ -38,6 +38,8 @@
 1. **设置参数**
    - 在`config`内设置 `OPENAI_API_KEY`
    - 您也可以在网页中设置OPENAI参数，但这不会保存到下一次的使用中去。
+     
+![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/375992c2-a219-4640-8341-eb324694f923)
 
 2. **运行程序**
    - 运行 `webui.bat`
