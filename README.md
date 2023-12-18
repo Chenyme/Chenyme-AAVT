@@ -14,21 +14,21 @@
 本项目需要依赖 Python 环境和 FFmpeg。
 
 1. **安装 Python 环境**
-   - 您需要安装 Python 3.8 或更高版本。
-   - 您可以从 [Python官网](https://www.python.org/downloads/) 下载并安装最新版本的 Python。
+- 您需要安装 Python 3.8 或更高版本。
+- 您可以从 [Python官网](https://www.python.org/downloads/) 下载并安装最新版本的 Python。
 
 2. **安装 FFmpeg**
-   - 您需要安装 FFmpeg。
-   - 您可以从 [FFmpeg官网](https://www.ffmpeg.org/download.html) 下载并安装 FFmpeg。
+- 您需要安装 FFmpeg。
+- 您可以从 [FFmpeg官网](https://www.ffmpeg.org/download.html) 下载并安装 FFmpeg。
 
 3. **设置 FFmpeg 为环境变量**
-   - 按下 `Win+R` 快捷键打开运行对话框。
-   - 在弹出的框中输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`，然后点击确定。
-   - 在上面的用户变量中找到 `Path`，双击。
-   - 点击新建，输入刚刚下载的 FFmpeg 的路径。示例：`D:\APP\ffmpeg`（请根据自己的实际路径调整！）。
+- 按下 `Win+R` 快捷键打开运行对话框。
+- 在弹出的框中输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`，然后点击确定。
+- 在上面的用户变量中找到 `Path`，双击。
+- 点击新建，输入刚刚下载的 FFmpeg 的路径。示例：`D:\APP\ffmpeg`（请根据自己的实际路径调整！）。
 
 4. **运行 `install.bat`**
-   - 在项目根目录下运行 `install.bat` 来安装所有依赖库。
+- 在项目根目录下运行 `install.bat` 来安装所有依赖库。
 
 
 
@@ -36,16 +36,16 @@
 
 
 1. **设置参数**
-   - 在`config`内设置 `OPENAI_API_KEY`
-   - 您也可以在网页中设置OPENAI参数，但这不会保存到下一次的使用中去。
+- 在`config`内设置 `OPENAI_API_KEY`
+- 您也可以在网页中设置OPENAI参数，但这不会保存到下一次的使用中去。
      
 ![image](https://github.com/Chenyme/Chenyme-AAMT/assets/118253778/375992c2-a219-4640-8341-eb324694f923)
 
 2. **运行程序**
-   - 运行 `webui.bat`
-   - 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
-   - 在侧边栏输入你的 `API_KEY`，若要使用代理请输入 `API_BASE`
-   - 上传文件，设置模型，运行程序，耐心等待处理
+- 运行 `webui.bat`
+- 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
+- 在侧边栏输入你的 `API_KEY`，若要使用代理请输入 `API_BASE`
+- 上传文件，设置模型，运行程序，耐心等待处理
 
 
 ## 注意事项
