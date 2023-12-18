@@ -1,4 +1,7 @@
+import math
+import os
 import tempfile
+import subprocess
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferWindowMemory
@@ -64,3 +67,26 @@ def openai_translate(key, base, result):
         result['segments'][segment_id]['text'] = response['text']
         segment_id += 1
     return result
+
+
+def srt_mv(cache_dir):
+    command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'BorderStyle=0,Outline=1,Shadow=0,Fontsize=18'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
+    subprocess.run(command, shell=True, cwd=cache_dir)
+
+
+def cache(cache_dir):
+    total_size = 0  # 总大小，初始为0
+    for root, dirs, files in os.walk(cache_dir):  # 遍历文件夹中的所有文件和子文件夹
+        for file_name in files:
+            file_path = os.path.join(root, file_name)
+            total_size += os.path.getsize(file_path)
+    return total_size
+
+def convert_size(size):
+    if size == 0:
+        return "0B"
+    size_names = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size, 1024)))
+    power = math.pow(1024, i)
+    size = round(size / power, 2)
+    return f"{size} {size_names[i]}"
