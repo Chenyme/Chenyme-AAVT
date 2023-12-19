@@ -98,11 +98,11 @@ with tab2:
 
     if st.button("保存"):
         if new_base != openai_api_base and new_base != "":
-            config["openai_key"] = new_key
-            openai_api_key = new_key
-        if new_key != openai_api_key and new_key != "":
             config["openai_base"] = new_base
             openai_api_base = new_base
+        if new_key != openai_api_key and new_key != "":
+            config["openai_key"] = new_key
+            openai_api_key = new_key
         with open(config_dir + "config.json", 'w') as file:
             json.dump(config, file, indent=4)
         st.success("已保存")
@@ -127,7 +127,7 @@ with tab3:
     st.write('''
     #### 版本 0.2.2 更新日志
     #####
-    ##### 增加最大上传文件大小限制
+    ##### 更改最大上传文件大小限制
     - 在此版本中，我们增加了最大上传文件大小的限制。之前的版本仅支持最大200MB的文件上传，而现在，为您提供了更大的容量，最高可支持50GB的文件上传。这一改动旨在满足更广泛的使用场景和用户需求。
     
     ##### 自动保存设置参数
