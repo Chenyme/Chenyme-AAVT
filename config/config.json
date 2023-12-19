@@ -1,0 +1,5 @@
+{
+    "openai_key": "",
+    "openai_base": "",
+    "whisper_model_default": "base"
+}
