@@ -4,6 +4,7 @@ import tempfile
 import subprocess
 import whisper
 import pandas as pd
+import streamlit as st
 from faster_whisper import WhisperModel
 from openai import OpenAI
 from langchain.chains import LLMChain
@@ -229,3 +230,19 @@ def convert_size(size):  # 缓存大小匹配
     power = math.pow(1024, i)
     size = round(size / power, 2)
     return f"{size} {size_names[i]}"
+
+
+@st.cache_resource
+def aavt_chatbot(system, prompt, key, base):
+    if base == '':
+        client = OpenAI(api_key=key)
+    else:
+        client = OpenAI(api_key=key, base_url=base)
+
+    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "system", "content": system},
+            {"role": "user", "content": prompt}])
+    msg = response.choices[0].message.content
+    # 缓存
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "assistant", "content": msg})
+    return msg

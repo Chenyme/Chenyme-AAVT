@@ -1,8 +1,7 @@
 {
-    "openai_key": "sk-......",
-    "openai_base": "http://......",
+    "openai_key": "",
+    "openai_base": "",
     "kimi_key": "",
     "whisper_model_default": "base",
     "whisper_version_default": "openai-whisper"
-
 }

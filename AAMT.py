@@ -18,6 +18,7 @@ from utils.utils import (
     whisper_choose,
     parse_srt_file,
     save_srt_file,
+    aavt_chatbot
 )
 
 st.set_page_config(
@@ -49,21 +50,21 @@ with st.sidebar:
         "恭喜你完成了AAMT项目的部署！请先前往设置页面配置环境，同时确保按照步骤安装好所有依赖环境和库，以保证项目稳定运行！")
     with open(read_dir, 'r', encoding='utf-8') as file:
         markdown_content = file.read()
-    t = st.container(border=True, height=500)
-    if "messages" not in st.session_state:
-        st.session_state["messages"] = [{"role": "assistant", "content": markdown_content}]
-    t.caption("🚀 A chatbot build with OpenAI LLM")
-    for msg in st.session_state.messages:
-        t.chat_message(msg["role"]).write("欢迎来到AAMT v0.3，我是AI助手，您可以随时向我发起提问！")
+    sidebar_chat = st.container(border=True, height=500)
+    sidebar_chat.caption("🚀 A ChatBot Based on OpenAI LLM")
 
-    if prompt := st.text_input("输入您的问题", help="这是基于GPT3.5的AI助手，你可以问任何问题，按Enter以发送"):
-        client = OpenAI(api_key=st.session_state.openai_key, base_url=st.session_state.openai_base)
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        t.chat_message("user").write(prompt)
-        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-        msg = response.choices[0].message.content
-        st.session_state.messages.append({"role": "assistant", "content": msg})
-        t.chat_message("assistant").write(msg)
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [{"role": "assistant", "content": "欢迎来到AAVT，我是AI助手，您可以随时向我发起提问！"}]
+
+    for msg in st.session_state.messages:
+        sidebar_chat.chat_message(msg["role"]).write(msg["content"])
+
+    sidebar_chat_prompt = st.text_input("输入您的问题", help="这是基于GPT3.5的AI助手，你可以问任何问题，按Enter以发送")
+
+    if sidebar_chat_prompt != '':
+        msg = aavt_chatbot(markdown_content, sidebar_chat_prompt, st.session_state.openai_key, st.session_state.openai_base)
+        sidebar_chat.chat_message("user").write(sidebar_chat_prompt)
+        sidebar_chat.chat_message("assistant").write(msg)
 
 with open(config_dir + "config.json", 'r') as file:  # 读取配置
     config = json.load(file)
@@ -144,7 +145,6 @@ with tab1:
             with col2:
                 c = st.container(border=True, height=500)
                 c.write('预览（Preview）')
-
             if st.button('运行程序'):
                 with col2:
                     if uploaded_file is not None:
