@@ -1,11 +1,15 @@
-# Chenyme-AAMT V0.3
+# Chenyme-AAMT V0.3.1
 
 ---
 
-非常感谢您来到我的 Chenyme-AAMT V0.3 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
+### My Note
+代码实在太乱啦，心血来潮，准备优化一下代码，小菜鸟一枚，还请多多包涵~~~  今天下午学习了一下streamlit的缓存机制，已经把AI助手的BUG给解决啦，下个版本会解决页面刷新导致数据消失的问题，新功能还没想好做啥，期待一下吧~~~
+
+---
+非常感谢您来到我的 Chenyme-AAMT V0.3.1 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成 SRT 字幕，然后将翻译后的 SRT 字幕与原视频合并，以便您更快速的实现视频翻译。
 
 
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+![Local Image](../public/photo1.png)
 
 
 ## 如何安装
@@ -40,7 +44,7 @@
 - 在`config`内设置 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`KIMI_API_KEY`，以便使用翻译引擎。
 - 您也可以在网页中设置各项参数，目前版本已经可以自动保存到`config`中，无需重新设置。
      
-![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo2.png)
+![Local Image](../public/photo2.png)
 
 2. **运行程序**
 - 运行 `webui.bat`

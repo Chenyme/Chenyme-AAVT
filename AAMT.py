@@ -1,5 +1,5 @@
 # 作者：chenyme
-# 版本：v0.3
+# 版本：v0.3.1
 # 博客站：待更新
 
 import os
@@ -22,7 +22,7 @@ from utils.utils import (
 )
 
 st.set_page_config(
-    page_title="AAMT v0.3",
+    page_title="AAMT v0.3.1",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -44,7 +44,7 @@ SRT = False
 
 with st.sidebar:
     st.title("POWERD BY @CHENYME")
-    st.caption("🖥Chenyme-AAMT Version：0.3")
+    st.caption("🖥Chenyme-AAMT Version：0.3.1")
     st.write("------")
     st.write(
         "恭喜你完成了AAMT项目的部署！请先前往设置页面配置环境，同时确保按照步骤安装好所有依赖环境和库，以保证项目稳定运行！")
