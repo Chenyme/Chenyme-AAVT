@@ -2,5 +2,5 @@
 setlocal
 set "script_path=%~dp0"
 cd /d "%script_path%"
-streamlit run AAMT.py
+streamlit run AAVT.py
 endlocal
