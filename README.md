@@ -22,6 +22,11 @@
 > - 支持多种字幕格式输出
 > - 支持字幕、视频预览
 
+### 视频效果展示
+
+<video src="https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true" controls="controls"></video>
+
+
 ## 如何安装
 ### 更快速的安装（省去下载FFmpeg）
 **见**[releases](https://github.com/Chenyme/Chenyme-AAMT/releases)
