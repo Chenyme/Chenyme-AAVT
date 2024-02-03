@@ -1,0 +1,10 @@
+[WHISPER]
+whisper_model_default = "large"
+whisper_version_default = "faster-whisper"
+
+[KIMI]
+kimi_key = ""
+
+[GPT]
+openai_key = ""
+openai_base = ""
