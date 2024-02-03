@@ -4,9 +4,13 @@
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
-> AI Auto Vedio Translation
 
 Thank you very much for visiting my AI Auto Video Translation V0.4 project! This project aims to provide an easy-to-use, fully automatic video translation tool to help you quickly recognize voices and translate subtitles, then merge the translated subtitles with the original video, allowing you to achieve video translation more efficiently.
+
+> **It is recommended to use the Faster-whisper and Large models to obtain the best sentence segmentation and recognition experience.**
+
+**Attention:** Before enabling GPU acceleration, you need to download CUDA and PyTorch, and ensure that the PyTorch version matches CUDA. Otherwise, if the program identification fails, GPU acceleration will be disabled by default.
+
 
 ![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
 
