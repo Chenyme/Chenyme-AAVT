@@ -1,4 +1,8 @@
-### Chenyme-AAVT V0.4
+# Chenyme-AAVT V0.4
+
+[![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
+[![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
+
 > AI Auto Vedio Translation
 
 
