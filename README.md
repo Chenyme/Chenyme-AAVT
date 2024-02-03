@@ -13,6 +13,7 @@
 
 
 ![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+[测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
 > - 支持 `faster-whisper` 后端
@@ -21,7 +22,6 @@
 > - 支持多种语言识别、翻译
 > - 支持多种字幕格式输出
 > - 支持字幕、视频预览
-
 
 ## 如何安装
 ### 更快速的安装（省去下载FFmpeg）
