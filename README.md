@@ -5,6 +5,10 @@
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
 
+祝大家新年快乐！Happy Chinese New Year！
+年后更新~
+---
+
 非常感谢您来到我的 AI Auto Vedio Translation V0.4 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
 > **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
