@@ -1,11 +1,11 @@
-# Chenyme-AAVT V0.4
+# Chenyme-AAVT V0.4.1
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
 
-Thank you very much for visiting my AI Auto Video Translation V0.4 project! This project aims to provide an easy-to-use, fully automatic video translation tool to help you quickly recognize voices and translate subtitles, then merge the translated subtitles with the original video, allowing you to achieve video translation more efficiently.
+Thank you very much for visiting my **AI Auto Video Translation** project! This project aims to provide an easy-to-use, fully automatic video translation tool to help you quickly recognize voices and translate subtitles, then merge the translated subtitles with the original video, allowing you to achieve video translation more efficiently.
 
 > **It is recommended to use the Faster-whisper and Large models to obtain the best sentence segmentation and recognition experience.**
 
@@ -87,14 +87,14 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 - [x] More subtitle formats
 - [x] Subtitle preview and real-time modification*
 - [ ] Automated subtitle text proofreading
-- [ ] Personalized subtitles
+- [x] Personalized subtitles
 
 ### Others
 - [ ] Video summarization and key points listing
 - [ ] Real-time voice translation
 - [ ] Video dubbing in Mandarin
 - [x] Video preview
-- [x] AI assistant*
+- [x] AI assistant
 
 ### Note: Features marked with `*` are still unstable and may have some bugs.
 
