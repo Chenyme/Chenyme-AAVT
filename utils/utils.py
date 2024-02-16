@@ -152,15 +152,13 @@ def kimi_translate(kimi_key, result, language1, language2):  # 调用Kimi翻译
     completion = client.chat.completions.create(
         model="moonshot-v1-8k",
         messages=[
-            {"role": "system",
-             "content": "You are a senior translator proficient in " + language1 + " and " + language2 + ". Your task is to translate whatever the user says. Keep newline format. You only need to answer the translation result!!!"},
-            {"role": "user", "content": text}
+            {"role": "user", "content": "你是" + language1 + " 和 " + language2 + "的专业翻译人员. 你的任务就是翻译下面的段落，并且保留段落原始的换行格式，请直接回答翻译结果!!!\n段落：\n" + text}
         ],
         temperature=0.5,
     )
     answer = completion.choices[0].message
     contents = answer.content.split('\n')
-
+    print(contents)
     for content in contents:
         result['segments'][segment_id]['text'] = content
         segment_id += 1
@@ -187,12 +185,11 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
         srt_content += f"{milliseconds_to_srt_time_format(start_time)} --> {milliseconds_to_srt_time_format(end_time)}\n"
         srt_content += f"{text}\n\n"
         segment_id += 1
-
     return srt_content
 
 
-def srt_mv(v_dir):  # 视频合成字幕
-    command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'BorderStyle=0,Outline=1,Shadow=0,Fontsize=18'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
+def srt_mv(v_dir, font):  # 视频合成字幕
+    command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'FontName=" + font + ",FontSize=18,PrimaryColour=&HFFFFFF&,Outline=1,Shadow=1,BackColour=&#9C9C9C&,Bold=-1,Alignment=2'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
     subprocess.run(command, shell=True, cwd=v_dir)
 
 

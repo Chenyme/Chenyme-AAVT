@@ -1,5 +1,5 @@
 # 作者：chenyme
-# 版本：v0.4
+# 版本：v0.4.1
 # 博客站：待更新
 
 import os
@@ -25,7 +25,7 @@ st.session_state.openai_key = config["GPT"]["openai_key"]
 st.session_state.openai_base = config["GPT"]["openai_base"]
 
 st.set_page_config(
-    page_title="AAVT v0.4",
+    page_title="AAVT v0.4.1",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -36,18 +36,18 @@ tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])
 
 with st.sidebar:  # 侧边栏功能
     st.title("POWERED BY @CHENYME")
-    st.caption("🖥Chenyme-AAVT Version：0.4")
+    st.caption("🖥Chenyme-AAVT Version：0.4.1")
     st.write(
         "恭喜你成功启动了AAVT项目！请先前往设置页面配置环境，同时确保按照步骤安装好所有依赖环境和库，以保证项目稳定运行！")
 
-    sidebar_chat = st.container(border=True, height=500)
+    sidebar_chat = st.container(border=True, height=400)
     sidebar_chat.caption("🚀 A ChatBot Based on OpenAI LLM")
     sidebar_chat_prompt = st.text_input("输入您的问题",
                                         help="这是基于 `gpt-3.5-turbo` 的AI助手，你可以问任何问题，按 `Enter` 以发送，为了节省Token，相同的问题会被缓存，您可以在右上角设置中点击 `Clear Cahce` 清楚缓存并重新提问。")
 
     if "messages" not in st.session_state:
         st.session_state["messages"] = [
-            {"role": "assistant", "content": "欢迎来到AAVT v0.4，我是AI助手，您可以随时向我发起提问！"}]
+            {"role": "assistant", "content": "欢迎来到AAVT v0.4.1，我是AI助手，您可以随时向我发起提问！"}]
     for msg in st.session_state.messages:
         sidebar_chat.chat_message(msg["role"]).write(msg["content"])
 
@@ -63,13 +63,17 @@ with tab1:  # 主界面功能
     with col1:
         # 文件上传
         uploaded_file = st.file_uploader("请在这里上传视频：", type=['mp4', 'mov'])
-        if uploaded_file is not None:
-            st.success("上传成功")
 
         # GPU加速
         wdc = not torch.cuda.is_available()
         GPU_on = st.toggle('启用GPU加速*', disabled=wdc, help='请确保您正确安装了cuda、pytorch，否则该选项开启无效！')
         device = 'cuda' if GPU_on else 'cpu'
+
+        with open(config_dir + 'font_data.txt', 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+        # 创建字体列表
+        fonts = [line.strip() for line in lines]
+        font = st.selectbox('选择字幕字体格式：', fonts, help="所有字体均从系统读取加载，支持用户自行安装字体。请注意商用风险！", key="微软雅黑")
 
         # 翻译模型
         translate_option = st.selectbox('请在这里选择翻译模型：', ('kimi', 'gpt-3.5-turbo', 'gpt-4', '无需翻译'),
@@ -114,7 +118,7 @@ with tab1:  # 主界面功能
                             srt_file.write(srt_content)
 
                     with st.spinner('正在合并视频，请耐心等待视频生成...'):
-                        srt_mv(output_file)
+                        srt_mv(output_file, font)
 
                     st.session_state.srt_content = srt_content
                     st.session_state.output = output_file
@@ -144,7 +148,7 @@ with tab1:  # 主界面功能
                             srt_file.write(srt_content)
 
                     with st.spinner('正在合并视频，请耐心等待视频生成...'):
-                        srt_mv(output_file)
+                        srt_mv(output_file, font)
 
                     st.session_state.srt_content = srt_content
                     st.session_state.output = output_file
@@ -193,6 +197,8 @@ with tab1:  # 主界面功能
                 )
 
         except:
+            if uploaded_file is not None:
+                c.success("视频上传成功")
             c.warning('这里是预览窗口，运行后自动显示预览结果。')
 
         try:
@@ -225,6 +231,7 @@ with tab2:
 
     # Whisper模型
     st.write("#### Whisper识别设置")
+    st.write("长视频推荐使用Faster-whisper和large模型获得最佳断句、识别体验。")
     w_version_d = {'openai-whisper': 0, 'faster-whisper': 1}
     w_model_d = {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}
     w_version = st.selectbox('选择whisper版本', ('openai-whisper', 'faster-whisper'),
