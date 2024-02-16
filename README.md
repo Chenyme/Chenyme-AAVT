@@ -1,4 +1,4 @@
-# Chenyme-AAVT V0.4
+# Chenyme-AAVT V0.4.1
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
@@ -8,7 +8,7 @@
 Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 ---
 
-非常感谢您来到我的 AI Auto Vedio Translation V0.4 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
+非常感谢您来到我的 AI Auto Vedio Translation 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
 > **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
 
@@ -97,14 +97,14 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 - [x] 更多字幕格式
 - [x] 字幕预览、实时修改* 
 - [ ] 自动化字幕文本校对
-- [ ] 个性化字幕
+- [x] 个性化字幕
 
 ### 其他
 - [ ] 视频总结、罗列重点
 - [ ] 实时语音翻译
 - [ ] 视频中文配音
 - [x] 视频预览
-- [x] AI助手*
+- [x] AI助手
 
 ### 注：含`*`的功能还不稳定，可能存在某些BUG。
 
