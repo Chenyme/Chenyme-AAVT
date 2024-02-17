@@ -1,12 +1,9 @@
-# Chenyme-AAVT V0.4.1
+# Chenyme-AAVT V0.5
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
-
-Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
----
 
 非常感谢您来到我的 AI Auto Vedio Translation 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
@@ -17,16 +14,18 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 给一颗免费的星叭~
 ---
 
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo3.png)
 [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
 > - 支持 `faster-whisper` 后端
 > - 支持 `GPU` 加速
+> - 支持 `VAD` 辅助识别
 > - 支持 `ChatGPT`、`KIMI` 翻译
 > - 支持多种语言识别、翻译
 > - 支持多种字幕格式输出
 > - 支持字幕、视频预览
+> - 支持AI总结、问答
 
 ## 如何安装
 ### 更快速的安装（省去下载FFmpeg）
@@ -60,7 +59,6 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 - 在`config`内设置 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`KIMI_API_KEY`，以便使用翻译引擎。
 - 您也可以在网页中设置各项参数，目前版本已经可以自动保存到`config`中，无需重新设置。
      
-![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo2.png)
 
 2. **运行程序**
 - 运行 `webui.bat`
@@ -68,12 +66,17 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 - 首次使用streamlit，可能会要求输入email，直接`Enter`跳过即可。
 - 上传文件，设置模型，运行程序，耐心等待处理
 
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
 
-## 待办事项
+![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo2.png)
+
+## 注意事项
 
 1. 请确保您的系统已经正确安装了 `Python`，并且版本号为 3.8 或更高。
 2. 请确保已经安装了 `FFmpeg`，并设置 `FFmpeg` 为环境变量。
 3. 请确保运行 `install.bat`，安装所有依赖库。
+4. 使用 `GPU` 加速时请确保安装了正确的 `CUDA` 和 `Pytorch` 版本
+5. 推荐使用 `faster-whisper` 和 `Large` 模型，以获得最好的断句体验，但模型需要从 `Huggingface` 下载。
 
 
 ## TODO
@@ -82,7 +85,7 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 - [x] 更换更快的Whisper项目
 - [ ] 支持个人微调Whisper模型
 - [ ] 自动匹配识别模型
-- [ ] VAD辅助优化
+- [x] VAD辅助优化
 - [x] 字词级断句优化
 - [x] 更多的语种识别
 
@@ -90,7 +93,7 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 - [x] ChatGPT翻译优化
 - [x] 更多的语种翻译
 - [x] 更多的翻译模型
-- [ ] 更多的翻译引擎
+- [x] 更多的翻译引擎
 
 ### 字幕相关
 - [ ] 双字幕
@@ -100,7 +103,7 @@ Note：祝大家新年快乐！Happy Chinese New Year！年后更新~
 - [x] 个性化字幕
 
 ### 其他
-- [ ] 视频总结、罗列重点
+- [x] 视频总结、罗列重点
 - [ ] 实时语音翻译
 - [ ] 视频中文配音
 - [x] 视频预览
