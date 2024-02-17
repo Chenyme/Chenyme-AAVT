@@ -1,4 +1,4 @@
-# Chenyme-AAVT V0.4.1
+# Chenyme-AAVT V0.5
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
@@ -12,15 +12,17 @@ Thank you very much for visiting my **AI Auto Video Translation** project! This 
 **Attention:** Before enabling GPU acceleration, you need to download CUDA and PyTorch, and ensure that the PyTorch version matches CUDA. Otherwise, if the program identification fails, GPU acceleration will be disabled by default.
 
 
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo3.png)
 
 ## Project Highlights
-- Supports `faster-whisper` backend
-- GPU acceleration support
-- Supports `ChatGPT` and `KIMI` translations
-- Supports multiple language recognition and translation
-- Supports various subtitle format outputs
-- Subtitle and video preview support
+> - Supports `faster-whisper` backend
+> - Support `GPU` acceleration
+> - Support `VAD` auxiliary identification
+> - Support `ChatGPT`, `KIMI` translation
+> - Supports multiple language recognition and translation
+> - Support multiple subtitle format output
+> - Support subtitles and video preview
+> - Support AI summary, Q&A
 
 ## How to Install
 ### Faster Installation (Skipping FFmpeg Download)
@@ -52,6 +54,8 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
    - Set `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `KIMI_API_KEY` in `config` to use the translation engines.
    - You can also set various parameters on the web page. The current version can automatically save them to `config`, so there's no need to reset.
 
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+
 ![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo2.png)
 
 2. **Run the Program**
@@ -62,9 +66,11 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 
 ## Prerequisites
 
-1. Ensure your system has `Python` installed correctly, with a version number of 3.8 or higher.
-2. Ensure `FFmpeg` is installed and set as an environment variable.
-3. Ensure to run `install.bat` to install all dependencies.
+1. Please make sure that `Python` is installed correctly on your system and the version number is 3.8 or higher.
+2. Please ensure that `FFmpeg` has been installed and set `FFmpeg` as an environment variable.
+3. Please make sure to run `install.bat` to install all dependent libraries.
+4. When using `GPU` acceleration, please ensure that the correct `CUDA` and `Pytorch` versions are installed.
+5. It is recommended to use the `faster-whisper` and `Large` models to get the best sentence segmentation experience, but the models need to be downloaded from `Huggingface`.
 
 ## TODO
 
@@ -72,7 +78,7 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 - [x] Switch to a faster Whisper project
 - [ ] Support for personal fine-tuning of the Whisper model
 - [ ] Automatic matching of recognition models
-- [ ] VAD assistance optimization
+- [x] VAD assistance optimization
 - [x] Sentence breaking optimization at word level
 - [x] More language recognition
 
@@ -80,7 +86,7 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 - [x] ChatGPT translation optimization
 - [x] More language translations
 - [x] More translation models
-- [ ] More translation engines
+- [x] More translation engines
 
 ### Subtitle Related
 - [ ] Dual subtitles
@@ -90,7 +96,7 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 - [x] Personalized subtitles
 
 ### Others
-- [ ] Video summarization and key points listing
+- [x] Video summarization and key points listing
 - [ ] Real-time voice translation
 - [ ] Video dubbing in Mandarin
 - [x] Video preview
