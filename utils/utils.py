@@ -19,7 +19,7 @@ from langchain.prompts import (
 
 
 @st.cache_resource
-def aavt_chatbot(system, prompt, key, base):
+def audio_chatbot(system, prompt, key, base):
     if base == '':
         client = OpenAI(api_key=key)
     else:
@@ -65,7 +65,7 @@ def faster_whisper_result_dict(segments):  # faster-whisper中生成器转换dic
     return segments_dict
 
 
-def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name):  # whisper识别配置
+def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, vad):  # whisper识别配置
     path_video = tmp_filepath(uploaded_file, temp_dir)  # 虚拟化文件路径
     if whisper_name == "openai-whisper":
         model = whisper.load_model(option, device)
@@ -73,7 +73,11 @@ def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name):  
     elif whisper_name == "faster-whisper":
         whisper_result = {}
         model = WhisperModel(option, device)
-        segments, _ = model.transcribe(path_video, initial_prompt='Please break up as many sentences as possible.')
+        segments, _ = model.transcribe(path_video,
+                                       initial_prompt='Please break up as many sentences as possible.',
+                                       vad_filter=vad,
+                                       vad_parameters=dict(min_silence_duration_ms=500)
+                                       )
         whisper_result = faster_whisper_result_dict(segments)
     os.unlink(path_video)  # 删除缓存文件
     return whisper_result
@@ -185,6 +189,7 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
         srt_content += f"{milliseconds_to_srt_time_format(start_time)} --> {milliseconds_to_srt_time_format(end_time)}\n"
         srt_content += f"{text}\n\n"
         segment_id += 1
+
     return srt_content
 
 
@@ -200,7 +205,6 @@ def srt_to_vtt(srt_content):
         index = lines[i].strip()
         time_range = lines[i + 1].strip().replace(',', '.')
         text = lines[i + 2].strip()
-
         vtt_lines.append(f'{index}\n{time_range}\n{text}\n\n')
 
     vtt_content = '\n'.join(vtt_lines)
@@ -270,11 +274,11 @@ def parse_srt_file(srt_content):  # SRT转换pandas.DataFrame对象
             if current_subtitle is not None:
                 subtitles.append(current_subtitle)
 
-            current_subtitle = {'index': int(line)}
+            current_subtitle = {'': int(line)}
         elif '-->' in line:
             start_time, end_time = line.split('-->')
-            current_subtitle['start_time'] = start_time.strip()
-            current_subtitle['end_time'] = end_time.strip()
+            current_subtitle['start'] = start_time.strip()
+            current_subtitle['end'] = end_time.strip()
         elif line != '':
             if 'content' in current_subtitle:
                 current_subtitle['content'] += ' ' + line
@@ -285,3 +289,14 @@ def parse_srt_file(srt_content):  # SRT转换pandas.DataFrame对象
         subtitles.append(current_subtitle)
 
     return pd.DataFrame(subtitles)
+
+
+def convert_to_srt(edited_data):
+    subtitles = ''
+    for index, row in edited_data.iterrows():
+        start_time = row['start']
+        end_time = row['end']
+        content = row['content']
+        subtitle = f"{index + 1}\n{start_time} --> {end_time}\n{content}\n\n"
+        subtitles += subtitle
+    return subtitles
