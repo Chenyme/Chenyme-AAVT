@@ -1,17 +1,17 @@
-# Chenyme-AAVT V0.5
+# Chenyme-AAVT V0.5.1
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
 
-非常感谢您来到我的 AI Auto Vedio Translation 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
+非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
 > **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
 
 **注意：** 首次使用 Whisper 模型时需下载，国内建议开启 VPN 下载。启用 GPU 加速需下载 CUDA 和 PyTorch，且保证PyTorch 版本与 CUDA 匹配，否则程序识别失败会默认禁用GPU加速。
 
-给一颗免费的星叭~
+麻烦给一颗免费的星叭~感谢!!!
 ---
 
 ![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo3.png)
