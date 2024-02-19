@@ -70,12 +70,13 @@ def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, va
     if whisper_name == "openai-whisper":
         model = whisper.load_model(option, device)
         whisper_result = model.transcribe(path_video, initial_prompt='Please break up as many sentences as possible.')
-    elif whisper_name == "faster-whisper":
+    else:
         whisper_result = {}
         model = WhisperModel(option, device)
         segments, _ = model.transcribe(path_video,
                                        initial_prompt='Please break up as many sentences as possible.',
                                        vad_filter=vad,
+                                       # beam_size=5,
                                        vad_parameters=dict(min_silence_duration_ms=500)
                                        )
         whisper_result = faster_whisper_result_dict(segments)
@@ -99,7 +100,7 @@ def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调
         ]
     )
     # 设置记忆参数
-    memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=5)
+    memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=2)  # 改进点1
     conversation = LLMChain(llm=llm, prompt=prompt, verbose=False, memory=memory)
     segments = result['segments']
     segment_id = 0
@@ -112,21 +113,17 @@ def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调
 
 
 def openai_translate2(key, base, proxy_on, result, language1, language2):  # 调用GPT4翻译
-    text1, text2, text3 = '', '', ''
-    segments = result['segments']
     segment_id = 0
+    texts = [''] * 10
 
-    for segment in segments:  # token限制优化
-        if len(text1) + len(segment['text']) <= 8000:
-            text1 += segment['text'] + "\n"
-        elif len(text2) + len(segment['text']) <= 8000:
-            text2 += segment['text'] + "\n"
-        else:
-            text3 += segment['text'] + "\n"
+    for segment in result['segments']:
+        for i in range(len(texts)):
+            # 如果当前text加上新的segment的长度不超过3000，并且下一个text是空的（或者是最后一个text）
+            if len(texts[i]) + len(segment['text']) <= 5000 and (i == len(texts) - 1 or len(texts[i + 1]) == 0):
+                texts[i] += segment['text'] + "\n"
+                break
 
-    text_list = [text1, text2, text3]
-
-    for text in text_list:
+    for text in texts:
         if text != '':
             prompt = "You are a senior translator proficient in " + language1 + " and " + language2 + ". Your task is to translate whatever the user says. Keep newline format. You only need to answer the translation result!!!" + text
             if proxy_on:
@@ -142,31 +139,36 @@ def openai_translate2(key, base, proxy_on, result, language1, language2):  # 调
 
 
 def kimi_translate(kimi_key, result, language1, language2):  # 调用Kimi翻译
-    segments = result['segments']
-    text = ''
     segment_id = 0
-    for segment in segments:
-        text += segment['text'] + "\n"
+    texts = [''] * 10
 
-    client = OpenAI(
-        api_key=kimi_key,
-        base_url="https://api.moonshot.cn/v1",
-    )
+    for segment in result['segments']:
+        for i in range(len(texts)):
+            # 如果当前text加上新的segment的长度不超过3000，并且下一个text是空的（或者是最后一个text）
+            if len(texts[i]) + len(segment['text']) <= 4000 and (i == len(texts) - 1 or len(texts[i + 1]) == 0):
+                texts[i] += segment['text'] + "\n"
+                break
 
-    completion = client.chat.completions.create(
-        model="moonshot-v1-8k",
-        messages=[
-            {"role": "user", "content": "你是" + language1 + " 和 " + language2 + "的专业翻译人员. 你的任务就是翻译下面的段落，并且保留段落原始的换行格式，请直接回答翻译结果!!!\n段落：\n" + text}
-        ],
-        temperature=0.5,
-    )
-    answer = completion.choices[0].message
-    contents = answer.content.split('\n')
-    print(contents)
-    for content in contents:
-        result['segments'][segment_id]['text'] = content
-        segment_id += 1
+    for text in texts:
+        if text != '':
+            client = OpenAI(
+                api_key=kimi_key,
+                base_url="https://api.moonshot.cn/v1",
+            )
 
+            completion = client.chat.completions.create(
+                model="moonshot-v1-8k",
+                messages=[
+                    {"role": "user", "content": "你是" + language1 + " 和 " + language2 + "的专业翻译人员. 请你把下面这段内容，每句话每句话的翻译，保留段落原始的换行格式，请直接回答翻译结果!!!\n段落：\n" + text}
+                ],
+                temperature=0.5,
+            )
+            answer = completion.choices[0].message
+            contents = answer.content.split('\n')
+            print(contents)
+            for content in contents:
+                result['segments'][segment_id]['text'] = content
+                segment_id += 1
     return result
 
 
@@ -189,7 +191,6 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
         srt_content += f"{milliseconds_to_srt_time_format(start_time)} --> {milliseconds_to_srt_time_format(end_time)}\n"
         srt_content += f"{text}\n\n"
         segment_id += 1
-
     return srt_content
 
 
@@ -206,7 +207,6 @@ def srt_to_vtt(srt_content):
         time_range = lines[i + 1].strip().replace(',', '.')
         text = lines[i + 2].strip()
         vtt_lines.append(f'{index}\n{time_range}\n{text}\n\n')
-
     vtt_content = '\n'.join(vtt_lines)
     return vtt_content
 
@@ -243,7 +243,7 @@ def show_video(cache_dir):
 
 
 def cache(cache_dir):  # 缓存检测
-    total_size = 0
+    total_size = 0  # 默认缓存
     for root, dirs, files in os.walk(cache_dir):  # 遍历文件夹中的所有文件和子文件夹
         for file_name in files:
             file_path = os.path.join(root, file_name)
@@ -263,7 +263,6 @@ def convert_size(size):  # 缓存大小匹配
 
 def parse_srt_file(srt_content):  # SRT转换pandas.DataFrame对象
     lines = srt_content.strip().split('\n')
-
     subtitles = []
     current_subtitle = None
 
@@ -273,7 +272,6 @@ def parse_srt_file(srt_content):  # SRT转换pandas.DataFrame对象
         if line.isdigit():
             if current_subtitle is not None:
                 subtitles.append(current_subtitle)
-
             current_subtitle = {'': int(line)}
         elif '-->' in line:
             start_time, end_time = line.split('-->')
@@ -287,7 +285,6 @@ def parse_srt_file(srt_content):  # SRT转换pandas.DataFrame对象
 
     if current_subtitle is not None:
         subtitles.append(current_subtitle)
-
     return pd.DataFrame(subtitles)
 
 

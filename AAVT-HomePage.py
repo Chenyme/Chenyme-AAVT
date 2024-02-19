@@ -7,7 +7,7 @@ from utils.utils import (convert_size, cache)
 
 
 st.set_page_config(
-    page_title="AAVT v0.5",
+    page_title="AAVT v0.5.1",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -27,7 +27,7 @@ config = toml.load(config_dir + "config.toml")  # 加载配置
 st.session_state.openai_key = config["GPT"]["openai_key"]
 st.session_state.openai_base = config["GPT"]["openai_base"]
 
-st.title("🖥Chenyme-AAVT Version:0.5")
+st.title("🖥Chenyme-AAVT V0.5.1")
 st.caption("POWERED BY @CHENYME")
 
 tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])

@@ -1,11 +1,10 @@
 ### Chenyme-AAVT V0.5
-> AI Auto Vedio Translation
+> AI Auto Video-Audio Translation
 
 
 非常感谢您来到我的 Chenyme-AAVT 项目！该项目旨在提供一个简单易用的全自动视频翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
-### 视频翻译
-![Local Image](photo3.png)
+![Local Image](photo1.png)
 
 ---
 
@@ -18,7 +17,6 @@
 > - 支持多种字幕格式输出
 > - 支持字幕、视频预览
 > - 支持AI总结、问答
-
 
 ##### 如何安装
 ###### 更快速的安装（省去下载FFmpeg）
@@ -48,19 +46,17 @@
 
 ##### 如何使用
 
+
 1. **设置参数**
 - 您可以在网页中设置各项参数，目前版本已经可以自动保存到`config`中，无需重新设置。
-
+     
+![Local Image](photo2.png)
 
 2. **运行程序**
 - 运行 `webui.bat`
 - 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
 - 首次使用streamlit，可能会要求输入email，直接`Enter`跳过即可。
 - 上传文件，设置模型，运行程序，耐心等待处理
-
-![Local Image](photo1.png)
-
-![Local Image](photo2.png)
 
 ---
 
@@ -74,7 +70,7 @@
 
 ---
 
-##### 待办
+##### 未来待办
 
 ###### 识别相关
 - [x] 更换更快的Whisper项目
