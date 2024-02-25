@@ -7,7 +7,7 @@ from utils.utils import (convert_size, cache)
 
 
 st.set_page_config(
-    page_title="AAVT v0.5.1",
+    page_title="AAVT v0.6",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -23,11 +23,8 @@ cache_dir = project_dir + "/pages/cache/"  # 本地缓存
 with open(read_dir, 'r', encoding='utf-8') as file:
     markdown_content = file.read()
 
-config = toml.load(config_dir + "config.toml")  # 加载配置
-st.session_state.openai_key = config["GPT"]["openai_key"]
-st.session_state.openai_base = config["GPT"]["openai_base"]
 
-st.title("🖥Chenyme-AAVT V0.5.1")
+st.title("🖥Chenyme-AAVT V0.6")
 st.caption("POWERED BY @CHENYME")
 
 tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])
@@ -50,6 +47,7 @@ with tab1:  # 主界面功能
         messages.chat_message("assistant").write(msg)
 
 with tab2:
+    config = toml.load(config_dir + "config.toml")  # 加载配置
     openai_api_key = config["GPT"]["openai_key"]
     openai_api_base = config["GPT"]["openai_base"]
     kimi_api_key = config["KIMI"]["kimi_key"]
@@ -59,24 +57,23 @@ with tab2:
     # Whisper模型
     st.write("#### Whisper识别设置")
     st.write("长视频推荐使用Faster-whisper和large模型获得最佳断句、识别体验。")
-    w_version_d = {'openai-whisper': 0, 'faster-whisper': 1}
-    w_model_d = {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}
-    w_version = st.selectbox('选择whisper版本', ('openai-whisper', 'faster-whisper'),
-                             index=w_version_d[whisper_version])
-    w_model_option = st.selectbox('选择识别模型', ('tiny', 'base', 'small', 'medium', 'large'),
-                                  index=w_model_d[whisper_model])
+    options = {'openai-whisper': {'version': 0, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}},
+               'faster-whisper': {'version': 1, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}}}
 
-    if w_version != whisper_version:
-        config["WHISPER"]["whisper_version_default"] = w_version
+    w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=options[whisper_version]['version'])
+    w_model_option = st.selectbox('选择识别模型', list(options[whisper_version]['models'].keys()),
+                                  index=options[whisper_version]['models'][whisper_model])
+
+    if w_version_option != whisper_version or w_model_option != whisper_model:
+        if w_version_option != whisper_version:
+            config["WHISPER"]["whisper_version_default"] = w_version_option
+            st.success("默认版本已切换为：" + w_version_option)
+        if w_model_option != whisper_model:
+            config["WHISPER"]["whisper_model_default"] = w_model_option
+            st.success("默认模型已切换为：" + w_model_option)
         with open(config_dir + '/config.toml', 'w', encoding='utf-8') as file:
             toml.dump(config, file)
 
-        st.success("默认版本已切换为：" + w_version)
-    if w_model_option != whisper_model:
-        config["WHISPER"]["whisper_model_default"] = w_model_option
-        with open(config_dir + '/config.toml', 'w', encoding='utf-8') as file:
-            toml.dump(config, file)
-        st.success("默认模型已切换为：" + w_model_option)
     st.write('------')
 
     # OPENAI账户
@@ -84,7 +81,6 @@ with tab2:
     st.write("##### KIMI账户设置")
     new_kimi_key = st.text_input("KIMI-API-KEY：")
     st.write("##### OPENAI账户设置")
-    proxy_on = st.toggle('启用代理', help='如果你能直接访问openai.com，则无需启用。')
     new_openai_key = st.text_input("OPENAI-API-KEY：")
     new_openai_base = st.text_input("OPENAI-API-BASE：")
 
@@ -98,7 +94,7 @@ with tab2:
         if new_openai_key != openai_api_key and new_openai_key != "":
             config["GPT"]["openai_key"] = new_openai_key
             openai_api_key = new_openai_key
-        with open(config_dir + "config.toml", 'w', encoding='utf-8') as file:
+        with open(config_dir + "/config.toml", 'w', encoding='utf-8') as file:
             toml.dump(config, file)
         st.success("已保存")
     st.write('------')
@@ -107,24 +103,15 @@ with tab2:
     st.write("#### 本地缓存")
     st.write(f"本地缓存已占用：{convert_size(cache(cache_dir))}")
     if st.button("清除本地缓存"):
-        # 获取文件夹内所有文件的列表
-        file_list = os.listdir(cache_dir)
-        if not file_list:
+        if not os.listdir(cache_dir):
             st.error("无本地缓存文件。")
         else:
-            # 遍历列表中的文件，并删除每个文件
-            for file_name in file_list:
-                file_path = os.path.join(cache_dir, file_name)
-                print('已删除文件夹:\n' + file_path)
-                shutil.rmtree(file_path)
+            for root, dirs, files in os.walk(cache_dir):
+                for file in files:
+                    os.remove(os.path.join(root, file))
+                for adir in dirs:
+                    shutil.rmtree(os.path.join(root, adir))
             st.success("所有缓存文件已成功删除。")
-
-    st.session_state.openai_base = openai_api_base
-    st.session_state.openai_key = openai_api_key
-    st.session_state.kimi_key = kimi_api_key
-    st.session_state.proxy_on = proxy_on
-    st.session_state.w_model_option = w_model_option
-    st.session_state.w_name = w_version
 
 with tab3:
     with open(log_dir, 'r', encoding='utf-8') as file:

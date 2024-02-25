@@ -1,5 +1,7 @@
 import os
+import ast
 import math
+import time
 import whisper
 import tempfile
 import subprocess
@@ -65,20 +67,27 @@ def faster_whisper_result_dict(segments):  # faster-whisper中生成器转换dic
     return segments_dict
 
 
-def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, vad):  # whisper识别配置
+def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, vad, lang, beam_size, min_vad):  # whisper识别配置
     path_video = tmp_filepath(uploaded_file, temp_dir)  # 虚拟化文件路径
     if whisper_name == "openai-whisper":
         model = whisper.load_model(option, device)
-        whisper_result = model.transcribe(path_video, initial_prompt='Please break up as many sentences as possible.')
+        whisper_result = model.transcribe(path_video, initial_prompt='Don’t make each line too long.')
     else:
-        whisper_result = {}
         model = WhisperModel(option, device)
-        segments, _ = model.transcribe(path_video,
-                                       initial_prompt='Please break up as many sentences as possible.',
-                                       vad_filter=vad,
-                                       # beam_size=5,
-                                       vad_parameters=dict(min_silence_duration_ms=500)
-                                       )
+        if lang == "自动识别":
+            segments, _ = model.transcribe(path_video,
+                                           initial_prompt='Don’t make each line too long.',
+                                           beam_size=beam_size,
+                                           vad_parameters=dict(min_silence_duration_ms=min_vad)
+                                           )
+        else:
+            segments, _ = model.transcribe(path_video,
+                                           initial_prompt='Don’t make each line too long.',
+                                           vad_filter=vad,
+                                           language=lang,
+                                           beam_size=beam_size,
+                                           vad_parameters=dict(min_silence_duration_ms=min_vad)
+                                           )
         whisper_result = faster_whisper_result_dict(segments)
     os.unlink(path_video)  # 删除缓存文件
     return whisper_result
@@ -112,63 +121,87 @@ def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调
     return result
 
 
-def openai_translate2(key, base, proxy_on, result, language1, language2):  # 调用GPT4翻译
-    segment_id = 0
-    texts = [''] * 10
-
+def chunk_for_gpt4(result, n):
+    texts = [''] * n
+    index, count = 0, 0
     for segment in result['segments']:
-        for i in range(len(texts)):
-            # 如果当前text加上新的segment的长度不超过3000，并且下一个text是空的（或者是最后一个text）
-            if len(texts[i]) + len(segment['text']) <= 5000 and (i == len(texts) - 1 or len(texts[i + 1]) == 0):
-                texts[i] += segment['text'] + "\n"
-                break
+        words = segment['text'].split()
+        count += len(words)
+        if count > 800:
+            count = len(words)
+            index += 1
+        texts[index] += segment['text'] + "<br>\n"
+    return texts
+
+
+def openai_translate2(key, base, proxy_on, result, language1, language2, n):  # 调用GPT4翻译
+    segment_id = 0
+    texts = chunk_for_gpt4(result, n)
 
     for text in texts:
-        if text != '':
-            prompt = "You are a senior translator proficient in " + language1 + " and " + language2 + ". Your task is to translate whatever the user says. Keep newline format. You only need to answer the translation result!!!" + text
+        if text:
+            prompt = "You are a senior translator proficient in " + language1 + " and " + language2 + ". Please translate the content in markdown format below line by line. Make sure that there are as many lines as there are after translation. The result is output in markdown format, and now you can directly give the translation result.!" + text
             if proxy_on:
-                llm = ChatOpenAI(model_name="gpt-4", openai_api_key=key, openai_api_base=base)
+                client = OpenAI(api_key=key, base_url=base)
             else:
-                llm = ChatOpenAI(model_name="gpt-4", openai_api_key=key)
-            answer = llm.invoke(prompt)
+                client = OpenAI(api_key=key)
+            response = client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "user", "content": prompt}
+                ])
+            answer = response.choices[0].message
             contents = answer.content.split('\n')
+            time.sleep(0.01)
             for content in contents:
-                result['segments'][segment_id]['text'] = content
-                segment_id += 1
+                if content and '```' not in content:
+                    if '<br>' in content:
+                        content = content.replace("<br>", "")
+                    else:
+                        content = content
+                    result['segments'][segment_id]['text'] = content
+                    segment_id += 1
     return result
 
 
-def kimi_translate(kimi_key, result, language1, language2):  # 调用Kimi翻译
-    segment_id = 0
-    texts = [''] * 10
-
+def chunk_for_kimi(result, n):
+    texts = [''] * n
+    index, count = 0, 0
     for segment in result['segments']:
-        for i in range(len(texts)):
-            # 如果当前text加上新的segment的长度不超过3000，并且下一个text是空的（或者是最后一个text）
-            if len(texts[i]) + len(segment['text']) <= 4000 and (i == len(texts) - 1 or len(texts[i + 1]) == 0):
-                texts[i] += segment['text'] + "\n"
-                break
+        words = segment['text'].split()
+        count += len(words)
+        if count > 500:
+            count = len(words)
+            index += 1
+        texts[index] += segment['text'] + "<br>\n"
+    return texts
 
+
+def kimi_translate(kimi_key, result, language1, language2, n):  # 调用Kimi翻译
+    texts = chunk_for_kimi(result, n)
+    segment_id = 0
     for text in texts:
-        if text != '':
-            client = OpenAI(
-                api_key=kimi_key,
-                base_url="https://api.moonshot.cn/v1",
-            )
-
+        if text:
+            print(text)
+            client = OpenAI(api_key=kimi_key, base_url="https://api.moonshot.cn/v1")
             completion = client.chat.completions.create(
                 model="moonshot-v1-8k",
                 messages=[
-                    {"role": "user", "content": "你是" + language1 + " 和 " + language2 + "的专业翻译人员. 请你把下面这段内容，每句话每句话的翻译，保留段落原始的换行格式，请直接回答翻译结果!!!\n段落：\n" + text}
+                    {"role": "user", "content": "你是熟知" + language1 + " 和 " + language2 + "的专业翻译，请一行一行的翻译下面的markdown格式的内容，要保证原来有多少行，翻译后就要有多少行。结果输出markdown格式，现在你直接给出翻译结果。"+str(text)}
                 ],
-                temperature=0.5,
+                temperature=0.8,
             )
             answer = completion.choices[0].message
             contents = answer.content.split('\n')
-            print(contents)
+            time.sleep(0.01)
             for content in contents:
-                result['segments'][segment_id]['text'] = content
-                segment_id += 1
+                if content and '```' not in content:
+                    if '<br>' in content:
+                        content = content.replace("<br>","")
+                    else:
+                        content = content
+                    result['segments'][segment_id]['text'] = content
+                    segment_id += 1
     return result
 
 
@@ -187,6 +220,9 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
         start_time = int(segment['start'] * 1000)
         end_time = int(segment['end'] * 1000)
         text = segment['text']
+        index = 30
+        if len(text) > index:
+            text = text[:index] + "\n" + text[index:]
         srt_content += f"{segment_id}\n"
         srt_content += f"{milliseconds_to_srt_time_format(start_time)} --> {milliseconds_to_srt_time_format(end_time)}\n"
         srt_content += f"{text}\n\n"
@@ -194,8 +230,9 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
     return srt_content
 
 
-def srt_mv(v_dir, font):  # 视频合成字幕
-    command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'FontName=" + font + ",FontSize=18,PrimaryColour=&HFFFFFF&,Outline=1,Shadow=1,BackColour=&#9C9C9C&,Bold=-1,Alignment=2'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
+def srt_mv(v_dir, font, font_size, font_color):  # 视频合成字幕
+    modified_color = font_color.replace("#", "H")
+    command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'FontName=" + font + ",FontSize=" + str(font_size) + ",PrimaryColour=&" + modified_color + "&,Outline=1,Shadow=1,BackColour=&#9C9C9C&,Bold=-1,Alignment=2'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
     subprocess.run(command, shell=True, cwd=v_dir)
 
 
