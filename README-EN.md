@@ -12,7 +12,7 @@ Thank you very much for visiting my **AI Auto Video-Audio Translation** project!
 **Attention:** Before enabling GPU acceleration, you need to download CUDA and PyTorch, and ensure that the PyTorch version matches CUDA. Otherwise, if the program identification fails, GPU acceleration will be disabled by default.
 
 
-![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo3.png)
+![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%201.png)
 
 ## Project Highlights
 > - Supports `faster-whisper` backend
@@ -53,10 +53,6 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 1. **Set Parameters**
    - Set `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `KIMI_API_KEY` in `config` to use the translation engines.
    - You can also set various parameters on the web page. The current version can automatically save them to `config`, so there's no need to reset.
-
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
-
-![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo2.png)
 
 2. **Run the Program**
    - Run `webui.bat`.
@@ -112,3 +108,19 @@ I am a beneficiary of the AI era, and the development of this project is largely
 ### A huge thank you to the developers at OpenAI, Streamlit, FFmpeg, Faster-whisper, and Kimi!
 
 #### If you have any questions or suggestions, please feel free to contact me!
+
+---
+
+## 截图
+
+### 主页面
+
+![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%203.png)
+
+### 音频
+
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+
+### 视频
+![../public/photo 0.6 1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%201.png)
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%202.png)
