@@ -15,7 +15,7 @@
 麻烦给一颗免费的星叭~感谢!!!
 ---
 
-![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo3.png)
+![../public/photo 0.6 1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%201.png)
 [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
@@ -74,9 +74,6 @@ kimi官网：https://kimi.moonshot.cn/
 - 首次使用streamlit，可能会要求输入email，直接`Enter`跳过即可。
 - 上传文件，设置模型，运行程序，耐心等待处理
 
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
-
-![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo2.png)
 
 ## 注意事项
 
@@ -127,3 +124,18 @@ kimi官网：https://kimi.moonshot.cn/
 ### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper、kimi的开发人员！
 
 #### 如有问题和建议，随时联系我!
+
+---
+## 截图
+
+### 主页面
+
+![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%203.png)
+
+### 音频
+
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+
+### 视频
+![../public/photo 0.6 1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%201.png)
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%202.png)
