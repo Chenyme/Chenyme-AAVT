@@ -1,4 +1,4 @@
-# Chenyme-AAVT V0.5.1
+# Chenyme-AAVT V0.6
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
@@ -83,7 +83,7 @@ This project depends on the Python environment and FFmpeg, and may use CUDA and 
 - [x] More language recognition
 
 ### Translation Related
-- [x] ChatGPT translation optimization
+- [x] ChatGPT translation optimization*
 - [x] More language translations
 - [x] More translation models
 - [x] More translation engines
