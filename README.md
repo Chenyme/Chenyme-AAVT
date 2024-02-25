@@ -1,10 +1,10 @@
-# Chenyme-AAVT V0.5.1
+# Chenyme-AAVT V0.6
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
-### Note ：近期会进行大更新，优化很多细节，包括whisper断句、GPT识别、项目流程等。但时间精力有限，尽可能在本周末前更新。
+### Note ：字幕翻译的长文本错位问题将会在后续版本优化。
 
 非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
@@ -19,14 +19,15 @@
 [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
-> - 支持 `faster-whisper` 后端
-> - 支持 `GPU` 加速
-> - 支持 `VAD` 辅助识别
-> - 支持 `ChatGPT`、`KIMI` 翻译
-> - 支持多种语言识别、翻译
-> - 支持多种字幕格式输出
-> - 支持字幕、视频预览
-> - 支持AI总结、问答
+> - 支持 `faster-whisper` 后端。
+> - 支持 `GPU` 加速。
+> - 支持 `VAD` 辅助识别。
+> - 支持 `ChatGPT`、`KIMI` 翻译。
+> - 支持多种语言识别、翻译。
+> - 支持多种字幕格式输出。
+> - 支持字幕修改，二次精翻。
+> - 支持字幕、视频预览。
+> - 支持AI总结、问答。
 
 ## 如何安装
 ### 更快速的安装（省去下载FFmpeg）
@@ -91,7 +92,7 @@
 - [x] 更多的语种识别
 
 ### 翻译相关
-- [x] ChatGPT翻译优化
+- [x] ChatGPT翻译优化*
 - [x] 更多的语种翻译
 - [x] 更多的翻译模型
 - [x] 更多的翻译引擎
@@ -99,7 +100,7 @@
 ### 字幕相关
 - [ ] 双字幕
 - [x] 更多字幕格式
-- [x] 字幕预览、实时修改* 
+- [x] 字幕预览、实时修改
 - [ ] 自动化字幕文本校对
 - [x] 个性化字幕
 
