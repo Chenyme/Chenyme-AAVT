@@ -50,7 +50,7 @@ with col1:
         lang = st.selectbox('选择视频语言', language, index=0, help="强制指定视频语言会提高识别准确度，但也可能会造成识别出错。")
 
     with st.expander("**翻译设置**", expanded=True):
-        translate_option = st.selectbox('选择翻译引擎', ('kimi', 'gpt-3.5-turbo', 'gpt-4', '无需翻译'), index=0)
+        translate_option = st.selectbox('选择翻译引擎', ('kimi-moonshot-v1-8k', 'kimi-moonshot-v1-32k', 'kimi-moonshot-v1-128k', 'gpt-3.5-turbo', 'gpt-4', '无需翻译'), index=0)
         if translate_option != '无需翻译':
             language = ('中文', 'English', '日本語', '한국인', 'Italiano', 'Deutsch')
             col3, col4 = st.columns(2)
@@ -72,7 +72,7 @@ with col1:
                 font_color = st.color_picker('颜色', '#FFFFFF')
 with col2:
     with st.expander("**高级功能**"):
-        token_num = st.number_input('翻译最大token限制', min_value=1, max_value=50, value=10, step=1)
+        token_num = st.number_input('翻译最大token限制', min_value=10, max_value=500, value=100, step=10)
         min_vad = st.number_input('VAD静音检测(ms)', min_value=100, max_value=5000, value=500, step=100,
                                   help="启用VAD辅助后生效！对应`min_silence_duration_ms`参数，最小静音持续时间。")
         beam_size = st.number_input('束搜索大小', min_value=1, max_value=20, value=5, step=1,
@@ -99,14 +99,14 @@ with col1:
             time3 = time.time()
             if translate_option != '无需翻译':
                 with st.spinner('正在翻译文本...'):
-                    if translate_option == 'kimi':
-                        result = kimi_translate(st.session_state.kimi_key, result, language1, language2, token_num)
-                    elif translate_option == 'gpt-3.5-turbo':
+                    if translate_option == 'gpt-3.5-turbo':
                         result = openai_translate1(st.session_state.openai_key, st.session_state.openai_base,
                                                    proxy_on, result, language1, language2)
                     elif translate_option == 'gpt-4':
                         result = openai_translate2(st.session_state.openai_key, st.session_state.openai_base,
                                                    proxy_on, result, language1, language2, token_num)
+                    else:
+                        result = kimi_translate(st.session_state.kimi_key, translate_option, result, language1, language2, token_num)
 
             time4 = time.time()
             with st.spinner('正在生成SRT字幕文件...'):

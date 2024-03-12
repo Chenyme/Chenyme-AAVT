@@ -7,7 +7,7 @@ from utils.utils import (convert_size, cache)
 
 
 st.set_page_config(
-    page_title="AAVT v0.6",
+    page_title="AAVT v0.6.1",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -24,7 +24,7 @@ with open(read_dir, 'r', encoding='utf-8') as file:
     markdown_content = file.read()
 
 
-st.title("🖥Chenyme-AAVT V0.6")
+st.title("🖥Chenyme-AAVT V0.6.1")
 st.caption("POWERED BY @CHENYME")
 
 tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])

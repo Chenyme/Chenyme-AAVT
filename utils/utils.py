@@ -1,5 +1,4 @@
 import os
-import ast
 import math
 import time
 import whisper
@@ -19,20 +18,20 @@ from langchain.prompts import (
     SystemMessagePromptTemplate,
 )
 
+# 视频博客文章生成助手
+
 
 @st.cache_resource
-def audio_chatbot(system, prompt, key, base):
+def audio_chatbot(system, prompt, key, base):  # 音频助手
+    client = OpenAI(api_key=key, base_url=base)
     if base == '':
         client = OpenAI(api_key=key)
-    else:
-        client = OpenAI(api_key=key, base_url=base)
 
-    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=[{"role": "system", "content": system},
-                                                                               {"role": "user", "content": prompt}])
+    response = client.chat.completions.create(model="gpt-3.5-turbo",
+                                              messages=[{"role": "system", "content": system},
+                                                        {"role": "user", "content": prompt}])
     msg = response.choices[0].message.content
-
-    # 缓存
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": prompt})  # 缓存回答
     st.session_state.messages.append({"role": "assistant", "content": msg})
     return msg
 
@@ -48,8 +47,7 @@ def faster_whisper_result_dict(segments):  # faster-whisper中生成器转换dic
     segments = list(segments)
     segments_dict = {
         'text': ' '.join([segment.text for segment in segments]),
-        'segments': [
-            {
+        'segments': [{
                 'id': segment.id,
                 'seek': segment.seek,
                 'start': segment.start,
@@ -59,8 +57,7 @@ def faster_whisper_result_dict(segments):  # faster-whisper中生成器转换dic
                 'temperature': segment.temperature,
                 'avg_logprob': segment.avg_logprob,
                 'compression_ratio': segment.compression_ratio,
-                'no_speech_prob': segment.no_speech_prob
-            }
+                'no_speech_prob': segment.no_speech_prob}
             for segment in segments
         ]
     }
@@ -77,6 +74,7 @@ def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, va
         if lang == "自动识别":
             segments, _ = model.transcribe(path_video,
                                            initial_prompt='Don’t make each line too long.',
+                                           vad_filter=vad,
                                            beam_size=beam_size,
                                            vad_parameters=dict(min_silence_duration_ms=min_vad)
                                            )
@@ -89,15 +87,15 @@ def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, va
                                            vad_parameters=dict(min_silence_duration_ms=min_vad)
                                            )
         whisper_result = faster_whisper_result_dict(segments)
-    os.unlink(path_video)  # 删除缓存文件
+    os.unlink(path_video)  # 删除缓存
     return whisper_result
 
 
 def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调用gpt3.5翻译
+    llm = ChatOpenAI(openai_api_key=key)
     if proxy_on:
         llm = ChatOpenAI(openai_api_key=key, openai_api_base=base)
-    else:
-        llm = ChatOpenAI(openai_api_key=key)
+
     # 提示词
     prompt = ChatPromptTemplate(
         messages=[
@@ -105,11 +103,9 @@ def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调
                 "You are a senior translator proficient in " + language1 + " and " + language2 + ". Your task is to translate whatever the user says. You only need to answer the translation result and do not use punctuation marks other than question marks. Please strictly implement it!"
             ),
             MessagesPlaceholder(variable_name="chat_history"),
-            HumanMessagePromptTemplate.from_template("{question}"),
-        ]
+            HumanMessagePromptTemplate.from_template("{question}")]
     )
-    # 设置记忆参数
-    memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=2)  # 改进点1
+    memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=2)  # 设置记忆参数
     conversation = LLMChain(llm=llm, prompt=prompt, verbose=False, memory=memory)
     segments = result['segments']
     segment_id = 0
@@ -121,12 +117,16 @@ def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调
     return result
 
 
-def chunk_for_gpt4(result, n):
+def chunk_for_gpt4(result, n):  # GPT4分块
     texts = [''] * n
     index, count = 0, 0
     for segment in result['segments']:
         words = segment['text'].split()
-        count += len(words)
+        if len(words) >= 2:  # 英文检测
+            count += len(words)
+        else:  # 中文
+            count += len(segment['text'])
+
         if count > 800:
             count = len(words)
             index += 1
@@ -141,15 +141,13 @@ def openai_translate2(key, base, proxy_on, result, language1, language2, n):  # 
     for text in texts:
         if text:
             prompt = "You are a senior translator proficient in " + language1 + " and " + language2 + ". Please translate the content in markdown format below line by line. Make sure that there are as many lines as there are after translation. The result is output in markdown format, and now you can directly give the translation result.!" + text
+            client = OpenAI(api_key=key)
             if proxy_on:
                 client = OpenAI(api_key=key, base_url=base)
-            else:
-                client = OpenAI(api_key=key)
+
             response = client.chat.completions.create(
                 model="gpt-4",
-                messages=[
-                    {"role": "user", "content": prompt}
-                ])
+                messages=[{"role": "user", "content": prompt}])
             answer = response.choices[0].message
             contents = answer.content.split('\n')
             time.sleep(0.01)
@@ -169,7 +167,11 @@ def chunk_for_kimi(result, n):
     index, count = 0, 0
     for segment in result['segments']:
         words = segment['text'].split()
-        count += len(words)
+        if len(words) >= 2:  # 英文检测
+            count += len(words)
+        else:  # 中文
+            count += len(segment['text'])
+
         if count > 500:
             count = len(words)
             index += 1
@@ -177,7 +179,8 @@ def chunk_for_kimi(result, n):
     return texts
 
 
-def kimi_translate(kimi_key, result, language1, language2, n):  # 调用Kimi翻译
+def kimi_translate(kimi_key, translate_option, result, language1, language2, n):  # 调用Kimi翻译
+    model = translate_option.replace('kimi-', '')
     texts = chunk_for_kimi(result, n)
     segment_id = 0
     for text in texts:
@@ -185,7 +188,7 @@ def kimi_translate(kimi_key, result, language1, language2, n):  # 调用Kimi翻�
             print(text)
             client = OpenAI(api_key=kimi_key, base_url="https://api.moonshot.cn/v1")
             completion = client.chat.completions.create(
-                model="moonshot-v1-8k",
+                model=model,
                 messages=[
                     {"role": "user", "content": "你是熟知" + language1 + " 和 " + language2 + "的专业翻译，请一行一行的翻译下面的markdown格式的内容，要保证原来有多少行，翻译后就要有多少行。结果输出markdown格式，现在你直接给出翻译结果。"+str(text)}
                 ],
@@ -220,9 +223,12 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
         start_time = int(segment['start'] * 1000)
         end_time = int(segment['end'] * 1000)
         text = segment['text']
+
         index = 30
-        if len(text) > index:
-            text = text[:index] + "\n" + text[index:]
+        words = text.split()
+        if len(words) <= 2:  # 中文检测
+            if len(words) > index:
+                text = text[:index] + "\n" + text[index:]
         srt_content += f"{segment_id}\n"
         srt_content += f"{milliseconds_to_srt_time_format(start_time)} --> {milliseconds_to_srt_time_format(end_time)}\n"
         srt_content += f"{text}\n\n"

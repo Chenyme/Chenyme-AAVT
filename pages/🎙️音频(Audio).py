@@ -43,7 +43,7 @@ with col1:
                     file.write(uploaded_file.getbuffer())
 
             with st.spinner('正在识别音频内容...'):
-                result = get_whisper_result(uploaded_file, cache_dir, device, w_model_option, w_version, vad)
+                result = get_whisper_result(uploaded_file, cache_dir, device, w_model_option, w_version, vad, "自动识别", 5, 500)
                 print("whisper识别：" + result['text'])
 
             with st.spinner('正在生成SRT字幕文件...'):
