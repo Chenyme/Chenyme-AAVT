@@ -1,5 +1,16 @@
 @echo off
 chcp 65001 > nul
+setlocal
+set "script_path=%~dp0"
+cd /d "%script_path%"
+powershell -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+
+REM 创建新项目环境
+python -m venv env
+
+REM 激活新项目环境
+call env\Scripts\activate.bat
+
 echo 正在检查和更新库...
 
 REM 设置pip镜像源

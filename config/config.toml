@@ -1,3 +1,7 @@
+[WHISPER_LOCAL]
+local = false
+model_local_path = ""
+
 [WHISPER]
 whisper_model_default = "large"
 whisper_version_default = "faster-whisper"
@@ -6,5 +10,5 @@ whisper_version_default = "faster-whisper"
 kimi_key = ""
 
 [GPT]
-openai_key = ""
-openai_base = ""
+openai_key = "sk-"
+openai_base = "3"

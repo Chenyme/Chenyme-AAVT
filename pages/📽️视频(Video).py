@@ -17,11 +17,15 @@ config = toml.load(config_dir + "config.toml")
 openai_api_key = config["GPT"]["openai_key"]
 openai_api_base = config["GPT"]["openai_base"]
 kimi_api_key = config["KIMI"]["kimi_key"]
+local = config["WHISPER_LOCAL"]["local"]
+model_local_path = config["WHISPER_LOCAL"]["model_local_path"]
 whisper_version = config["WHISPER"]["whisper_version_default"]
 whisper_model = config["WHISPER"]["whisper_model_default"]
 st.session_state.openai_base = openai_api_base
 st.session_state.openai_key = openai_api_key
 st.session_state.kimi_key = kimi_api_key
+st.session_state.local = local
+st.session_state.model_local_path = model_local_path
 st.session_state.w_model_option = whisper_model
 st.session_state.w_name = whisper_version
 
@@ -92,7 +96,10 @@ with col1:
 
             time2 = time.time()
             with st.spinner('正在识别视频内容...'):
-                result = get_whisper_result(uploaded_file, output_file, device, st.session_state.w_model_option,
+                models_option = st.session_state.w_model_option
+                if st.session_state.local:
+                    models_option = st.session_state.model_local_path
+                result = get_whisper_result(uploaded_file, output_file, device, models_option,
                                             st.session_state.w_name, vad, lang, beam_size, min_vad)
                 print("whisper识别：" + result['text'])
 

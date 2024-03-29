@@ -7,7 +7,7 @@ from utils.utils import (convert_size, cache)
 
 
 st.set_page_config(
-    page_title="AAVT v0.6.1",
+    page_title="AAVT v0.6.2",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -17,6 +17,7 @@ st.set_page_config(
 project_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 log_dir = project_dir + "/public/log.md"  # 更新日志
 read_dir = project_dir + "/public/README.md"  # 项目文档
+model_dir = project_dir + "/models"  # 模型目录
 config_dir = project_dir + "/config/"  # 配置文件
 cache_dir = project_dir + "/pages/cache/"  # 本地缓存
 
@@ -24,7 +25,7 @@ with open(read_dir, 'r', encoding='utf-8') as file:
     markdown_content = file.read()
 
 
-st.title("🖥Chenyme-AAVT V0.6.1")
+st.title("🖥Chenyme-AAVT V0.6.2")
 st.caption("POWERED BY @CHENYME")
 
 tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])
@@ -51,6 +52,8 @@ with tab2:
     openai_api_key = config["GPT"]["openai_key"]
     openai_api_base = config["GPT"]["openai_base"]
     kimi_api_key = config["KIMI"]["kimi_key"]
+    local = config["WHISPER_LOCAL"]["local"]
+    model_local_path = config["WHISPER_LOCAL"]["model_local_path"]
     whisper_version = config["WHISPER"]["whisper_version_default"]
     whisper_model = config["WHISPER"]["whisper_model_default"]
 
@@ -60,19 +63,26 @@ with tab2:
     options = {'openai-whisper': {'version': 0, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}},
                'faster-whisper': {'version': 1, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}}}
 
-    w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=options[whisper_version]['version'])
-    w_model_option = st.selectbox('选择识别模型', list(options[whisper_version]['models'].keys()),
-                                  index=options[whisper_version]['models'][whisper_model])
+    w_local = st.toggle('启用本地加载模型', local)
+    config["WHISPER_LOCAL"]["local"] = w_local
 
-    if w_version_option != whisper_version or w_model_option != whisper_model:
-        if w_version_option != whisper_version:
-            config["WHISPER"]["whisper_version_default"] = w_version_option
-            st.success("默认版本已切换为：" + w_version_option)
-        if w_model_option != whisper_model:
-            config["WHISPER"]["whisper_model_default"] = w_model_option
-            st.success("默认模型已切换为：" + w_model_option)
-        with open(config_dir + '/config.toml', 'w', encoding='utf-8') as file:
-            toml.dump(config, file)
+    if w_local == 0:
+        w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=options[whisper_version]['version'])
+        w_model_option = st.selectbox('选择识别模型', list(options[whisper_version]['models'].keys()),
+                                      index=options[whisper_version]['models'][whisper_model])
+        config["WHISPER"]["whisper_version_default"] = w_version_option
+        config["WHISPER"]["whisper_model_default"] = w_model_option
+    else:
+        w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=1, disabled=1)
+        model_names = os.listdir(model_dir)
+        wlm_option = st.selectbox('选择本地模型', model_names)
+        w_local_model_option = model_dir + '/' + wlm_option
+        config["WHISPER_LOCAL"]["model_local_path"] = w_local_model_option
+
+    with open(config_dir + '/config.toml', 'w', encoding='utf-8') as file:
+        toml.dump(config, file)
+
+
 
     st.write('------')
 
