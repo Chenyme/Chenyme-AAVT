@@ -1,4 +1,4 @@
-# Chenyme-AAVT V0.6.1
+# Chenyme-AAVT V0.6.2
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
@@ -90,8 +90,8 @@ kimi官网：https://kimi.moonshot.cn/
 
 ### 识别相关
 - [x] 更换更快的Whisper项目
-- [ ] 支持个人微调Whisper模型
-- [ ] 自动匹配识别模型
+- [x] 支持本地模型加载
+- [x] 支持个人微调Whisper模型
 - [x] VAD辅助优化
 - [x] 字词级断句优化
 - [x] 更多的语种识别
@@ -103,18 +103,18 @@ kimi官网：https://kimi.moonshot.cn/
 - [x] 更多的翻译引擎
 
 ### 字幕相关
-- [ ] 双字幕
+- [x] 个性化字幕
 - [x] 更多字幕格式
 - [x] 字幕预览、实时修改
 - [ ] 自动化字幕文本校对
-- [x] 个性化字幕
+- [ ] 双字幕
 
 ### 其他
 - [x] 视频总结、罗列重点
-- [ ] 实时语音翻译
-- [ ] 视频中文配音
 - [x] 视频预览
 - [x] AI助手
+- [ ] 实时语音翻译
+- [ ] 视频中文配音
 
 ### 注：含`*`的功能还不稳定，可能存在某些BUG。
 
