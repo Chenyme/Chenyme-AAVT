@@ -31,11 +31,6 @@
 > - 支持字幕、视频预览。
 > - 支持AI总结、问答。
 
-Kimi 是由月之暗面（Moonshot AI）团队的超长记忆 AI 助手
-
-moonshot官网：https://www.moonshot.cn/
-
-kimi官网：https://kimi.moonshot.cn/
 
 ## 如何安装
 ### 更快速的安装（省去下载FFmpeg）
