@@ -1,4 +1,4 @@
-### Chenyme-AAVT V0.6.2
+### Chenyme-AAVT V0.6.3
 > AI Auto Video-Audio Translation
 
 

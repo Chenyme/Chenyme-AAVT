@@ -1,13 +1,12 @@
-[WHISPER_LOCAL]
-local = false
-model_local_path = ""
-
 [WHISPER]
-whisper_model_default = "large"
 whisper_version_default = "faster-whisper"
+openai_whisper_model_default = "large"
+faster_whisper_model_default = "large"
+faster_whisper_model_local = false
+faster_whisper_model_local_path = ""
 
 [KIMI]
-kimi_key = ""
+kimi_key = "Y2"
 
 [GPT]
 openai_key = "sk-"

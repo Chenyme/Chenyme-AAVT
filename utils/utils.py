@@ -236,9 +236,33 @@ def generate_srt_from_result(result):  # 格式化为SRT字幕的形式
     return srt_content
 
 
-def srt_mv(v_dir, font, font_size, font_color):  # 视频合成字幕
+def generate_srt_from_result_2(result, font, font_size, font_color):  # 格式化为SRT字幕的形式
+    segments = result['segments']
+    srt_content = ''
+    segment_id = 1
+    for segment in segments:
+        start_time = int(segment['start'] * 1000)
+        end_time = int(segment['end'] * 1000)
+        text = segment['text']
+
+        index = 30
+        words = text.split()
+        if len(words) <= 2:  # 中文检测
+            if len(words) > index:
+                text = text[:index] + "\n" + text[index:]
+        srt_content += f"{segment_id}\n"
+        srt_content += f"{milliseconds_to_srt_time_format(start_time)} --> {milliseconds_to_srt_time_format(end_time)}\n"
+        srt_content += f"<font color={font_color}><font face={font}><font size={font_size}> {text}\n\n"
+        segment_id += 1
+    return srt_content
+
+
+def srt_mv(v_dir, font, font_size, font_color, subtitle_model):  # 视频合成字幕
     modified_color = font_color.replace("#", "H")
-    command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'FontName=" + font + ",FontSize=" + str(font_size) + ",PrimaryColour=&" + modified_color + "&,Outline=1,Shadow=1,BackColour=&#9C9C9C&,Bold=-1,Alignment=2'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
+    if subtitle_model == "硬字幕":
+        command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'FontName=" + font + ",FontSize=" + str(font_size) + ",PrimaryColour=&" + modified_color + "&,Outline=1,Shadow=1,BackColour=&#9C9C9C&,Bold=-1,Alignment=2'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
+    else:
+        command = ' ffmpeg -i "uploaded.mp4" -i output.srt -c copy output.mp4'
     subprocess.run(command, shell=True, cwd=v_dir)
 
 
@@ -254,15 +278,14 @@ def srt_to_vtt(srt_content):
     return vtt_content
 
 
-def srt_to_ass(srt_content):
+def srt_to_ass(srt_content, fontname, size, color):
     lines = srt_content.strip().split('\n\n')
-    ass_content = '[Script Info]\nTitle: Converted from SRT\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0.00,1,1.00,0.00,2,10,10,10,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n'
-
+    ass_content = ('[Script Info]\nTitle: Converted from SRT\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,' + str(fontname) + ',' + str(size) + ',' + str(color) + ',&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0.00,1,1.00,0.00,2,10,10,10,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n')
     for line in lines:
         parts = line.strip().split('\n')
         start, end = parts[1].split(' --> ')
         text = '\n'.join(parts[2:])
-        ass_content += f'Dialogue: 0,{start},{end},Default,,0,0,0,,{text}\n'
+        ass_content += f'Dialogue: 0,{start},{end},Default,,0,0,0,,"{text}"\n'
     return ass_content
 
 
@@ -278,7 +301,6 @@ def srt_to_stl(srt_content):
     return stl_content
 
 
-@st.cache_resource
 def show_video(cache_dir):
     video_file = open(cache_dir + "/output.mp4", 'rb')
     video_bytes = video_file.read()

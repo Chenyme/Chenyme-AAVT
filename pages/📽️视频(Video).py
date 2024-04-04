@@ -6,28 +6,33 @@ import datetime
 import streamlit as st
 from utils.utils import (get_whisper_result, kimi_translate, openai_translate1, openai_translate2,
                          generate_srt_from_result, srt_mv, srt_to_vtt, srt_to_ass, srt_to_stl, show_video,
-                         parse_srt_file, convert_to_srt)
+                         parse_srt_file, convert_to_srt, generate_srt_from_result_2)
 
 project_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 cache_dir = project_dir + "/cache/"  # 本地缓存
 config_dir = project_dir.replace("/pages", "") + "/config/"  # 配置文件
 
 # 加载配置
-config = toml.load(config_dir + "config.toml")
+config = toml.load(config_dir + "config.toml")  # 大模型配置
 openai_api_key = config["GPT"]["openai_key"]
 openai_api_base = config["GPT"]["openai_base"]
 kimi_api_key = config["KIMI"]["kimi_key"]
-local = config["WHISPER_LOCAL"]["local"]
-model_local_path = config["WHISPER_LOCAL"]["model_local_path"]
-whisper_version = config["WHISPER"]["whisper_version_default"]
-whisper_model = config["WHISPER"]["whisper_model_default"]
+whisper_version = config["WHISPER"]["whisper_version_default"]  # whisper配置
+faster_whisper_model = config["WHISPER"]["faster_whisper_model_default"]  # faster_whisper配置
+faster_whisper_model_local = config["WHISPER"]["faster_whisper_model_local"]
+faster_whisper_model_path = config["WHISPER"]["faster_whisper_model_local_path"]
+openai_whisper_model = config["WHISPER"]["openai_whisper_model_default"]  # openai_whisper配置
+
+# 页面缓存
 st.session_state.openai_base = openai_api_base
 st.session_state.openai_key = openai_api_key
 st.session_state.kimi_key = kimi_api_key
-st.session_state.local = local
-st.session_state.model_local_path = model_local_path
-st.session_state.w_model_option = whisper_model
-st.session_state.w_name = whisper_version
+st.session_state.whisper_version_name = whisper_version
+st.session_state.model_local = faster_whisper_model_local
+st.session_state.model_path = faster_whisper_model_path
+st.session_state.faster_whisper_model = faster_whisper_model
+st.session_state.openai_whisper_model = openai_whisper_model
+
 
 st.set_page_config(page_title="AI全自动视频翻译", page_icon="📽️", layout="wide", initial_sidebar_state="expanded")
 st.title("AI全自动视频翻译📽️")
@@ -54,7 +59,7 @@ with col1:
         lang = st.selectbox('选择视频语言', language, index=0, help="强制指定视频语言会提高识别准确度，但也可能会造成识别出错。")
 
     with st.expander("**翻译设置**", expanded=True):
-        translate_option = st.selectbox('选择翻译引擎', ('kimi-moonshot-v1-8k', 'kimi-moonshot-v1-32k', 'kimi-moonshot-v1-128k', 'gpt-3.5-turbo', 'gpt-4', '无需翻译'), index=0)
+        translate_option = st.selectbox('选择翻译引擎', ('无需翻译', 'kimi-moonshot-v1-8k', 'kimi-moonshot-v1-32k', 'kimi-moonshot-v1-128k', 'gpt-3.5-turbo', 'gpt-4'), index=0)
         if translate_option != '无需翻译':
             language = ('中文', 'English', '日本語', '한국인', 'Italiano', 'Deutsch')
             col3, col4 = st.columns(2)
@@ -68,12 +73,16 @@ with col1:
         with open(project_dir.replace("/pages", "/config") + '/font_data.txt', 'r', encoding='utf-8') as file:
             lines = file.readlines()
             fonts = [line.strip() for line in lines]
+            subtitle_model = st.selectbox('字幕方式：', ("硬字幕", "软字幕"), help="请注意：由于软字幕会导致部分字体会无法正常显示，因此可能会出现乱码！同时，您无法在网页中预览字幕效果，请打开文件夹访问原视频并使用支持外挂字幕的视频播放器挂载字幕查看效果！")
             font = st.selectbox('视频字幕字体：', fonts, help="所有字体均从系统读取加载，支持用户自行安装字体。请注意商用风险！")
-            col3, col4 = st.columns([0.9, 0.1],gap="medium")
+            st.session_state.font = font
+            col3, col4 = st.columns([0.9, 0.1], gap="medium")
             with col3:
                 font_size = st.number_input('字幕字体大小', min_value=1, max_value=30, value=18, step=1, help="推荐大小：18")
+                st.session_state.font_size = font_size
             with col4:
                 font_color = st.color_picker('颜色', '#FFFFFF')
+                st.session_state.font_color = font_color
 with col2:
     with st.expander("**高级功能**"):
         token_num = st.number_input('翻译最大token限制', min_value=10, max_value=500, value=100, step=10)
@@ -96,11 +105,16 @@ with col1:
 
             time2 = time.time()
             with st.spinner('正在识别视频内容...'):
-                models_option = st.session_state.w_model_option
-                if st.session_state.local:
-                    models_option = st.session_state.model_local_path
+                if st.session_state.whisper_version_name == "faster-whisper":
+                    models_option = st.session_state.faster_whisper_model
+                else:
+                    models_option = st.session_state.openai_whisper_model
+                    if st.session_state.model_local:
+                        models_option = st.session_state.faster_whisper_model
+
+                print("加载模型：" + models_option)
                 result = get_whisper_result(uploaded_file, output_file, device, models_option,
-                                            st.session_state.w_name, vad, lang, beam_size, min_vad)
+                                            st.session_state.whisper_version_name, vad, lang, beam_size, min_vad)
                 print("whisper识别：" + result['text'])
 
             time3 = time.time()
@@ -118,12 +132,13 @@ with col1:
             time4 = time.time()
             with st.spinner('正在生成SRT字幕文件...'):
                 srt_content = generate_srt_from_result(result)
+                srt_content2 = generate_srt_from_result_2(result, font, font_size, font_color)
                 with open(output_file + "/output.srt", 'w', encoding='utf-8') as srt_file:
-                    srt_file.write(srt_content)
+                    srt_file.write(srt_content2)
 
             time5 = time.time()
             with st.spinner('正在合并视频，请耐心等待视频生成...'):
-                srt_mv(output_file, font, font_size, font_color)
+                srt_mv(output_file, font, font_size, font_color, subtitle_model)
 
             time6 = time.time()
             st.session_state.srt_content = srt_content
@@ -201,7 +216,11 @@ with col1:
                     use_container_width=True
                 )
             elif captions_option == 'ass':
-                ass_content = srt_to_ass(st.session_state.srt_content_new)
+                print(st.session_state.font)
+                print(st.session_state.font_size)
+                print(st.session_state.font_color)
+                ass_content = srt_to_ass(st.session_state.srt_content_new, st.session_state.font, st.session_state.font_size, st.session_state.font_color)
+                print(1)
                 st.download_button(
                     label="点击下载ASS字幕文件",
                     data=ass_content.encode('utf-8'),
@@ -244,16 +263,16 @@ with col1:
                 srt_file.write(st.session_state.srt_content_new)
 
             with st.spinner('正在合并视频，请耐心等待视频生成...'):
-                srt_mv(st.session_state.output2, font, font_size, font_color)
+                srt_mv(st.session_state.output2, font, font_size, font_color, subtitle_model)
+
 with col2:
     with st.expander("**修改后的视频预览**", expanded=True):
         try:
+            print(st.session_state.output2)
             video_bytes = show_video(st.session_state.output2)
             st.video(video_bytes)
-            result = time6 - time1
-            formatted_result = f"{result:.2f}"
-            st.success(f"合并成功！总用时：{formatted_result}秒")
-            if st.button('查看文件目录', use_container_width=True):
+            print(1)
+            if st.button('查看文件', use_container_width=True):
                 os.startfile(st.session_state.output2)
                 st.warning("注意：文件夹已成功打开，可能未置顶显示，请检查任务栏！")
         except:

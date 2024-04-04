@@ -7,7 +7,7 @@ from utils.utils import (convert_size, cache)
 
 
 st.set_page_config(
-    page_title="AAVT v0.6.2",
+    page_title="AAVT v0.6.3",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -25,7 +25,7 @@ with open(read_dir, 'r', encoding='utf-8') as file:
     markdown_content = file.read()
 
 
-st.title("🖥Chenyme-AAVT V0.6.2")
+st.title("🖥Chenyme-AAVT V0.6.3")
 st.caption("POWERED BY @CHENYME")
 
 tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])
@@ -52,43 +52,55 @@ with tab2:
     openai_api_key = config["GPT"]["openai_key"]
     openai_api_base = config["GPT"]["openai_base"]
     kimi_api_key = config["KIMI"]["kimi_key"]
-    local = config["WHISPER_LOCAL"]["local"]
-    model_local_path = config["WHISPER_LOCAL"]["model_local_path"]
-    whisper_version = config["WHISPER"]["whisper_version_default"]
-    whisper_model = config["WHISPER"]["whisper_model_default"]
+    whisper_version = config["WHISPER"]["whisper_version_default"]  # whisper配置
+    faster_whisper_model = config["WHISPER"]["faster_whisper_model_default"]  # faster_whisper配置
+    faster_whisper_model_local = config["WHISPER"]["faster_whisper_model_local"]
+    faster_whisper_local_path = config["WHISPER"]["faster_whisper_model_local_path"]
+    openai_whisper_model = config["WHISPER"]["openai_whisper_model_default"]  # openai_whisper配置
+
+    options = {'openai-whisper': {'version': 0, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}},
+               'faster-whisper': {'version': 1, 'models': {'tiny': 0, 'tiny.en': 1, 'base': 2, 'base.en': 3, 'small': 4,
+                                                           'small.en': 5, 'medium': 6, 'medium.en': 7, 'large-v1': 8,
+                                                           'large-v2': 9, 'large-v3': 10, 'large': 11, 'distil-small.en': 12,
+                                                           'distil-medium.en': 13, 'distil-large-v2': 14}}}
 
     # Whisper模型
     st.write("#### Whisper识别设置")
-    st.write("长视频推荐使用Faster-whisper和large模型获得最佳断句、识别体验。")
-    options = {'openai-whisper': {'version': 0, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}},
-               'faster-whisper': {'version': 1, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}}}
-
-    w_local = st.toggle('启用本地加载模型', local)
-    config["WHISPER_LOCAL"]["local"] = w_local
+    st.write("```推荐使用 Faster-whisper和large（或distil-large-v2）模型获得最佳断句、识别体验！！！```")
+    st.write("```请注意distil系列模型不支持GPU加速，但该系列模型本身比其他的模型快约6倍，请勿使用GPU加速！！！```")
+    w_local = st.toggle('启用本地加载模型', faster_whisper_model_local)
+    config["WHISPER"]["faster_whisper_model_local"] = w_local
 
     if w_local == 0:
         w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=options[whisper_version]['version'])
-        w_model_option = st.selectbox('选择识别模型', list(options[whisper_version]['models'].keys()),
-                                      index=options[whisper_version]['models'][whisper_model])
+        if w_version_option == "openai-whisper":
+            model_index = options[w_version_option]['models'][openai_whisper_model]
+            w_model_option = st.selectbox('选择识别模型', list(options[w_version_option]['models'].keys()),
+                                          index=model_index)
+            config["WHISPER"]["openai_whisper_model_default"] = w_model_option
+        else:
+            model_index = options[w_version_option]['models'][faster_whisper_model]
+            w_model_option = st.selectbox('选择识别模型', list(options[w_version_option]['models'].keys()),
+                                          index=model_index)
+            config["WHISPER"]["faster_whisper_model_default"] = w_model_option
+
         config["WHISPER"]["whisper_version_default"] = w_version_option
-        config["WHISPER"]["whisper_model_default"] = w_model_option
     else:
         w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=1, disabled=1)
         model_names = os.listdir(model_dir)
         wlm_option = st.selectbox('选择本地模型', model_names)
-        w_local_model_option = model_dir + '/' + wlm_option
-        config["WHISPER_LOCAL"]["model_local_path"] = w_local_model_option
+        w_local_model_path = model_dir + '/' + wlm_option
+        config["WHISPER"]["faster_whisper_model_local_path"] = w_local_model_path
 
     with open(config_dir + '/config.toml', 'w', encoding='utf-8') as file:
         toml.dump(config, file)
-
-
 
     st.write('------')
 
     # OPENAI账户
     st.write("#### 翻译设置")
     st.write("##### KIMI账户设置")
+    st.write('''```Kimi 是由月之暗面（Moonshot AI）团队的超长记忆 AI 助手。官网：https://www.moonshot.cn/```''')
     new_kimi_key = st.text_input("KIMI-API-KEY：")
     st.write("##### OPENAI账户设置")
     new_openai_key = st.text_input("OPENAI-API-KEY：")
