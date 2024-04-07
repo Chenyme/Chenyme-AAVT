@@ -3,9 +3,7 @@
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
-### Note ：长文本字幕翻译的错位问题将会后续优化。由于开始准备考研，更新速度可能会放缓，感谢理解~~~
-
----
+#### Note ：字幕翻译的错位问题会逐步优化。由于开始准备考研，更新速度可能会放缓，感谢理解~~~
 
 非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
@@ -13,10 +11,10 @@
 
 **注意：** 首次使用 Whisper 模型时需下载，国内建议开启 VPN 下载。启用 GPU 加速需下载 CUDA 和 PyTorch，且保证PyTorch 版本与 CUDA 匹配，否则程序识别失败会默认禁用GPU加速。
 
-麻烦给一颗免费的星叭~感谢!!!
----
+#### 给一颗免费的星鼓励一下叭~感谢!!!
 
-![../public/photo 0.6 1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%201.png)
+![../public/photo5.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo5.png)
+
 [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
@@ -55,21 +53,17 @@
 4. **运行 `install.bat`**
 - 在项目根目录下运行 `install.bat` 来安装所有依赖库。
 
-
 ## 如何使用
-
 
 1. **设置参数**
 - 在`config`内设置 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`KIMI_API_KEY`，以便使用翻译引擎。
 - 您也可以在网页中设置各项参数，目前版本已经可以自动保存到`config`中，无需重新设置。
-     
 
 2. **运行程序**
 - 运行 `webui.bat`
 - 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
 - 首次使用streamlit，可能会要求输入email，直接`Enter`跳过即可。
 - 上传文件，设置模型，运行程序，耐心等待处理
-
 
 ## 注意事项
 
@@ -78,7 +72,6 @@
 3. 请确保运行 `install.bat`，安装所有依赖库。
 4. 使用 `GPU` 加速时请确保安装了正确的 `CUDA` 和 `Pytorch` 版本
 5. 推荐使用 `faster-whisper` 和 `Large` 模型，以获得最好的断句体验，但模型需要从 `Huggingface` 下载。
-
 
 ## TODO
 
@@ -112,26 +105,39 @@
 
 ### 注：含`*`的功能还不稳定，可能存在某些BUG。
 
----
-
 ## 特别鸣谢
 本人是 AI 时代的受益者，本项目的开发基本是站在巨人的肩膀上实现的。主要基于 OpenAI 开发的 Whisper 来识别声音和 LLMs 辅助翻译字幕 ，利用 Streamlit 搭建快速使用的 WebUI 界面，以及 FFmpeg 来实现字幕与视频的合并。
 
-### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper、kimi的开发人员！
+### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper、kimi 等开发人员！
 
 #### 如有问题和建议，随时联系我!
 
 ---
-## 截图
+
+## 项目界面截图
 
 ### 主页面
 
-![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%203.png)
+![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo1.png)
+
+### 设置
+
+![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo2.png)
+
+### 日志
+
+![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo3.png)
 
 ### 音频
 
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAMT/blob/main/public/photo1.png)
+![../public/photo6.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/phtot6.png)
 
 ### 视频
-![../public/photo 0.6 1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%201.png)
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%202.png)
+![../public/photo4.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo4.png)
+
+### 视频生成
+
+![../public/photo5.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo5.png)
+
+### 视频二次修改
+![../public/photo7.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%202.png)
