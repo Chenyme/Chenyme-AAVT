@@ -23,7 +23,7 @@ cache_dir = project_dir + "/pages/cache/"  # 本地缓存
 
 with open(read_dir, 'r', encoding='utf-8') as file:
     markdown_content = file.read()
-
+    
 
 st.title("🖥Chenyme-AAVT V0.6.3")
 st.caption("POWERED BY @CHENYME")
@@ -50,6 +50,7 @@ with tab1:  # 主界面功能
 with tab2:
     config = toml.load(config_dir + "config.toml")  # 加载配置
     openai_api_key = config["GPT"]["openai_key"]
+    st.session_state.openai_key = openai_api_key  # 缓存key
     openai_api_base = config["GPT"]["openai_base"]
     kimi_api_key = config["KIMI"]["kimi_key"]
     whisper_version = config["WHISPER"]["whisper_version_default"]  # whisper配置
@@ -57,7 +58,7 @@ with tab2:
     faster_whisper_model_local = config["WHISPER"]["faster_whisper_model_local"]
     faster_whisper_local_path = config["WHISPER"]["faster_whisper_model_local_path"]
     openai_whisper_model = config["WHISPER"]["openai_whisper_model_default"]  # openai_whisper配置
-
+    
     options = {'openai-whisper': {'version': 0, 'models': {'tiny': 0, 'base': 1, 'small': 2, 'medium': 3, 'large': 4}},
                'faster-whisper': {'version': 1, 'models': {'tiny': 0, 'tiny.en': 1, 'base': 2, 'base.en': 3, 'small': 4,
                                                            'small.en': 5, 'medium': 6, 'medium.en': 7, 'large-v1': 8,
@@ -105,7 +106,7 @@ with tab2:
     st.write("##### OPENAI账户设置")
     new_openai_key = st.text_input("OPENAI-API-KEY：")
     new_openai_base = st.text_input("OPENAI-API-BASE：")
-
+    
     if st.button("保存"):
         if new_kimi_key != kimi_api_key and new_kimi_key != "":
             config["KIMI"]["kimi_key"] = new_kimi_key
@@ -118,6 +119,7 @@ with tab2:
             openai_api_key = new_openai_key
         with open(config_dir + "/config.toml", 'w', encoding='utf-8') as file:
             toml.dump(config, file)
+        st.session_state.openai_key = new_openai_key
         st.success("已保存")
     st.write('------')
 
