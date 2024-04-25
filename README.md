@@ -1,4 +1,6 @@
-# Chenyme-AAVT V0.6.3
+# Chenyme-AAVT V0.6.4
+> AI Auto Video(Audio) Translation
+
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
@@ -52,6 +54,11 @@
 
 4. **运行 `install.bat`**
 - 在项目根目录下运行 `install.bat` 来安装所有依赖库。
+
+---
+#### Note ：项目默认的Pytorch为CPU版本，若要使用GPU，请下载 [CUDA（建议11.8）](https://developer.nvidia.com/cuda-11-8-0-download-archive) 并从 [PyTorch官网](https://pytorch.org/) 下载对应版本的Pytorch
+
+---
 
 ## 如何使用
 
