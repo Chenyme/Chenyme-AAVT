@@ -91,7 +91,7 @@ def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, va
     return whisper_result
 
 
-def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调用gpt3.5翻译
+def openai_translate1(key, base, proxy_on, result, language1, language2, waittime):  # 调用gpt3.5翻译
     llm = ChatOpenAI(openai_api_key=key)
     if proxy_on:
         llm = ChatOpenAI(openai_api_key=key, openai_api_base=base)
@@ -114,6 +114,7 @@ def openai_translate1(key, base, proxy_on, result, language1, language2):  # 调
         response = conversation({"question": text})
         result['segments'][segment_id]['text'] = response['text']
         segment_id += 1
+        time.sleep(waittime)
     return result
 
 
@@ -134,7 +135,7 @@ def chunk_for_gpt4(result, n):  # GPT4分块
     return texts
 
 
-def openai_translate2(key, base, proxy_on, result, language1, language2, n):  # 调用GPT4翻译
+def openai_translate2(key, base, proxy_on, result, language1, language2, n, waittime):  # 调用GPT4翻译
     segment_id = 0
     texts = chunk_for_gpt4(result, n)
 
@@ -150,7 +151,8 @@ def openai_translate2(key, base, proxy_on, result, language1, language2, n):  # 
                 messages=[{"role": "user", "content": prompt}])
             answer = response.choices[0].message
             contents = answer.content.split('\n')
-            time.sleep(0.01)
+            time.sleep(waittime)
+
             for content in contents:
                 if content and '```' not in content:
                     if '<br>' in content:
@@ -179,7 +181,7 @@ def chunk_for_kimi(result, n):
     return texts
 
 
-def kimi_translate(kimi_key, translate_option, result, language1, language2, n):  # 调用Kimi翻译
+def kimi_translate(kimi_key, translate_option, result, language1, language2, n, waittime):  # 调用Kimi翻译
     model = translate_option.replace('kimi-', '')
     texts = chunk_for_kimi(result, n)
     segment_id = 0
@@ -196,7 +198,8 @@ def kimi_translate(kimi_key, translate_option, result, language1, language2, n):
             )
             answer = completion.choices[0].message
             contents = answer.content.split('\n')
-            time.sleep(0.01)
+            time.sleep(waittime)
+
             for content in contents:
                 if content and '```' not in content:
                     if '<br>' in content:

@@ -7,7 +7,7 @@ from utils.utils import (convert_size, cache)
 
 
 st.set_page_config(
-    page_title="AAVT v0.6.3",
+    page_title="AAVT v0.6.4",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
@@ -25,7 +25,7 @@ with open(read_dir, 'r', encoding='utf-8') as file:
     markdown_content = file.read()
     
 
-st.title("🖥Chenyme-AAVT V0.6.3")
+st.title("🖥Chenyme-AAVT V0.6.4")
 st.caption("POWERED BY @CHENYME")
 
 tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])
@@ -88,8 +88,11 @@ with tab2:
         config["WHISPER"]["whisper_version_default"] = w_version_option
     else:
         w_version_option = st.selectbox('选择whisper版本', list(options.keys()), index=1, disabled=1)
+
         model_names = os.listdir(model_dir)
-        wlm_option = st.selectbox('选择本地模型', model_names)
+        a = faster_whisper_local_path
+        index_model = model_names.index(a.replace(model_dir + '/', ''))
+        wlm_option = st.selectbox('选择本地模型', model_names, index=index_model)
         w_local_model_path = model_dir + '/' + wlm_option
         config["WHISPER"]["faster_whisper_model_local_path"] = w_local_model_path
 
