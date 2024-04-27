@@ -91,7 +91,10 @@ with tab2:
 
         model_names = os.listdir(model_dir)
         a = faster_whisper_local_path
-        index_model = model_names.index(a.replace(model_dir + '/', ''))
+        try:
+            index_model = model_names.index(a.replace(model_dir + '/', ''))
+        except:
+            index_model = 0
         wlm_option = st.selectbox('选择本地模型', model_names, index=index_model)
         w_local_model_path = model_dir + '/' + wlm_option
         config["WHISPER"]["faster_whisper_model_local_path"] = w_local_model_path
