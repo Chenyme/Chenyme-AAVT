@@ -5,9 +5,9 @@
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
-| 群聊二维码 | 说明 |
-| ---- | ---- |
-|<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/993dcc53-03e1-4ab3-88e1-29dd43406949" alt="描述文字" width="30%" />| 本人是一位普通的大学生，而且最近时间比较紧可能不会及时看issues，还请多多担待。而且由于个人技术原因，项目的很多地方还不尽人意，**欢迎各位大佬和家人们加入群聊互相学习交流**，感谢支持！|
+| 群聊二维码 | 说明 | Note |
+| ---- | ---- | ---- |
+|<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/993dcc53-03e1-4ab3-88e1-29dd43406949" alt="描述文字" width="40%" />| 本人是一位普通的大学生，而且最近时间比较紧可能不会及时看issues，还请多多担待。而且由于个人技术水平，项目的很多地方还不尽人意，**欢迎各位大佬和家人们加入群聊互相学习交流**，一起完善这个项目，感谢支持！| 近期会进行更新，且下个版本**不再适配本地openai-whsper**，换成api调用。本地模式统一为faster-whisper为后端. |
 
 #### Note ：字幕翻译的错位问题会逐步优化。由于开始准备考研，更新速度可能会放缓，感谢理解~~~
 
