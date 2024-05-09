@@ -60,7 +60,8 @@
 - 在项目根目录下运行 `install.bat` 来安装所有依赖库。
 
 ---
-#### Note ：项目默认的Pytorch为CPU版本，若要使用GPU，请下载 [CUDA（建议11.8）](https://developer.nvidia.com/cuda-11-8-0-download-archive) 并从 [PyTorch官网](https://pytorch.org/) 下载对应版本的Pytorch
+#### Note ：项目默认的Pytorch为CPU版本，若要使用GPU，请下载 [CUDA（必须12）](https://developer.nvidia.com/) 并从 [PyTorch官网](https://pytorch.org/) 下载对应版本的Pytorch
+#### 最新版本仅支持 CUDA 12。对于 CUDA 11，当前的解决方法是降级。pip install --force-reinsall ctranslate2==3.24
 
 ---
 
