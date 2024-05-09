@@ -28,16 +28,6 @@ if %errorlevel% equ 0 (
     pip install streamlit
 )
 
-REM 检查和更新 openai-whisper
-pip show openai-whisper > nul
-if %errorlevel% equ 0 (
-    echo 更新 openai-whisper...
-    pip install --upgrade openai-whisper
-) else (
-    echo 安装 openai-whisper...
-    pip install openai-whisper
-)
-
 REM 检查和更新 openai
 pip show openai > nul
 if %errorlevel% equ 0 (
@@ -46,16 +36,6 @@ if %errorlevel% equ 0 (
 ) else (
     echo 安装 openai...
     pip install openai
-)
-
-REM 检查和更新 langchain
-pip show langchain > nul
-if %errorlevel% equ 0 (
-    echo 更新 langchain...
-    pip install --upgrade langchain
-) else (
-    echo 安装 langchain...
-    pip install langchain
 )
 
 REM 检查和更新 torch torchvision torchaudio
@@ -76,16 +56,6 @@ if %errorlevel% equ 0 (
 ) else (
     echo 安装 faster-whisper...
     pip install faster-whisper
-)
-
-REM 检查和更新 langchain-openai
-pip show langchain-openai > nul
-if %errorlevel% equ 0 (
-    echo 更新 langchain-openai...
-    pip install --upgrade langchain-openai
-) else (
-    echo 安装 langchain-openai...
-    pip install langchain-openai
 )
 
 echo 更新完成

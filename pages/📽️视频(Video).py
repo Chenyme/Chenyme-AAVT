@@ -6,37 +6,35 @@ import datetime
 import streamlit as st
 from utils.utils import (get_whisper_result, kimi_translate, openai_translate1, openai_translate2,
                          generate_srt_from_result, srt_mv, srt_to_vtt, srt_to_ass, srt_to_stl, show_video,
-                         parse_srt_file, convert_to_srt, generate_srt_from_result_2)
+                         parse_srt_file, convert_to_srt, generate_srt_from_result_2, deepseek_translate, openai_whisper)
 
 project_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
 cache_dir = project_dir + "/cache/"  # 本地缓存
 config_dir = project_dir.replace("/pages", "") + "/config/"  # 配置文件
 
 # 加载配置
-config = toml.load(config_dir + "config.toml")  # 大模型配置
+config = toml.load(config_dir + "config.toml")
 openai_api_key = config["GPT"]["openai_key"]
 openai_api_base = config["GPT"]["openai_base"]
 kimi_api_key = config["KIMI"]["kimi_key"]
-whisper_version = config["WHISPER"]["whisper_version_default"]  # whisper配置
-faster_whisper_model = config["WHISPER"]["faster_whisper_model_default"]  # faster_whisper配置
+deepseek_api_key = config["DEEPSEEK"]["deepseek_key"]
+faster_whisper_model = config["WHISPER"]["faster_whisper_model_default"]
 faster_whisper_model_local = config["WHISPER"]["faster_whisper_model_local"]
 faster_whisper_model_path = config["WHISPER"]["faster_whisper_model_local_path"]
-openai_whisper_model = config["WHISPER"]["openai_whisper_model_default"]  # openai_whisper配置
+openai_whisper_api = config["WHISPER"]["openai_whisper_api"]
 
 # 页面缓存
 st.session_state.openai_base = openai_api_base
 st.session_state.openai_key = openai_api_key
 st.session_state.kimi_key = kimi_api_key
-st.session_state.whisper_version_name = whisper_version
+st.session_state.deepseek_key = deepseek_api_key
 st.session_state.model_local = faster_whisper_model_local
 st.session_state.model_path = faster_whisper_model_path
 st.session_state.faster_whisper_model = faster_whisper_model
-st.session_state.openai_whisper_model = openai_whisper_model
+st.session_state.openai_whisper_api = openai_whisper_api
 
 # 启用设置
-opt_w, opt_g = 1, 1
-if whisper_version == "faster-whisper":
-    opt_w = 0
+opt_g = 1
 if "distil" not in faster_whisper_model or torch.cuda.is_available():
     opt_g = 0
 
@@ -46,37 +44,38 @@ st.title("AI全自动视频翻译📽️")
 st.write("")
 
 with st.sidebar:
-    # 文件上传
     st.write("### 文件上传器")
     uploaded_file = st.file_uploader("请在这里上传视频：", type=['mp4', 'mov'], label_visibility="collapsed")
 
 col1, col2 = st.columns(2, gap="medium")
 with col1:
-    with st.expander("**识别设置**", expanded=True):
-        col3, col4 = st.columns(2)
-        with col3:
-            # GPU
-            GPU_on = st.toggle('启用GPU加速', disabled=opt_g, help='自动检测cuda、pytorch可用后开启！')
-            device = 'cuda' if GPU_on else 'cpu'
-            # VAD
-            VAD_on = st.toggle('启用VAD辅助', disabled=opt_w, help='启用语音活动检测（VAD）以过滤掉没有语音的音频部分,仅支持faster-whisper使用。')
-            vad = 'True' if VAD_on else 'False'
-        with col4:
-            # language
-            language = ('自动识别', 'zh', 'en', 'ja', 'ko', 'it', 'de')
-            lang = st.selectbox('选择视频语言', language, index=0, help="强制指定视频语言会提高识别准确度，但也可能会造成识别出错。")
+    if not openai_whisper_api:
+        with st.expander("**识别设置**", expanded=True):
+            col3, col4 = st.columns(2)
+            with col3:
+                GPU_on = st.toggle('启用GPU加速', disabled=opt_g, help='自动检测cuda、pytorch可用后开启！')  # GPU
+                VAD_on = st.toggle('启用VAD辅助', help='启用语音活动检测（VAD）以过滤掉没有语音的音频部分,仅支持faster-whisper使用。')  # VAD
+                device = 'cuda' if GPU_on else 'cpu'
+                vad = 'True' if VAD_on else 'False'
+            with col4:
+                language = ('自动识别', 'zh', 'en', 'ja', 'ko', 'it', 'de')  # language
+                lang = st.selectbox('选择视频语言', language, index=0, help="强制指定视频语言会提高识别准确度，但也可能会造成识别出错。")
+    else:
+        with st.expander("**API调用模式**", expanded=True):
+            proxy_on = st.toggle('启用代理', help='如果你能直接访问openai.com，则无需启用。')
 
     with st.expander("**翻译设置**", expanded=True):
-        translate_option = st.selectbox('选择翻译引擎', ('无需翻译', 'kimi-moonshot-v1-8k', 'kimi-moonshot-v1-32k', 'kimi-moonshot-v1-128k', 'gpt-3.5-turbo', 'gpt-4'), index=0)
+        translate_option = st.selectbox('选择翻译引擎', ('无需翻译', 'kimi-moonshot-v1-8k', 'kimi-moonshot-v1-32k', 'kimi-moonshot-v1-128k', 'deepseek-v2' , 'gpt-3.5-turbo', 'gpt-4'), index=0)
         if translate_option != '无需翻译':
             language = ('中文', 'English', '日本語', '한국인', 'Italiano', 'Deutsch')
-            col3, col4, col5= st.columns(3)
+            col3, col4, col5 = st.columns(3)
             with col3:
                 language1 = st.selectbox('选择原始语言', language, index=1)
             with col4:
                 language2 = st.selectbox('选择目标语言', language, index=0)
             with col5:
-                waittime = st.number_input('翻译间隔设置', min_value=0.0, max_value=5.0, value=0.5, step=0.5)
+                waittime = st.number_input('翻译间隔设置', min_value=0.0, max_value=5.0, value=0.1, step=0.1)
+        if 'gpt' in translate_option and not openai_whisper_api:
             proxy_on = st.toggle('启用代理', help='如果你能直接访问openai.com，则无需启用。')
 
     with st.expander("**字幕设置**", expanded=True):
@@ -98,12 +97,16 @@ with col1:
                 st.session_state.font_color = font_color
 with col2:
     with st.expander("**高级设置**"):
-        token_num = st.number_input('翻译最大token限制', min_value=10, max_value=500, value=100, step=10)
-        min_vad = st.number_input('VAD静音检测(ms)', min_value=100, max_value=5000, value=500, step=100, disabled=opt_w,
-                                  help="启用VAD辅助后生效！对应`min_silence_duration_ms`参数，最小静音持续时间。")
-        beam_size = st.number_input('束搜索大小', min_value=1, max_value=20, value=5, step=1, disabled=opt_w,
-                                    help="`beam_size`参数。用于定义束搜索算法中每个时间步保留的候选项数量。束搜索算法通过在每个时间步选择最有可能的候选项来构建搜索树，并根据候选项的得分进行排序和剪枝。较大的beam_size值会保留更多的候选项，扩大搜索空间，可能提高生成结果的准确性，但也会增加计算开销。相反，较小的beam_size值会减少计算开销，但可能导致搜索过早地放弃最佳序列。")
-
+        if not openai_whisper_api:
+            min_vad = st.number_input('VAD静音检测(ms)', min_value=100, max_value=5000, value=500, step=100,
+                                      help="启用VAD辅助后生效！对应`min_silence_duration_ms`参数，最小静音持续时间。")
+            beam_size = st.number_input('束搜索大小', min_value=1, max_value=20, value=5, step=1,
+                                        help="`beam_size`参数。用于定义束搜索算法中每个时间步保留的候选项数量。束搜索算法通过在每个时间步选择最有可能的候选项来构建搜索树，并根据候选项的得分进行排序和剪枝。较大的beam_size值会保留更多的候选项，扩大搜索空间，可能提高生成结果的准确性，但也会增加计算开销。相反，较小的beam_size值会减少计算开销，但可能导致搜索过早地放弃最佳序列。")
+        else:
+            whisper_prompt = st.text_input('Whisper提示词', value='Don’t make each line too long.')
+            temperature = st.number_input('Whisper温度', min_value=0.0, max_value=1.0, value=0.8, step=0.1)
+        token_num = st.number_input('翻译最大token限制', min_value=10, max_value=500, value=100, step=10,
+                                    help="最大token量为：500*翻译最大token限制")
 with col1:
     if st.button('生成视频', type="primary", use_container_width=True):
         if uploaded_file is not None:
@@ -118,16 +121,17 @@ with col1:
 
             time2 = time.time()
             msg.toast('正在识别视频内容🔍')
-            if st.session_state.whisper_version_name == "faster-whisper":
-                models_option = st.session_state.faster_whisper_model
+            if openai_whisper_api:
+                print("---\nAPI调用模式")
+                result = openai_whisper(st.session_state.openai_key, st.session_state.openai_base, proxy_on, whisper_prompt, temperature, output_file)
+                print("---\nwhisper识别内容：" + result['text'])
             else:
-                models_option = st.session_state.openai_whisper_model
+                models_option = st.session_state.faster_whisper_model
                 if st.session_state.model_local:
-                    models_option = st.session_state.model_local
-            print("加载模型：" + models_option)
-            result = get_whisper_result(uploaded_file, output_file, device, models_option,
-                                        st.session_state.whisper_version_name, vad, lang, beam_size, min_vad)
-            print("whisper识别：" + result['text'])
+                    models_option = st.session_state.model_path
+                print("---\n本地调用模式\n加载模型：" + models_option)
+                result = get_whisper_result(uploaded_file, output_file, device, models_option, vad, lang, beam_size, min_vad)
+                print("---\nwhisper识别内容：" + result['text'])
 
             time3 = time.time()
             if translate_option != '无需翻译':
@@ -138,6 +142,8 @@ with col1:
                 elif translate_option == 'gpt-4':
                     result = openai_translate2(st.session_state.openai_key, st.session_state.openai_base,
                                                proxy_on, result, language1, language2, token_num, waittime)
+                elif translate_option == 'deepseek-v2':
+                    result = deepseek_translate(st.session_state.deepseek_key, result, language2, waittime)
                 else:
                     result = kimi_translate(st.session_state.kimi_key, translate_option, result, language1, language2, token_num, waittime)
 

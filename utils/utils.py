@@ -1,22 +1,13 @@
 import os
 import math
 import time
-import whisper
+import json
 import tempfile
 import subprocess
 import pandas as pd
 import streamlit as st
 from openai import OpenAI
 from faster_whisper import WhisperModel
-from langchain.chains import LLMChain
-from langchain_openai import ChatOpenAI
-from langchain.memory import ConversationBufferWindowMemory
-from langchain.prompts import (
-    ChatPromptTemplate,
-    HumanMessagePromptTemplate,
-    MessagesPlaceholder,
-    SystemMessagePromptTemplate,
-)
 
 # 视频博客文章生成助手
 
@@ -64,56 +55,67 @@ def faster_whisper_result_dict(segments):  # faster-whisper中生成器转换dic
     return segments_dict
 
 
-def get_whisper_result(uploaded_file, temp_dir, device, option, whisper_name, vad, lang, beam_size, min_vad):  # whisper识别配置
-    path_video = tmp_filepath(uploaded_file, temp_dir)  # 虚拟化文件路径
-    if whisper_name == "openai-whisper":
-        model = whisper.load_model(option, device)
-        whisper_result = model.transcribe(path_video, initial_prompt='Don’t make each line too long.')
+def openai_whisper(key, base, proxy_on, prompt, temperature, temp_dir):
+    files_in_folder = os.listdir(temp_dir)
+    if "output.mp3" not in files_in_folder:
+        command = "ffmpeg -i uploaded.mp4 -vn -acodec libmp3lame -ab 320k -f mp3 output.mp3"
+        subprocess.run(command, shell=True, cwd=temp_dir)
+    client = OpenAI(api_key=key)
+    if proxy_on:
+        client = OpenAI(api_key=key, base_url=base)
+    audio_file = open(temp_dir + "/output.mp3", "rb")
+    transcript = client.audio.transcriptions.create(
+        model="whisper-1",
+        file=audio_file,
+        response_format="verbose_json",
+        timestamp_granularities=["segment"],
+        prompt=prompt,
+        temperature=temperature
+    )
+    result = {'text': transcript.text, 'segments': transcript.segments}
+    return result
+
+
+def get_whisper_result(uploaded_file, temp_dir, device, option, vad, lang, beam_size, min_vad):  # whisper识别配置
+    path_video = tmp_filepath(uploaded_file, temp_dir)
+    model = WhisperModel(option, device)
+    if lang == "自动识别":
+        segments, _ = model.transcribe(path_video,
+                                       initial_prompt="Don’t make each line too long.",
+                                       vad_filter=vad,
+                                       beam_size=beam_size,
+                                       vad_parameters=dict(min_silence_duration_ms=min_vad)
+                                       )
     else:
-        model = WhisperModel(option, device)
-        if lang == "自动识别":
-            segments, _ = model.transcribe(path_video,
-                                           initial_prompt='Don’t make each line too long.',
-                                           vad_filter=vad,
-                                           beam_size=beam_size,
-                                           vad_parameters=dict(min_silence_duration_ms=min_vad)
-                                           )
-        else:
-            segments, _ = model.transcribe(path_video,
-                                           initial_prompt='Don’t make each line too long.',
-                                           vad_filter=vad,
-                                           language=lang,
-                                           beam_size=beam_size,
-                                           vad_parameters=dict(min_silence_duration_ms=min_vad)
-                                           )
-        whisper_result = faster_whisper_result_dict(segments)
-    os.unlink(path_video)  # 删除缓存
+        segments, _ = model.transcribe(path_video,
+                                       initial_prompt="Don’t make each line too long.",
+                                       vad_filter=vad,
+                                       language=lang,
+                                       beam_size=beam_size,
+                                       vad_parameters=dict(min_silence_duration_ms=min_vad)
+                                       )
+    whisper_result = faster_whisper_result_dict(segments)
+    os.unlink(path_video)
     return whisper_result
 
 
-def openai_translate1(key, base, proxy_on, result, language1, language2, waittime):  # 调用gpt3.5翻译
-    llm = ChatOpenAI(openai_api_key=key)
+def openai_translate1(key, base, proxy_on, result, language1, language2, waittime):
+    client = OpenAI(api_key=key)
     if proxy_on:
-        llm = ChatOpenAI(openai_api_key=key, openai_api_base=base)
-
-    # 提示词
-    prompt = ChatPromptTemplate(
-        messages=[
-            SystemMessagePromptTemplate.from_template(
-                "You are a senior translator proficient in " + language1 + " and " + language2 + ". Your task is to translate whatever the user says. You only need to answer the translation result and do not use punctuation marks other than question marks. Please strictly implement it!"
-            ),
-            MessagesPlaceholder(variable_name="chat_history"),
-            HumanMessagePromptTemplate.from_template("{question}")]
-    )
-    memory = ConversationBufferWindowMemory(memory_key="chat_history", return_messages=True, k=2)  # 设置记忆参数
-    conversation = LLMChain(llm=llm, prompt=prompt, verbose=False, memory=memory)
+        client = OpenAI(api_key=key, base_url=base)
     segments = result['segments']
+    print("---\n翻译内容：")
     segment_id = 0
     for segment in segments:
         text = segment['text']
-        response = conversation({"question": text})
-        result['segments'][segment_id]['text'] = response['text']
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user",
+                       "content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}])
+        answer = response.choices[0].message.content
+        result['segments'][segment_id]['text'] = answer
         segment_id += 1
+        print(answer)
         time.sleep(waittime)
     return result
 
@@ -208,6 +210,25 @@ def kimi_translate(kimi_key, translate_option, result, language1, language2, n, 
                         content = content
                     result['segments'][segment_id]['text'] = content
                     segment_id += 1
+    return result
+
+
+def deepseek_translate(deepseek_key, result, language2, waittime):
+    client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com/")
+    segments = result['segments']
+    print("---\n翻译内容：")
+    segment_id = 0
+    for segment in segments:
+        text = segment['text']
+        response = client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[{"role": "user","content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}],
+            temperature=1.1)
+        answer = response.choices[0].message.content
+        result['segments'][segment_id]['text'] = answer
+        segment_id += 1
+        print(answer)
+        time.sleep(waittime)
     return result
 
 

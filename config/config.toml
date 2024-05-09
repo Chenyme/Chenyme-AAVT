@@ -1,13 +1,15 @@
 [WHISPER]
-whisper_version_default = "faster-whisper"
-openai_whisper_model_default = "large"
+openai_whisper_api = true
 faster_whisper_model_default = "large"
 faster_whisper_model_local = false
 faster_whisper_model_local_path = ""
 
 [KIMI]
-kimi_key = "Y2"
+kimi_key = "Y"
 
 [GPT]
 openai_key = "sk-"
-openai_base = "3"
+openai_base = "https://"
+
+[DEEPSEEK]
+deepseek_key = "sk-"
