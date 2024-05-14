@@ -5,77 +5,96 @@
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
-| 群聊二维码 | 说明 |
-| ---- | ---- |
-|<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/993dcc53-03e1-4ab3-88e1-29dd43406949" alt="描述文字" width="70%" />| 本人是一位普通的大学生，而且最近时间比较紧可能不会及时看issues，还请多多担待。而且由于个人技术水平，项目的很多地方还不尽人意，**欢迎各位大佬和家人们加入群聊互相学习交流**，一起完善这个项目，感谢支持！|
-
-#### Note ：字幕翻译的错位问题会逐步优化。由于开始准备考研，更新速度可能会放缓，感谢理解~~~
-
 非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
-> **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
-
-**注意：** 首次使用 Whisper 模型时需下载，国内建议开启 VPN 下载。启用 GPU 加速需下载 CUDA 和 PyTorch，且保证PyTorch 版本与 CUDA 匹配，否则程序识别失败会默认禁用GPU加速。
+> - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
+> - **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
 
 #### 给一颗免费的星鼓励一下叭~感谢!!!
+
+| 群聊二维码 | 说明 |
+| ---- | ---- |
+|<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/993dcc53-03e1-4ab3-88e1-29dd43406949" alt="描述文字" width="70%" />| 我是一位学生，目前在备考可能不会及时看issues，还请多多担待。本项目开源，但由于个人技术水平有限，项目的很多地方还不尽人意，**在这里欢迎各位大佬和朋友加入群聊交流，有任何问题可以在群里提出**，让我们可以一起完善这个项目，感谢支持！|
 
 ![../public/photo5.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo5.png)
 
 [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
-> - 支持 `faster-whisper` 后端。
-> - 支持 `GPU` 加速。
-> - 支持 `VAD` 辅助识别。
-> - 支持 `ChatGPT`、`KIMI` 翻译。
-> - 支持多种语言识别、翻译。
-> - 支持多种字幕格式输出。
-> - 支持字幕修改，二次精翻。
-> - 支持字幕、视频预览。
-> - 支持AI总结、问答。
+> *   支持 `openai`调用和 `faster-whisper` 本地运行。
+> *   支持 `GPU` 加速、`VAD`辅助。
+> *   支持 `ChatGPT`、`KIMI`、`DeepSeek`翻译。
+> *   支持识别、翻译多种语言。
+> *   支持输出多种字幕格式。
+> *   支持对字幕修改、微调、预览。
+> *   支持对音频直接进行AI总结、问答。
 
 
 ## 如何安装
-### 更快速的安装（省去下载FFmpeg）
-**见**[releases](https://github.com/Chenyme/Chenyme-AAMT/releases)
-### 正常安装
 
-本项目需要依赖 Python 环境和 FFmpeg,可能会用到 CUDA 和 PyTorch 。
+<details open><summary><h3>使用 CPU 运行</h3></summary>
 
-1. **安装 Python 环境**
-- 您需要安装 Python 3.8 或更高版本。
-- 您可以从 [Python官网](https://www.python.org/downloads/) 下载并安装最新版本的 Python。
+#### 1. 安装 [Python](https://www.python.org/downloads/) >= 3.8
 
-2. **安装 FFmpeg**
-- 您需要安装 FFmpeg。
-- 您可以从 [FFmpeg官网](https://www.ffmpeg.org/download.html) 下载并安装 FFmpeg。
+#### 2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html) , 并设置 FFmpeg 环境变量
 
-3. **设置 FFmpeg 为环境变量**
-- 按下 `Win+R` 快捷键打开运行对话框。
-- 在弹出的框中输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`，然后点击确定。
-- 在上面的用户变量中找到 `Path`，双击。
-- 点击新建，输入刚刚下载的 FFmpeg 的路径。示例：`D:\APP\ffmpeg`（请根据自己的实际路径调整！）。
+- `Win+R` 快捷键打开运行对话框。
+- 输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`。
+- 在用户变量中找到 `Path`。
+- 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg`（请根据自己的实际路径调整）。
 
-4. **运行 `install.bat`**
-- 在项目根目录下运行 `install.bat` 来安装所有依赖库。
+#### 3. 下载 依赖库
+- 运行 `install.bat`，等待安装所有依赖库
+- 运行 `webui.bat`，启动项目。
 
----
-#### Note ：项目默认的Pytorch为CPU版本，若要使用GPU，请下载 [CUDA（必须12）](https://developer.nvidia.com/) 并从 [PyTorch官网](https://pytorch.org/) 下载对应版本的Pytorch
-#### 最新版本仅支持 CUDA 12。对于 CUDA 11，当前的解决方法是降级。pip install --force-reinsall ctranslate2==3.24
+#
 
----
+</details>
 
-## 如何使用
+######
 
-1. **设置参数**
-- 在`config`内设置 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`KIMI_API_KEY`，以便使用翻译引擎。
-- 您也可以在网页中设置各项参数，目前版本已经可以自动保存到`config`中，无需重新设置。
+<details><summary><h3>使用 GPU 运行</h3></summary>
 
-2. **运行程序**
+> 项目默认的 Pytorch 为CPU版本，若要使用 GPU，请重新安装 Pytorch
+
+#### 1. 下载 CUDA
+- 安装 [CUDA（必须12以上版本）](https://developer.nvidia.com/) 
+- 对于 CUDA11，可以参考下方:`CUDA12 之前的版本如何使用`
+
+#### 2. 安装 PyTorch
+
+- 卸载之前的CPU版本（若已经运行过`install.bat`）
+
+  ```py
+  pip uninstall torch -y
+  pip uninstall torchvision -y
+  ```
+
+- 安装**对应版本** [PyTorch](https://pytorch.org/)（请注意版本要和CUDA对应）
+
+#### 3. CUDA12 之前的版本如何使用?
+
+- 说明：由于Faster-whisper的最新版本仅支持 CUDA12。对于 CUDA11，当前的有效解决方法是降级ctranslate2。
+
+  ```py
+  pip install --force-reinsall ctranslate2==3.24
+  ```
+
+#
+
+</details>
+
+
+## 使用说明
+
+1. **运行程序**
 - 运行 `webui.bat`
 - 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
 - 首次使用streamlit，可能会要求输入email，直接`Enter`跳过即可。
-- 上传文件，设置模型，运行程序，耐心等待处理
+
+2. **设置项目参数**
+- 在web页面中的设置界面，选择并配置好需要的 whisper识别模式、识别模型、API_key...。
+- 目前可以自动保存到`config`中，下次启动无需重新设置。
 
 ## 注意事项
 
@@ -83,7 +102,8 @@
 2. 请确保已经安装了 `FFmpeg`，并设置 `FFmpeg` 为环境变量。
 3. 请确保运行 `install.bat`，安装所有依赖库。
 4. 使用 `GPU` 加速时请确保安装了正确的 `CUDA` 和 `Pytorch` 版本
-5. 推荐使用 `faster-whisper` 和 `Large` 模型，以获得最好的断句体验，但模型需要从 `Huggingface` 下载。
+5. 首次使用 Faster-whisper 模型时需下载模型，国内建议开启 VPN 下载。启用 GPU 加速需下载 CUDA 和 PyTorch，且保证PyTorch 版本与 CUDA 匹配，否则程序识别失败会默认禁用GPU加速。
+
 
 ## TODO
 
