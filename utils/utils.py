@@ -232,6 +232,40 @@ def deepseek_translate(deepseek_key, result, language2, waittime):
     return result
 
 
+def chatglm_translate(chatglm_key, model, result, language2, waittime):
+    client = OpenAI(api_key=chatglm_key, base_url="https://open.bigmodel.cn/api/paas/v4/")
+    segments = result['segments']
+    print("---\n翻译内容：")
+    segment_id = 0
+    for segment in segments:
+        text = segment['text']
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user","content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}])
+        answer = response.choices[0].message.content
+        result['segments'][segment_id]['text'] = answer
+        segment_id += 1
+        print(answer)
+        time.sleep(waittime)
+    return result
+
+
+def local_translate(base_url, api_key, model_name, result, language2):
+    client = OpenAI(api_key=api_key, base_url=base_url)
+    segments = result['segments']
+    print("---\n翻译内容：")
+    segment_id = 0
+    for segment in segments:
+        text = segment['text']
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=[{"role": "user","content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}])
+        answer = response.choices[0].message.content
+        result['segments'][segment_id]['text'] = answer
+        segment_id += 1
+        print(answer)
+    return result
+
 def milliseconds_to_srt_time_format(milliseconds):  # 将毫秒表示的时间转换为SRT字幕的时间格式
     seconds, milliseconds = divmod(milliseconds, 1000)
     minutes, seconds = divmod(seconds, 60)

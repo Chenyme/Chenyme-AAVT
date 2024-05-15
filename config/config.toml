@@ -2,14 +2,17 @@
 openai_whisper_api = true
 faster_whisper_model_default = "large"
 faster_whisper_model_local = false
-faster_whisper_model_local_path = ""
+faster_whisper_model_local_path = "F:/work/oai/AAVT/models/tiny"
 
 [KIMI]
 kimi_key = "Y"
 
 [GPT]
 openai_key = "sk-"
-openai_base = "https://"
+openai_base = "http://"
 
 [DEEPSEEK]
 deepseek_key = "sk-"
+
+[CHATGLM]
+chatglm_key = "bd"

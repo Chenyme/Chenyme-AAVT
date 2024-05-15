@@ -28,6 +28,16 @@ if %errorlevel% equ 0 (
     pip install streamlit
 )
 
+REM 检查和更新 streamlit
+pip show streamlit-antd-components > nul
+if %errorlevel% equ 0 (
+    echo 更新 streamlit-antd-components...
+    pip install --upgrade streamlit-antd-components
+) else (
+    echo 安装 streamlit-antd-components...
+    pip install streamlit-antd-components
+)
+
 REM 检查和更新 openai
 pip show openai > nul
 if %errorlevel% equ 0 (

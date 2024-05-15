@@ -12,6 +12,6 @@ REM 获取字体目录
 python utils/font_data.py
 
 REM 启动webui
-streamlit run AAVT-HomePage.py
+streamlit run AAVT.py
 
 endlocal
