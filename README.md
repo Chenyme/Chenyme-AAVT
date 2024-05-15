@@ -1,4 +1,4 @@
-# Chenyme-AAVT V0.6.5
+# Chenyme-AAVT V0.7
 > AI Auto Video(Audio) Translation
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
@@ -24,6 +24,7 @@
 > *   支持 `openai`调用和 `faster-whisper` 本地运行。
 > *   支持 `GPU` 加速、`VAD`辅助。
 > *   支持 `ChatGPT`、`KIMI`、`DeepSeek`翻译。
+> *   支持本地大语言模型翻译。
 > *   支持识别、翻译多种语言。
 > *   支持输出多种字幕格式。
 > *   支持对字幕修改、微调、预览。
@@ -120,6 +121,7 @@
 - [x] 更多的语种翻译
 - [x] 更多的翻译模型
 - [x] 更多的翻译引擎
+- [x] 适配本地大语言模型接口
 
 ### 字幕相关
 - [x] 个性化字幕
