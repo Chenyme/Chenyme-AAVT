@@ -193,7 +193,7 @@ def video():
                     elif 'kimi' in translate_option:
                         result = kimi_translate(st.session_state.kimi_key, translate_option, result, language1,
                                                 language2, token_num, waittime)
-                    else:
+                    elif translate_option == '本地模型':
                         result = local_translate(base_url, api_key, model_name, result, language2)
 
                 time4 = time.time()
