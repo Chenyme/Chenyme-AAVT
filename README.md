@@ -42,7 +42,7 @@
 - `Win+R` 快捷键打开运行对话框。
 - 输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`。
 - 在用户变量中找到 `Path`。
-- 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg`（请根据自己的实际路径调整）。
+- 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg\bin`（请根据自己的实际路径调整）。
 
 #### 3. 下载 依赖库
 - 运行 `install.bat`，等待安装所有依赖库
