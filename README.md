@@ -1,4 +1,4 @@
-# Chenyme-AAVT V0.7
+# Chenyme-AAVT V0.7.1
 > AI Auto Video(Audio) Translation
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
@@ -6,8 +6,6 @@
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 
 非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
-
-### V0.7的ui有bug，当前解决办法：连续翻译时，在开始新的一次生成前，尽量先刷新一下页面，再配置，或者，如果嫌麻烦可以先退回0.6.x。周末更新修复！！！
 
 > - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
 > - **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
@@ -31,6 +29,7 @@
 > *   支持输出多种字幕格式。
 > *   支持对字幕修改、微调、预览。
 > *   支持对音频直接进行AI总结、问答。
+> *   支持视频生成博客。
 
 
 ## 如何安装
@@ -136,6 +135,7 @@
 - [x] 视频总结、罗列重点
 - [x] 视频预览
 - [x] AI助手
+- [x] 视频生成博客
 - [ ] 实时语音翻译
 - [ ] 视频中文配音
 
