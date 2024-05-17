@@ -147,7 +147,7 @@ def video():
             token_num = st.number_input('翻译最大token限制', min_value=10, max_value=500, value=100, step=10,
                                         help="最大token量为：500*翻译最大token限制")
     with col1:
-        if sac.buttons([sac.ButtonsItem(label='生成视频', icon='calendar-week', color='dark')], index=None, align='center', variant='filled', use_container_width=True):
+        if st.button("运行程序", use_container_width=True, type="primary"):
             if uploaded_file is not None:
                 msg = st.toast('开始生成!')
                 time1 = time.time()
@@ -176,7 +176,7 @@ def video():
                     print("---\nwhisper识别内容：" + result['text'])
 
                 time3 = time.time()
-                if translate_option != '无需翻译':
+                if translate_option != '译':
                     msg.toast('正在翻译文本🤖')
                     print("---\n翻译模型:" + translate_option)
                     if translate_option == 'gpt-3.5-turbo' or translate_option == 'gpt-4o':
@@ -320,7 +320,7 @@ def video():
                 with col4:
                     font_color = st.color_picker('字体颜色', '#FFFFFF')
 
-            if sac.buttons([sac.ButtonsItem(label='重新合成', icon='bootstrap-reboot', color='red')], index=None, align='center', variant='filled', use_container_width=True):
+            if st.button("重新合成", use_container_width=True, type="primary"):
                 st.session_state.output2 = cache_dir + st.session_state.current
                 with open(st.session_state.output2 + "/output.srt", 'w', encoding='utf-8') as srt_file:
                     srt_file.write(st.session_state.srt_content_new)

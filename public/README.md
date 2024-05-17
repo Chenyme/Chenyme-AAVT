@@ -1,4 +1,4 @@
-### Chenyme-AAVT V0.6.5
+### Chenyme-AAVT V0.7.1
 > AI Auto Video(Audio) Translation
 
 #### Note ：字幕翻译的错位问题会逐步优化。由于开始准备考研，更新速度可能会放缓，感谢理解~~~

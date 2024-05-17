@@ -7,14 +7,16 @@ from utils.utils import (convert_size, cache)
 import streamlit_antd_components as sac
 from project.audio import audio
 from project.video import video
-from project.laboratory import laboratory
+from project.AVTB.AVTB import avtb
+
 
 st.set_page_config(
-    page_title="AAVT v0.7",
+    page_title="AAVT v0.7.1",
     page_icon="🎞️",
     layout="wide",  # 设置布局样式为宽展示
     initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
 )
+
 
 with st.sidebar.container():
     menu = sac.menu(
@@ -23,8 +25,9 @@ with st.sidebar.container():
             sac.MenuItem('我的项目', icon='box-fill', children=[
                 sac.MenuItem('音频', icon='mic'),
                 sac.MenuItem('视频', icon='camera-reels'),
-                sac.MenuItem('实验室', icon='sliders')]),
-        ],
+                sac.MenuItem('实验室', icon='sliders', tag=[sac.Tag('New', color='red')], children=[
+                    sac.MenuItem('视频生成博客', icon='subtitles', tag=[sac.Tag('Beta', color='green')])])
+                ])],
         key='menu',
         open_index=[1]
     )
@@ -35,8 +38,8 @@ with st.container():
         audio()
     elif menu == '视频':
         video()
-    elif menu == '实验室':
-        laboratory()
+    elif menu == '视频生成博客':
+        avtb()
 
     else:
         # 主页面
@@ -140,79 +143,76 @@ with st.container():
 
             st.write('---')
             st.write("#### 翻译设置")
-
-
-            @st.experimental_dialog("翻译设置")
-            def select(item):
-                if item == 'KIMI':
-                    new_kimi_key = st.text_input("KIMI-API-KEY：", st.session_state.kimi_key)
-                    st.write('''```Kimi 是由月之暗面（Moonshot AI）团队的超长记忆 AI 助手。```''')
-                    st.write('''```官网：https://www.moonshot.cn/```''')
-                    st.session_state.kimi_key = new_kimi_key
-                if item == 'OPENAI':
-                    new_openai_key = st.text_input("OPENAI-API-KEY：", st.session_state.openai_key)
-                    new_openai_base = st.text_input("OPENAI-API-BASE：", st.session_state.openai_base)
+            col1, col2 = st.columns(2,gap="large")
+            with col1:
+                item = sac.segmented([
+                    sac.SegmentedItem(label='选择你要配置的模型'),
+                    sac.SegmentedItem(label='OpenAI-ChatGPT', icon='chat-quote-fill'),
+                    sac.SegmentedItem(label='月之暗面-Kimi', icon='chat-quote-fill'),
+                    sac.SegmentedItem(label='智谱AI-ChatGLM', icon='chat-quote-fill'),
+                    sac.SegmentedItem(label='深度求索-DeepSeek', icon='chat-quote-fill'),
+                    sac.SegmentedItem(label='现已支持本地部署调用', icon='robot'),
+                    sac.SegmentedItem(label='更多支持?', icon='arrow-up-right-square-fill', href='https://github.com/Chenyme/Chenyme-AAVT/issues'),
+                ], index=1, direction='vertical', radius='lg', color='red', bg_color='gray', use_container_width=True, return_index=True)
+            with col2:
+                if item == 1:
+                    new_openai_key = st.text_input("**OPENAI-API-KEY：**", st.session_state.openai_key)
+                    new_openai_base = st.text_input("**OPENAI-API-BASE：**", st.session_state.openai_base)
                     st.write('''```官网：https://openai.com/```''')
                     st.session_state.openai_key = new_openai_key
                     st.session_state.openai_base = new_openai_base
-                if item == 'DEEPSEEK':
-                    new_deepseek_key = st.text_input("DEEPSEEK-API-KEY：", st.session_state.deepseek_key)
-                    st.write('''```DeepSeek 发布全球最强开源 MoE 模型 DeepSeek-V2，对话官网/API 已全面升级，支持 32K 上下文```''')
-                    st.write('''```官网：https://www.deepseek.com/```''')
-                    st.session_state.deepseek_key = new_deepseek_key
-                if item == 'CHATGLM':
-                    new_chatglm_key = st.text_input("CHATGLM-API-KEY：", st.session_state.chatglm_key)
-                    st.write('''```基于领先的千亿级多语言、多模态预训练模型，打造高效率、通用化的“模型即服务”AI开发新范式```''')
+                elif item == 2:
+                    new_kimi_key = st.text_input("**KIMI-API-KEY：**", st.session_state.kimi_key)
+                    st.write('''```欢迎探索月之暗面，寻求将能源转化为智能的最优解。Kimi 是由月之暗面团队的超长记忆 AI 助手。```''')
+                    st.write('''```官网：https://www.moonshot.cn/```''')
+                    st.session_state.kimi_key = new_kimi_key
+                elif item == 3:
+                    new_chatglm_key = st.text_input("**CHATGLM-API-KEY：**", st.session_state.chatglm_key)
+                    st.write(
+                        '''```基于领先的千亿级多语言、多模态预训练模型，打造高效率、通用化的“模型即服务”AI开发新范式```''')
                     st.write('''```官网：https://open.bigmodel.cn/```''')
                     st.session_state.chatglm_key = new_chatglm_key
+                elif item == 4:
+                    new_deepseek_key = st.text_input("**DEEPSEEK-API-KEY：**", st.session_state.deepseek_key)
+                    st.write(
+                        '''```DeepSeek 发布全球最强开源 MoE 模型 DeepSeek-V2，对话官网/API 已全面升级，支持 32K 上下文```''')
+                    st.write('''```官网：https://www.deepseek.com/```''')
+                    st.session_state.deepseek_key = new_deepseek_key
 
-                kimi_key = st.session_state.kimi_key
-                openai_key = st.session_state.openai_key
-                openai_base = st.session_state.openai_base
-                deepseek_key = st.session_state.deepseek_key
-                chatglm_key = st.session_state.chatglm_key
+                if item not in [0, 5]:
+                    kimi_key = st.session_state.kimi_key
+                    openai_key = st.session_state.openai_key
+                    openai_base = st.session_state.openai_base
+                    deepseek_key = st.session_state.deepseek_key
+                    chatglm_key = st.session_state.chatglm_key
 
-                st.write("")
-                if sac.buttons([sac.ButtonsItem(label='保存', icon='floppy2-fill', color='dark')], index=None, align='center', variant='filled', use_container_width=True):
-                    config["KIMI"]["kimi_key"] = kimi_key
-                    config["GPT"]["openai_base"] = openai_base
-                    config["GPT"]["openai_key"] = openai_key
-                    config["DEEPSEEK"]["deepseek_key"] = deepseek_key
-                    config["CHATGLM"]["chatglm_key"] = chatglm_key
-                    with open(config_dir + "/config.toml", 'w', encoding='utf-8') as file:
-                        toml.dump(config, file)
-                    st.success("已保存")
+                    st.write("")
+                    if st.button('保存', use_container_width=True, type="primary"):
+                        config["KIMI"]["kimi_key"] = kimi_key
+                        config["GPT"]["openai_base"] = openai_base
+                        config["GPT"]["openai_key"] = openai_key
+                        config["DEEPSEEK"]["deepseek_key"] = deepseek_key
+                        config["CHATGLM"]["chatglm_key"] = chatglm_key
+                        with open(config_dir + "/config.toml", 'w', encoding='utf-8') as file:
+                            toml.dump(config, file)
+                        st.toast("已保存!!!")
+                else:
 
-
-            if "翻译设置" not in st.session_state:
-                button = sac.buttons([
-                    sac.ButtonsItem(label='选择你要配置的模型'),
-                    sac.ButtonsItem(label='OpenAI-ChatGPT', icon='chat-quote-fill', color='red'),
-                    sac.ButtonsItem(label='月之暗面-Kimi', icon='chat-quote-fill', color='indigo'),
-                    sac.ButtonsItem(label='智谱AI-ChatGLM', icon='chat-quote-fill', color='blue'),
-                    sac.ButtonsItem(label='深度求索-DeepSeek', icon='chat-quote-fill', color='green'),
-                    sac.ButtonsItem(label='现已支持本地部署调用', icon='robot'),
-                    sac.ButtonsItem(label='更多支持?', icon='arrow-up-right-square-fill', href='https://github.com/Chenyme/Chenyme-AAVT/issues'),
-                ], index=None, align='center', variant='text', direction='vertical', use_container_width=True, return_index=True)
-
-                if button == 1:
-                    select("OPENAI")
-                if button == 2:
-                    select("KIMI")
-                if button == 3:
-                    select("CHATGLM")
-                if button == 4:
-                    select("DEEPSEEK")
-                if button == 5:
-                    a = "???"
+                    sac.buttons([sac.ButtonsItem(icon=sac.BsIcon(name='card-heading', size=50))], align='center',
+                                variant='text', index=None)
+                    sac.buttons([sac.ButtonsItem(icon=sac.BsIcon(name='check-square', size=50))], align='center',
+                                variant='text', index=None)
+                    sac.buttons([sac.ButtonsItem(icon=sac.BsIcon(name='caret-left-square', size=50))], align='center',
+                                variant='text', index=None)
 
             st.write('---')
 
             # 本地缓存
             st.write("#### 本地缓存")
-            col1, col2, col3 = st.columns([0.48, 0.1, 0.42])
-            col2.metric(label="本地缓存", value=f"{convert_size(cache(cache_dir))}")
-            if sac.buttons([sac.ButtonsItem(label='点我清理本地所有翻译项目', icon='x-square')], index=None, align='center', color='dark', variant='dashed', use_container_width=True):
+            col1, col2 = st.columns([0.4, 0.6])
+            col2.metric(label="大小", value=f"{convert_size(cache(cache_dir))}")
+
+            if st.button("清除缓存", type="primary", use_container_width=True):
                 if not os.listdir(cache_dir):
                     st.error("无本地缓存文件。")
                 else:

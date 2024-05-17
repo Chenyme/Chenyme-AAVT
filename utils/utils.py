@@ -1,15 +1,12 @@
 import os
 import math
 import time
-import json
 import tempfile
 import subprocess
 import pandas as pd
 import streamlit as st
 from openai import OpenAI
 from faster_whisper import WhisperModel
-
-# 视频博客文章生成助手
 
 
 @st.cache_resource
@@ -63,6 +60,7 @@ def openai_whisper(key, base, proxy_on, prompt, temperature, temp_dir):
     client = OpenAI(api_key=key)
     if proxy_on:
         client = OpenAI(api_key=key, base_url=base)
+        print("\n\n代理开启，代理地址："+base)
     audio_file = open(temp_dir + "/output.mp3", "rb")
     transcript = client.audio.transcriptions.create(
         model="whisper-1",
@@ -103,6 +101,7 @@ def openai_translate1(key, base, proxy_on, result, language1, language2, waittim
     client = OpenAI(api_key=key)
     if proxy_on:
         client = OpenAI(api_key=key, base_url=base)
+        print("\n\n代理开启，代理地址："+base)
     segments = result['segments']
     print("---\n翻译内容：")
     segment_id = 0
@@ -140,14 +139,13 @@ def chunk_for_gpt4(result, n):  # GPT4分块
 def openai_translate2(key, base, proxy_on, result, language1, language2, n, waittime):  # 调用GPT4翻译
     segment_id = 0
     texts = chunk_for_gpt4(result, n)
-
+    client = OpenAI(api_key=key)
+    if proxy_on:
+        client = OpenAI(api_key=key, base_url=base)
+        print("\n\n代理开启，代理地址："+base)
     for text in texts:
         if text:
             prompt = "You are a senior translator proficient in " + language1 + " and " + language2 + ". Please translate the content in markdown format below line by line. Make sure that there are as many lines as there are after translation. The result is output in markdown format, and now you can directly give the translation result.!" + text
-            client = OpenAI(api_key=key)
-            if proxy_on:
-                client = OpenAI(api_key=key, base_url=base)
-
             response = client.chat.completions.create(
                 model="gpt-4",
                 messages=[{"role": "user", "content": prompt}])

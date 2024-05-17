@@ -68,14 +68,14 @@ def audio():
             whisper_prompt = st.text_input('Whisper提示词', value='Don’t make each line too long.')
             temperature = st.number_input('Whisper温度', min_value=0.0, max_value=1.0, value=0.8, step=0.1)
 
-    with (st.sidebar):
+    with st.sidebar:
         # 文件上传
         st.write("### 文件上传器")
         uploaded_file = st.file_uploader("请在这里上传音频文件：", type=['mp3', 'wav', 'mp4'], label_visibility="collapsed")
         if uploaded_file is not None:  # 判断是否上传成功
             st.write("文件类型:", uploaded_file.type)
 
-        if sac.buttons([sac.ButtonsItem(label='启动识别', icon='calendar-week', color='dark')], index=None, align='center', variant='filled', use_container_width=True):
+        if st.button("运行程序", use_container_width=True, type="primary"):
             if uploaded_file is not None:
                 with st.spinner('正在加载音频缓存...'):
                     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")

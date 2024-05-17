@@ -1,0 +1,10 @@
+re
+openai
+faster-whisper
+torch
+torchvision
+torchaudio
+streamlit
+streamlit_antd_components
+moviepy
+opencv-python

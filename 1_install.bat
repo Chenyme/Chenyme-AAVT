@@ -28,7 +28,7 @@ if %errorlevel% equ 0 (
     pip install streamlit
 )
 
-REM 检查和更新 streamlit
+REM 检查和更新 streamlit-antd-components
 pip show streamlit-antd-components > nul
 if %errorlevel% equ 0 (
     echo 更新 streamlit-antd-components...
@@ -66,6 +66,26 @@ if %errorlevel% equ 0 (
 ) else (
     echo 安装 faster-whisper...
     pip install faster-whisper
+)
+
+REM 检查和更新 opencv-python
+pip show streamlit > nul
+if %errorlevel% equ 0 (
+    echo 更新 opencv-python...
+    pip install --upgrade opencv-python
+) else (
+    echo 安装 opencv-python...
+    pip install opencv-python
+)
+
+REM 检查和更新 moviepy
+pip show streamlit > nul
+if %errorlevel% equ 0 (
+    echo 更新 moviepy...
+    pip install --upgrade moviepy
+) else (
+    echo 安装 moviepy...
+    pip install moviepy
 )
 
 echo 更新完成
