@@ -53,7 +53,7 @@ with st.container():
         with open(read_dir, 'r', encoding='utf-8') as file:
             markdown_content = file.read()
 
-        st.title("🖥Chenyme-AAVT V0.7")
+        st.title("🖥Chenyme-AAVT V0.7.1")
         st.caption("POWERED BY @CHENYME")
 
         tab1, tab2, tab3 = st.tabs(["主页", "设置", "关于"])
