@@ -1,7 +1,7 @@
 [WHISPER]
 openai_whisper_api = true
 faster_whisper_model_default = "large"
-faster_whisper_model_local = flase
+faster_whisper_model_local = false
 faster_whisper_model_local_path = ""
 
 [KIMI]
