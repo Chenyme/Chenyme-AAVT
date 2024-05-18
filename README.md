@@ -14,7 +14,7 @@
 
 | 群聊二维码 | 说明 |
 | ---- | ---- |
-|<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/993dcc53-03e1-4ab3-88e1-29dd43406949" alt="描述文字" width="70%" />| 我是一位学生，目前在备考可能不会及时看issues，还请多多担待。本项目开源，但由于个人技术水平有限，项目的很多地方还不尽人意，**在这里欢迎各位大佬和朋友加入群聊交流，有任何问题可以在群里提出**，让我们可以一起完善这个项目，感谢支持！|
+|<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/65ea12c5-f79e-4f76-bcda-c7d28c71d766" alt="描述文字" width="70%" />| 我是一位学生，目前在备考可能不会及时看issues，还请多多担待。本项目开源，但由于个人技术水平有限，项目的很多地方还不尽人意，**在这里欢迎各位大佬和朋友加入群聊交流，有任何问题可以在群里提出**，让我们可以一起完善这个项目，感谢支持！|
 
 ![../public/photo5.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo5.png)
 
