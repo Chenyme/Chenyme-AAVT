@@ -9,6 +9,7 @@
 
 > - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
 > - **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
+> - **命令行模式开发中**
 > - [AAVT项目文档-持续更新中](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
 
 #### 给一颗免费的星鼓励一下叭~感谢!!!
@@ -88,27 +89,8 @@
 </details>
 
 
-## 使用说明
-
-1. **运行程序**
-- 运行 `webui.bat`
-- 等待网页跳转，如果没有跳转请自行在浏览器输入http://localhost:8501/
-- 首次使用streamlit，可能会要求输入email，直接`Enter`跳过即可。
-
-2. **设置项目参数**
-- 在web页面中的设置界面，选择并配置好需要的 whisper识别模式、识别模型、API_key...。
-- 目前可以自动保存到`config`中，下次启动无需重新设置。
-
-## 注意事项
-
-1. 请确保您的系统已经正确安装了 `Python`，并且版本号为 3.8 或更高。
-2. 请确保已经安装了 `FFmpeg`，并设置 `FFmpeg` 为环境变量。
-3. 请确保运行 `install.bat`，安装所有依赖库。
-4. 使用 `GPU` 加速时请确保安装了正确的 `CUDA` 和 `Pytorch` 版本
-5. 首次使用 Faster-whisper 模型时需下载模型，国内建议开启 VPN 下载。启用 GPU 加速需下载 CUDA 和 PyTorch，且保证PyTorch 版本与 CUDA 匹配，否则程序识别失败会默认禁用GPU加速。
-
-
 ## TODO
+
 
 ### 识别相关
 - [x] 更换更快的Whisper项目
