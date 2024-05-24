@@ -19,7 +19,7 @@ def audio_chatbot(system, prompt, key, base):  # 音频助手
                                               messages=[{"role": "system", "content": system},
                                                         {"role": "user", "content": prompt}])
     msg = response.choices[0].message.content
-    st.session_state.messages.append({"role": "user", "content": prompt})  # 缓存回答
+    st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.messages.append({"role": "assistant", "content": msg})
     return msg
 
@@ -97,28 +97,6 @@ def get_whisper_result(uploaded_file, temp_dir, device, option, vad, lang, beam_
     return whisper_result
 
 
-def openai_translate1(key, base, proxy_on, result, language1, language2, waittime):
-    client = OpenAI(api_key=key)
-    if proxy_on:
-        client = OpenAI(api_key=key, base_url=base)
-        print("\n\n代理开启，代理地址："+base)
-    segments = result['segments']
-    print("---\n翻译内容：")
-    segment_id = 0
-    for segment in segments:
-        text = segment['text']
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user",
-                       "content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}])
-        answer = response.choices[0].message.content
-        result['segments'][segment_id]['text'] = answer
-        segment_id += 1
-        print(answer)
-        time.sleep(waittime)
-    return result
-
-
 def chunk_for_gpt4(result, n):  # GPT4分块
     texts = [''] * n
     index, count = 0, 0
@@ -164,87 +142,50 @@ def openai_translate2(key, base, proxy_on, result, language1, language2, n, wait
     return result
 
 
-def chunk_for_kimi(result, n):
-    texts = [''] * n
-    index, count = 0, 0
-    for segment in result['segments']:
-        words = segment['text'].split()
-        if len(words) >= 2:  # 英文检测
-            count += len(words)
-        else:  # 中文
-            count += len(segment['text'])
-
-        if count > 500:
-            count = len(words)
-            index += 1
-        texts[index] += segment['text'] + "<br>\n"
-    return texts
-
-
-def kimi_translate(kimi_key, translate_option, result, language1, language2, n, waittime):  # 调用Kimi翻译
-    model = translate_option.replace('kimi-', '')
-    texts = chunk_for_kimi(result, n)
-    segment_id = 0
-    for text in texts:
-        if text:
-            print(text)
-            client = OpenAI(api_key=kimi_key, base_url="https://api.moonshot.cn/v1")
-            completion = client.chat.completions.create(
+def translate(api_key, base_url, model, result, language, wait_time):
+    if "gpt" in model:
+        if base_url != "https://api.openai.com/v1":
+            print("代理开启，代理地址：" + base_url + "\n")
+        client = OpenAI(api_key=api_key, base_url=base_url)
+        segment_id = 0
+        segments = result['segments']
+        for segment in segments:
+            text = segment['text']
+            response = client.chat.completions.create(
                 model=model,
                 messages=[
-                    {"role": "user", "content": "你是熟知" + language1 + " 和 " + language2 + "的专业翻译，请一行一行的翻译下面的markdown格式的内容，要保证原来有多少行，翻译后就要有多少行。结果输出markdown格式，现在你直接给出翻译结果。"+str(text)}
-                ],
-                temperature=0.8,
-            )
-            answer = completion.choices[0].message
-            contents = answer.content.split('\n')
-            time.sleep(waittime)
+                    {"role": "system", "content": "You are a professional translator" },
+                    {"role": "user", "content": "Reply directly to " + language + " translation results. Note: Just give the translation results, prohibited to return anything other! Content to be translated: " + str(text)}
+                ])
+            answer = response.choices[0].message.content
+            result['segments'][segment_id]['text'] = answer
+            segment_id += 1
+            print(answer)
+            time.sleep(wait_time)
 
-            for content in contents:
-                if content and '```' not in content:
-                    if '<br>' in content:
-                        content = content.replace("<br>","")
-                    else:
-                        content = content
-                    result['segments'][segment_id]['text'] = content
-                    segment_id += 1
-    return result
+    else:
+        if "moonshot" in model:
+            client = OpenAI(api_key=api_key, base_url="https://api.moonshot.cn/v1")
+        elif "glm" in model:
+            client = OpenAI(api_key=api_key, base_url="https://open.bigmodel.cn/api/paas/v4/")
+        elif "deepseek" in model:
+            client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com/")
 
-
-def deepseek_translate(deepseek_key, result, language2, waittime):
-    client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com/")
-    segments = result['segments']
-    print("---\n翻译内容：")
-    segment_id = 0
-    for segment in segments:
-        text = segment['text']
-        response = client.chat.completions.create(
-            model="deepseek-chat",
-            messages=[{"role": "user","content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}],
-            temperature=1.1)
-        answer = response.choices[0].message.content
-        result['segments'][segment_id]['text'] = answer
-        segment_id += 1
-        print(answer)
-        time.sleep(waittime)
-    return result
-
-
-def chatglm_translate(chatglm_key, model, result, language2, waittime):
-    client = OpenAI(api_key=chatglm_key, base_url="https://open.bigmodel.cn/api/paas/v4/")
-    segments = result['segments']
-    print("---\n翻译内容：")
-    segment_id = 0
-    for segment in segments:
-        text = segment['text']
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user","content": "直接回复" + language2 + "翻译结果。注意：只需给出结果，禁止出现除结果以外的其他任何内容！" + str(text)}])
-        answer = response.choices[0].message.content
-        result['segments'][segment_id]['text'] = answer
-        segment_id += 1
-        print(answer)
-        time.sleep(waittime)
+        segment_id = 0
+        segments = result['segments']
+        for segment in segments:
+            text = segment['text']
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "你是专业的翻译专家"},
+                    {"role": "user", "content": "将下面内容的翻译成" + language + "。注意：只需给出翻译后的句子，禁止出现其他任何内容！" + str(text)}
+                ])
+            answer = response.choices[0].message.content
+            result['segments'][segment_id]['text'] = answer
+            segment_id += 1
+            print(answer)
+            time.sleep(wait_time)
     return result
 
 
@@ -263,6 +204,7 @@ def local_translate(base_url, api_key, model_name, result, language2):
         segment_id += 1
         print(answer)
     return result
+
 
 def milliseconds_to_srt_time_format(milliseconds):  # 将毫秒表示的时间转换为SRT字幕的时间格式
     seconds, milliseconds = divmod(milliseconds, 1000)
@@ -313,12 +255,30 @@ def generate_srt_from_result_2(result, font, font_size, font_color):  # 格式�
     return srt_content
 
 
-def srt_mv(v_dir, font, font_size, font_color, subtitle_model):  # 视频合成字幕
-    modified_color = font_color.replace("#", "H")
+def check_cuda_support():
+    try:
+        result = subprocess.run(["ffmpeg", "-hwaccels"], capture_output=True, text=True)
+        return "cuda" in result.stdout
+    except Exception as e:
+        print(f" GPU 加速不可用，请检查 CUDA 是否配置成功！")
+        return False
+
+
+def srt_mv(crf, quality, v_dir, font, font_size, font_color, subtitle_model):  # 视频合成字幕
+    font_color = font_color.replace("#", "H")
+    cuda_supported = check_cuda_support()
+
     if subtitle_model == "硬字幕":
-        command = ' ffmpeg -i "' + "uploaded.mp4" + '" -lavfi ' + '"subtitles=' + 'output.srt' + ':force_style=' + "'FontName=" + font + ",FontSize=" + str(font_size) + ",PrimaryColour=&" + modified_color + "&,Outline=1,Shadow=1,BackColour=&#9C9C9C&,Bold=-1,Alignment=2'" + '"' + ' -y -crf 1 -c:a copy "' + "output.mp4" + '"'
+        if cuda_supported:
+            command = f"""ffmpeg -hwaccel cuda -i uploaded.mp4 -lavfi "subtitles=output.srt:force_style='FontName={font},FontSize={font_size},PrimaryColour=&H{font_color}&,Outline=1,Shadow=0,BackColour=&H9C9C9C&,Bold=-1,Alignment=2'" -preset {quality} -c:v h264_nvenc -crf {crf} -y -c:a copy output.mp4"""
+        else:
+            command = f"""ffmpeg -i uploaded.mp4 -lavfi "subtitles=output.srt:force_style='FontName={font},FontSize={font_size},PrimaryColour=&H{font_color}&,Outline=1,Shadow=0,BackColour=&H9C9C9C&,Bold=-1,Alignment=2'" -preset {quality} -c:v libx264 -crf {crf} -y -c:a copy output.mp4"""
     else:
-        command = ' ffmpeg -i "uploaded.mp4" -i output.srt -c copy output.mp4'
+        if cuda_supported:
+            command = f"""ffmpeg -hwaccel cuda -i uploaded.mp4 -i output.srt -c:v h264_nvenc -crf {crf} -y -c:a copy -c:s mov_text -preset {quality} output.mp4"""
+        else:
+            command = f"""ffmpeg -i uploaded.mp4 -i output.srt -c:v libx264 -crf {crf} -y -c:a copy -c:s mov_text -preset {quality} output.mp4"""
+
     subprocess.run(command, shell=True, cwd=v_dir)
 
 

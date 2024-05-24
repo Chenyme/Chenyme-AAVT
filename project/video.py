@@ -5,9 +5,9 @@ import torch
 import datetime
 import streamlit as st
 import streamlit_antd_components as sac
-from utils.utils import (get_whisper_result, kimi_translate, openai_translate1, openai_translate2, chatglm_translate,
-                         local_translate, generate_srt_from_result, srt_mv, srt_to_vtt, srt_to_ass, srt_to_stl, show_video,
-                         parse_srt_file, convert_to_srt, generate_srt_from_result_2, deepseek_translate, openai_whisper)
+from utils.utils import (get_whisper_result, translate, openai_translate2, generate_srt_from_result, srt_mv, srt_to_vtt,
+                         srt_to_ass, srt_to_stl, show_video, parse_srt_file, convert_to_srt, generate_srt_from_result_2,
+                         openai_whisper, local_translate)
 
 
 def video():
@@ -58,14 +58,12 @@ def video():
                 col3, col4 = st.columns(2)
                 with col3:
                     GPU_on = st.toggle('启用GPU加速', disabled=opt_g, help='自动检测cuda、pytorch可用后开启！')  # GPU
-                    VAD_on = st.toggle('启用VAD辅助',
-                                       help='启用语音活动检测（VAD）以过滤掉没有语音的音频部分,仅支持faster-whisper使用。')  # VAD
+                    VAD_on = st.toggle('启用VAD辅助', help='启用语音活动检测（VAD）以过滤掉没有语音的音频部分,仅支持faster-whisper使用。')  # VAD
                     device = 'cuda' if GPU_on else 'cpu'
                     vad = 'True' if VAD_on else 'False'
                 with col4:
                     language = ('自动识别', 'zh', 'en', 'ja', 'ko', 'it', 'de')  # language
-                    lang = st.selectbox('选择视频语言', language, index=0,
-                                        help="强制指定视频语言会提高识别准确度，但也可能会造成识别出错。")
+                    lang = st.selectbox('选择视频语言', language, index=0, help="强制指定视频语言会提高识别准确度，但也可能会造成识别出错。")
         else:
             with st.expander("**API调用模式**", expanded=True):
                 proxy_on = st.toggle('启用代理', help='如果你能直接访问openai.com，则无需启用。')
@@ -102,6 +100,7 @@ def video():
 
             elif '译' not in translate_option:
                 language = ('中文', 'English', '日本語', '한국인', 'Italiano', 'Deutsch')
+
                 col3, col4, col5 = st.columns(3)
                 with col3:
                     language1 = st.selectbox('选择原始语言', language, index=1)
@@ -118,34 +117,36 @@ def video():
             with open(project_dir.replace("/project", "/config") + '/font_data.txt', 'r', encoding='utf-8') as file:
                 lines = file.readlines()
                 fonts = [line.strip() for line in lines]
+
                 col3, col4 = st.columns(2, gap="medium")
                 with col3:
-                    subtitle_model = st.selectbox('字幕方式：', ("硬字幕", "软字幕"),
-                                                  help="请注意：由于软字幕会导致部分字体会无法正常显示，因此可能会出现乱码！同时，您无法在网页中预览字幕效果，请打开文件夹访问原视频并使用支持外挂字幕的视频播放器挂载字幕查看效果！")
+                    subtitle_model = st.selectbox('字幕方式：', ("硬字幕", "软字幕"), help="请注意：由于软字幕会导致部分字体会无法正常显示，因此可能会出现乱码！同时，您无法在网页中预览字幕效果，请打开文件夹访问原视频并使用支持外挂字幕的视频播放器挂载字幕查看效果！")
                 with col4:
-                    font = st.selectbox('视频字幕字体：', fonts,
-                                        help="所有字体均从系统读取加载，支持用户自行安装字体。请注意商用风险！")
+                    font = st.selectbox('视频字幕字体：', fonts, help="所有字体均从系统读取加载，支持用户自行安装字体。请注意商用风险！")
                     st.session_state.font = font
+
                 col3, col4 = st.columns([0.9, 0.1], gap="medium")
                 with col3:
-                    font_size = st.number_input('字幕字体大小', min_value=1, max_value=30, value=18, step=1,
-                                                help="推荐大小：18")
+                    font_size = st.number_input('字幕字体大小', min_value=1, max_value=30, value=18, step=1, help="推荐大小：18")
                     st.session_state.font_size = font_size
                 with col4:
                     font_color = st.color_picker('颜色', '#FFFFFF')
                     st.session_state.font_color = font_color
     with col2:
         with st.expander("**高级设置**"):
-            if not openai_whisper_api:
-                min_vad = st.number_input('VAD静音检测(ms)', min_value=100, max_value=5000, value=500, step=100,
-                                          help="启用VAD辅助后生效！对应`min_silence_duration_ms`参数，最小静音持续时间。")
-                beam_size = st.number_input('束搜索大小', min_value=1, max_value=20, value=5, step=1,
-                                            help="`beam_size`参数。用于定义束搜索算法中每个时间步保留的候选项数量。束搜索算法通过在每个时间步选择最有可能的候选项来构建搜索树，并根据候选项的得分进行排序和剪枝。较大的beam_size值会保留更多的候选项，扩大搜索空间，可能提高生成结果的准确性，但也会增加计算开销。相反，较小的beam_size值会减少计算开销，但可能导致搜索过早地放弃最佳序列。")
-            else:
-                whisper_prompt = st.text_input('Whisper提示词', value='Don’t make each line too long.')
-                temperature = st.number_input('Whisper温度', min_value=0.0, max_value=1.0, value=0.8, step=0.1)
-            token_num = st.number_input('翻译最大token限制', min_value=10, max_value=500, value=100, step=10,
-                                        help="最大token量为：500*翻译最大token限制")
+
+            col3, col4 = st.columns(2, gap="medium")
+            with col3:
+                min_vad = st.number_input("VAD静音检测(ms)", min_value=100, max_value=5000, value=500, step=100, help="启用VAD辅助后生效！对应`min_silence_duration_ms`参数，最小静音持续时间。")
+                beam_size = st.number_input("束搜索大小", min_value=1, max_value=20, value=5, step=1, help="`beam_size`参数。用于定义束搜索算法中每个时间步保留的候选项数量。束搜索算法通过在每个时间步选择最有可能的候选项来构建搜索树，并根据候选项的得分进行排序和剪枝。较大的beam_size值会保留更多的候选项，扩大搜索空间，可能提高生成结果的准确性，但也会增加计算开销。相反，较小的beam_size值会减少计算开销，但可能导致搜索过早地放弃最佳序列。")
+                crf = st.selectbox("FFmepg-恒定速率因子", [0, 18, 23, 28], index=2, help="CRF 值的范围通常为 0 到 51，数值越低，质量越高。建议值：\n- `0`: 无损压缩，质量最高，文件最大。\n- `18`: 视觉上接近无损，非常高的质量，文件较大。\n- `23`: 默认值，质量和文件大小的平衡点。\n- `28`: 较低的质量，文件较小。")
+                quality = st.selectbox("FFmpeg-编码器预设(质量)", ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow", "placebo"], index=5, help="编码器预设(质量quality)，默认值为 `medium`。可选值包括：\n- `ultrafast`: 最快的编码速度，但质量最低，文件最大。\n- `superfast`: 非常快的编码速度，质量和文件大小有所提升。\n- `veryfast`: 很快的编码速度，适用于实时编码或需要快速处理的情况。\n- `faster`: 比较快的编码速度，质量进一步提高。\n- `fast`: 快速编码速度，质量较好。\n- `medium`: 默认预设，编码速度和质量的平衡点。\n- `slow`: 较慢的编码速度，输出质量更高，文件更小。\n- `slower`: 更慢的编码速度，质量进一步提高。\n- `veryslow`: 非常慢的编码速度，质量最高，文件最小。\n- `placebo`: 极慢的编码速度，质量微小提升，不推荐使用，除非对质量有极高要求且不在意编码时间。")
+
+            with col4:
+                whisper_prompt = st.text_input("Whisper提示词", value='Don’t make each line too long.')
+                temperature = st.number_input("Whisper温度", min_value=0.0, max_value=1.0, value=0.8, step=0.1)
+                token_num = st.number_input("翻译最大token限制", min_value=10, max_value=500, value=100, step=10, help="最大token量为：500*翻译最大token限制")
+
     with col1:
         if st.button("运行程序", use_container_width=True, type="primary"):
             if uploaded_file is not None:
@@ -161,18 +162,19 @@ def video():
 
                 time2 = time.time()
                 msg.toast('正在识别视频内容🔍')
+
                 if openai_whisper_api:
                     print("---\nAPI调用模式")
-                    result = openai_whisper(st.session_state.openai_key, st.session_state.openai_base, proxy_on,
-                                            whisper_prompt, temperature, output_file)
+                    result = openai_whisper(st.session_state.openai_key, st.session_state.openai_base, proxy_on, whisper_prompt, temperature, output_file)
                     print("---\nwhisper识别内容：" + result['text'])
+
                 else:
                     models_option = st.session_state.faster_whisper_model
+
                     if st.session_state.model_local:
                         models_option = st.session_state.model_path
                     print("---\n本地调用模式\n加载模型：" + models_option)
-                    result = get_whisper_result(uploaded_file, output_file, device, models_option, vad, lang, beam_size,
-                                                min_vad)
+                    result = get_whisper_result(uploaded_file, output_file, device, models_option, vad, lang, beam_size, min_vad)
                     print("---\nwhisper识别内容：" + result['text'])
 
                 time3 = time.time()
@@ -180,19 +182,23 @@ def video():
                     msg.toast('正在翻译文本🤖')
                     print("---\n翻译模型:" + translate_option)
                     if translate_option == 'gpt-3.5-turbo' or translate_option == 'gpt-4o':
-                        result = openai_translate1(st.session_state.openai_key, st.session_state.openai_base,
-                                                   proxy_on, result, language1, language2, waittime)
+                        if not proxy_on:
+                            st.session_state.openai_base = "https://api.openai.com/v1"
+                        result = translate(st.session_state.openai_key, st.session_state.openai_base, translate_option, result, language2, waittime)
+
                     elif translate_option == 'gpt-4':
-                        result = openai_translate2(st.session_state.openai_key, st.session_state.openai_base,
-                                                   proxy_on, result, language1, language2, token_num, waittime)
-                    elif translate_option == 'deepseek-v2':
-                        result = deepseek_translate(st.session_state.deepseek_key, result, language2, waittime)
+                        result = openai_translate2(st.session_state.openai_key, st.session_state.openai_base, proxy_on, result, language1, language2, token_num, waittime)
+
+                    elif 'deepseek' in translate_option:
+                        translate_option = "deepseek-chat"
+                        result = translate(st.session_state.deepseek_key, "", translate_option, result, language2, waittime)
+
                     elif 'glm' in translate_option:
-                        result = chatglm_translate(st.session_state.chatglm_key, translate_option, result, language2,
-                                                   waittime)
+                        result = translate(st.session_state.chatglm_key, "", translate_option, result, language2, waittime)
+
                     elif 'kimi' in translate_option:
-                        result = kimi_translate(st.session_state.kimi_key, translate_option, result, language1,
-                                                language2, token_num, waittime)
+                        result = translate(st.session_state.kimi_key, "", translate_option, result, language2, waittime)
+
                     elif translate_option == '本地模型':
                         result = local_translate(base_url, api_key, model_name, result, language2)
 
@@ -205,7 +211,7 @@ def video():
 
                 time5 = time.time()
                 msg.toast('正在合并视频，请耐心等待生成⚙️')
-                srt_mv(output_file, font, font_size, font_color, subtitle_model)
+                srt_mv(crf, quality, output_file, font, font_size, font_color, subtitle_model)
 
                 time6 = time.time()
                 st.toast("🎉🎉🎉")
@@ -224,7 +230,8 @@ def video():
                 video_bytes = show_video(st.session_state.output)
                 st.video(video_bytes)
 
-                if sac.buttons([sac.ButtonsItem(label='查看文件目录', icon='calendar2-minus-fill')], index=None, align='center', variant='filled', use_container_width=True):
+                if sac.buttons([sac.ButtonsItem(label='查看文件目录', icon='calendar2-minus-fill')], index=None,
+                               align='center', variant='filled', use_container_width=True):
                     os.startfile(st.session_state.output)
                     st.toast("注意：文件夹已成功打开，可能未置顶显示，请检查任务栏！")
             except:

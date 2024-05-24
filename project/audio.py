@@ -4,7 +4,6 @@ import torch
 import datetime
 import subprocess
 import streamlit as st
-import streamlit_antd_components as sac
 from openai import OpenAI
 from utils.utils import (get_whisper_result, generate_srt_from_result, parse_srt_file, convert_to_srt, openai_whisper)
 

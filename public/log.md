@@ -1,28 +1,23 @@
-#### v0.7.1 更新日志
+#### v0.8 更新日志
 
 ##### Whisper相关
-- 移除无关设置
+- 新增可调参数
 
 
 ##### 翻译相关
-- 更新设置UI
-- 调整模型参数设置逻辑
-- 修复设置时一直弹窗显示问题
+- 新增可调参数
+- 重构调用逻辑
 
 
-##### 上线AVTB测试版
-- 利用Whisper、GPT-4o进行博客生成
-- 自定义博客视角
-- 支持调整相关参数
-- 生成博客预览优化
-- **目前仅支持API调用模式**
-- 项目：[AVTB-视频生成博客](https://github.com/Chenyme/Chenyme_AVTB_Demo)
+##### 字幕相关
+- 自动启用GPU（GPU可用时）
+- 修复GPU加速失败的问题
+- 新增调节输出模式
+- 新增调节输出质量
 
 
 ##### 其他
-- 重构多页项目
-- 回退部分UI
-- 优化部分交互体验
-- 修复本地缓存显示BUG
-- 修复频繁弹窗的BUG
-- 修复设置参数时自动运行的BUG
+- 发布AAVT python库，`pip install AAVT`使用叭！
+- 新增项目文档[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)（python库使用已更新）
+- 修复本地缓存清楚BUG
+- 修复其他BUG
