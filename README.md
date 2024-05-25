@@ -9,20 +9,25 @@
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
 
-Chenyme-AAVT V0.8
+Chenyme-AAVT V0.8.1
 </div>
 
 
 非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
 
 > - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
-> - **Tips：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
+> - **Tips ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
+> - **V0.8.1(明天更) ：重构了项目，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群**
 
 #### 给一颗免费的星鼓励一下叭~感谢!!! 
 
 #### [AAVT项目文档-持续更新中](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
-
-![../public/photo5.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo5.png)
+<table>
+  <tr>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/6641bdc9-02dc-437c-8cc1-160526da162e" /></td>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
+  </tr>
+</table>
 
 #### [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
@@ -141,26 +146,35 @@ Chenyme-AAVT V0.8
 
 ### 主页面
 
-![../public/photo1.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo1.png)
+![1716650523692](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/17499b5b-7529-40a9-8fa5-3adeb7ff2501)
+
 
 ### 设置
 
-![../public/photo2.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo2.png)
+![1716651279472](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/cf669a85-f844-4e1a-aa3d-09db8d2c24d5)
 
-### 日志
 
-![../public/photo3.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo3.png)
+### 内容助手
 
-### 音频
+![1716650851520](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/4453d543-7387-44be-95f7-badf33bbb084)
 
-![../public/photo6.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/phtot6.png)
 
-### 视频
-![../public/photo4.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo4.png)
+### 视频翻译
+
+![1716650870770](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/ae91cade-5791-4b49-9119-34e863985331)
+
+![1716650895962](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/658580c9-2132-4b14-a9fe-b771eec27391)
 
 ### 视频生成
+![1716650985701](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/04bdf745-7ece-4c8b-a97b-f779b632dbc3)
 
-![../public/photo5.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo5.png)
 
-### 视频二次修改
-![../public/photo7.png](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/photo%20V0_6%202.png)
+### 字幕微调
+
+![1716651009788](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/33a02ef5-7386-4f34-ba0b-8947f17b78e3)
+
+
+### 视频博客
+
+![1716651028796](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/21d3d801-35ce-49d4-9661-c508c61f3ca1)
+
