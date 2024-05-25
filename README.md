@@ -139,8 +139,9 @@ Chenyme-AAVT V0.8.1
 ### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper、kimi 等开发人员！
 
 #### 如有问题和建议，随时联系我!
+## Star History
 
----
+[![Star History Chart](https://api.star-history.com/svg?repos=Chenyme/Chenyme-AAVT&type=Timeline)](https://star-history.com/#Chenyme/Chenyme-AAVT&Timeline)
 
 ## 项目界面截图
 
