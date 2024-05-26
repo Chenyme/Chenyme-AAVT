@@ -9,7 +9,7 @@
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
 
-Chenyme-AAVT V0.8.1
+Chenyme-AAVT V0.8.2
 </div>
 
 
@@ -18,7 +18,7 @@ Chenyme-AAVT V0.8.1
 
 > - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
 > - **Tips ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
-> - **最新版本 ：V0.8.1 对项目进行了重构，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群。**
+> - **最新版本 ：V0.8.2 对项目进行了重构，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群。**
 
 #### 这次更新真的很用心！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
 
