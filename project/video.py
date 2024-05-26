@@ -265,7 +265,7 @@ def video():
                     description='软字幕请用**一键生成**模式，且无法在网页中预览效果',
                     size='lg', radius=20, icon=True, closable=True, color='warning')
 
-            if torch.cuda.is_available():
+            if not torch.cuda.is_available():
                 sac.alert(
                     label='**未检测到CUDA状态或正确的Pytorch**',
                     description='GPU加速不可用，请检查CUDA、Pytorch！**仅使用CPU请忽略**',
