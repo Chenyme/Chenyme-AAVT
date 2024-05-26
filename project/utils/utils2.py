@@ -1,4 +1,5 @@
 import os
+import re
 import math
 import time
 import subprocess
@@ -42,10 +43,10 @@ def get_folders_info(root_folder):
     return pd.DataFrame(folders_info)
 
 
-def file_to_mp3(file_name, path):
+def file_to_mp3(log, file_name, path):
     try:
         if file_name.split('.')[-1] != "mp3":
-            command = f"ffmpeg -loglevel error -i {file_name} -vn -acodec libmp3lame -ab 320k -f mp3 output.mp3"
+            command = f"ffmpeg -loglevel {log} -i {file_name} -vn -acodec libmp3lame -ab 320k -f mp3 output.mp3"
             subprocess.run(command, shell=True, cwd=path)
     except:
         raise EOFError("错误！可能是 FFmpeg 未被正确配置 或 上传文件格式不受支持！")
@@ -268,20 +269,20 @@ def check_cuda_support():
         return False
 
 
-def srt_mv(name, crf, quality, setting, path, font, font_size, font_color, subtitle_model):  # 视频合成字幕
+def srt_mv(log, name, crf, quality, setting, path, font, font_size, font_color, subtitle_model):  # 视频合成字幕
     font_color = font_color.replace("#", "H")
     cuda_supported = check_cuda_support()
 
     if subtitle_model == "硬字幕":
         if cuda_supported:
-            command = f"""ffmpeg -loglevel error -hwaccel cuda -i {name} -lavfi "subtitles=output.srt:force_style='FontName={font},FontSize={font_size},PrimaryColour=&{font_color}&,Outline=1,Shadow=0,BackColour=&H9C9C9C&,Bold=-1,Alignment=2'" -preset {quality} -c:v {setting} -crf {crf} -y -c:a copy output.mp4"""
+            command = f"""ffmpeg -loglevel {log} -hwaccel cuda -i {name} -lavfi "subtitles=output.srt:force_style='FontName={font},FontSize={font_size},PrimaryColour=&{font_color}&,Outline=1,Shadow=0,BackColour=&H9C9C9C&,Bold=-1,Alignment=2'" -preset {quality} -c:v {setting} -crf {crf} -y -c:a copy output.mp4"""
         else:
-            command = f"""ffmpeg -loglevel error -i {name} -lavfi "subtitles=output.srt:force_style='FontName={font},FontSize={font_size},PrimaryColour=&{font_color}&,Outline=1,Shadow=0,BackColour=&H9C9C9C&,Bold=-1,Alignment=2'" -preset {quality} -c:v libx264 -crf {crf} -y -c:a copy output.mp4"""
+            command = f"""ffmpeg -loglevel {log} -i {name} -lavfi "subtitles=output.srt:force_style='FontName={font},FontSize={font_size},PrimaryColour=&{font_color}&,Outline=1,Shadow=0,BackColour=&H9C9C9C&,Bold=-1,Alignment=2'" -preset {quality} -c:v libx264 -crf {crf} -y -c:a copy output.mp4"""
     else:
         if cuda_supported:
-            command = f"""ffmpeg -loglevel error -hwaccel cuda -i {name} -i output_with_style.srt -c:v {setting} -crf {crf} -y -c:a copy -c:s mov_text -preset {quality} output.mp4"""
+            command = f"""ffmpeg -loglevel {log} -hwaccel cuda -i {name} -i output_with_style.srt -c:v {setting} -crf {crf} -y -c:a copy -c:s mov_text -preset {quality} output.mp4"""
         else:
-            command = f"""ffmpeg -loglevel error -i {name} -i output_with_style.srt -c:v libx264 -crf {crf} -y -c:a copy -c:s mov_text -preset {quality} output.mp4"""
+            command = f"""ffmpeg -loglevel {log} -i {name} -i output_with_style.srt -c:v libx264 -crf {crf} -y -c:a copy -c:s mov_text -preset {quality} output.mp4"""
 
     subprocess.run(command, shell=True, cwd=path)
 
@@ -374,3 +375,22 @@ def check_ffmpeg():
             return False
     except FileNotFoundError:
         return False
+
+
+def add_font_settings(srt_content, font_color, font_face, font_size):
+    timestamp_pattern = re.compile(r"(\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3})")
+    lines = srt_content.split("\n")
+    result = []
+
+    for line in lines:
+        if line.isdigit():
+            result.append(line)
+        elif timestamp_pattern.match(line):
+            result.append(line)
+        elif line.strip() == "":
+            result.append(line)
+        else:
+            formatted_line = f'<font color="{font_color}"><font face="{font_face}"><font size="{font_size}">{line}</font></font></font>'
+            result.append(formatted_line)
+
+    return "\n".join(result)

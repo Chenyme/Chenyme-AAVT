@@ -9,8 +9,18 @@ from project.utils.utils2 import cache, convert_size, get_folders_info
 
 # 主页面
 def home():
-    st.title("🖥Chenyme-AAVT V0.8.1")
+    st.title("🖥Chenyme-AAVT V0.8.2")
     st.caption("POWERED BY @CHENYME")
+
+    with st.sidebar:
+        sac.buttons(items=[
+            sac.ButtonsItem(label='来给我一颗星叭！', icon='github',
+                            href='https://github.com/Chenyme/Chenyme-AAVT')],
+            variant='dashed', index=None, direction='vertical', use_container_width=True, align='center', color='dark')
+        sac.alert(
+            label='**项目文档 已发布**',
+            description='**点击查阅文档**[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
+            size='lg', radius=20, icon=True, closable=True, color='info')
 
     project_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
     config_dir = project_dir + "/config/"  # 配置文件
@@ -83,7 +93,7 @@ def home():
                 sac.SegmentedItem(label='OpenAI-ChatGPT', icon='key'),
                 sac.SegmentedItem(label='MoonShot-Kimi', icon='key'),
                 sac.SegmentedItem(label='智谱AI-ChatGLM', icon='key'),
-                sac.SegmentedItem(label='深度-DeepSeek', icon='key'),
+                sac.SegmentedItem(label='深度求索-DeepSeek', icon='key'),
                 sac.SegmentedItem(label='本地LLMs', icon='robot'),
                 sac.SegmentedItem(label='更多支持?', icon='arrow-up-right-square-fill',
                                   href='https://github.com/Chenyme/Chenyme-AAVT/issues'),
@@ -170,14 +180,16 @@ def home():
                                 variant='text', index=None)
         st.write("")
 
-        sac.divider(label='缓存识别', icon='box-fill', align='center', color='gray')
+        sac.divider(label='缓存识别', icon='file-earmark-binary', align='center', color='gray')
 
         col1, col2 = st.columns([0.4, 0.6], gap="large")
         with col1:
             st.write("### 本地缓存")
             st.metric(label="大小", label_visibility="collapsed", value=f"{convert_size(cache(cache_dir))}")
             folders_df = get_folders_info(cache_dir)
-            st.dataframe(folders_df, hide_index=True, height=250, use_container_width=True)
+            if st.button('显示恢复', type="primary"):
+                st.rerun()
+            st.dataframe(folders_df, hide_index=True, height=200, use_container_width=True)
             if st.button("📃清除所有", type="primary", help="注意：所有项目中的生成文件均会被删除", use_container_width=True):
                 if not os.listdir(cache_dir):
                     st.toast("未检测到文件", icon=":material/error:")
@@ -189,15 +201,16 @@ def home():
                             shutil.rmtree(os.path.join(root, adir))
                     st.toast("已全部删除", icon=":material/task_alt:")
 
-        sac.divider(label='项目修复', icon='box-fill', align='center', color='gray')
+        sac.divider(label='项目修复', icon='wrench-adjustable', align='center', color='gray')
 
         col1, col2 = st.columns([0.4, 0.6], gap="large")
         with col1:
+
             st.write("### 闪退修复")
             sac.alert(
-                label='如果运行时闪退可使用该服务尝试修复',
-                description='如果您是非`install.bat`运行该服务可能不适用。',
-                size='lg', radius=20, icon=True, closable=True, color='info')
+                label='**如果运行时闪退可使用该服务尝试修复**',
+                description='若非`install.bat`安装，该功能可能不适用',
+                size='lg', radius=20, icon=True, closable=True, color='warning')
             if st.button("⚙️执行修复", type="primary", use_container_width=True):
                 envs_dir = project_dir.replace("project", "") + "/env/Library/bin/libiomp5md.dll"
                 if os.path.exists(envs_dir):

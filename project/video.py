@@ -7,7 +7,8 @@ import streamlit as st
 import streamlit_antd_components as sac
 from project.utils.utils2 import (file_to_mp3, openai_whisper_result, faster_whisper_result, translate, local_translate,
                                   generate_srt_from_result, generate_srt_from_result_2, srt_mv, show_video, parse_srt_file,
-                                  convert_to_srt, srt_to_ass, srt_to_stl, srt_to_vtt, check_cuda_support, check_ffmpeg)
+                                  convert_to_srt, srt_to_ass, srt_to_stl, srt_to_vtt, check_cuda_support, check_ffmpeg,
+                                  add_font_settings)
 
 
 def video():
@@ -43,7 +44,8 @@ def video():
     wait_time_setting = video_config["TRANSLATE"]["wait_time"]
     subtitle_model_setting = video_config["SUBTITLE"]["subtitle_model"]
     font_setting = video_config["SUBTITLE"]["font"]
-    font_size_setting = video_config["SUBTITLE"]["font_size"]
+    soft_font_size_setting = video_config["SUBTITLE"]["soft_font_size"]
+    hard_font_size_setting = video_config["SUBTITLE"]["hard_font_size"]
     font_color_setting = video_config["SUBTITLE"]["font_color"]
     min_vad_setting = video_config["MORE"]["min_vad"]
     beam_size_setting = video_config["MORE"]["beam_size"]
@@ -52,6 +54,7 @@ def video():
     crf_setting = video_config["MORE"]["crf"]
     quality_setting = video_config["MORE"]["quality"]
     ffmpeg_setting = video_config["MORE"]["ffmpeg"]
+    log_setting = video_config["MORE"]["log"]
 
     options = {'faster-whisper': {'models': {'tiny': 0, 'tiny.en': 1, 'base': 2, 'base.en': 3, 'small': 4,
                                              'small.en': 5, 'medium': 6, 'medium.en': 7, 'large-v1': 8,
@@ -64,15 +67,16 @@ def video():
 
     st.title("全自动视频翻译")
     st.write("AI Auto Video Translation")
-    sac.divider(label='POWERED BY @CHENYME', align='center', color='gray')
+    sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="1")
+
     name = sac.segmented(
         items=[
-            sac.SegmentedItem(label='参数设置'),
-            sac.SegmentedItem(label='生成字幕'),
+            sac.SegmentedItem(label="参数设置", icon="gear-wide-connected"),
+            sac.SegmentedItem(label="生成字幕", icon="file-earmark-check-fill"),
         ], align='center', size='sm', radius=20, color='red', divider=False, use_container_width=True
     )
     if name == '参数设置':
-        col1, col2 = st.columns(2, gap="medium")
+        col1, col2 = st.columns([0.65, 0.35], gap="medium")
         with col1:
             with st.expander("**识别设置**", expanded=True):
                 model = st.selectbox("Whisper模式", ("OpenAI-API 接口调用", "Faster-Whisper 本地部署"), index=0 if openai_whisper_api else 1, help="`OpenAI-API 接口调用`：使用OpenAI的官方接口进行识别，文件限制25MB（不是上传视频文件，是该项目转换后的音频文件，可以前往Cache查看每次的大小），过大会导致上传失败\n\n`Faster-Whisper 本地部署`：本地识别字幕，无需担心大小限制。请注意，若网络不佳请启用下方的本地模型加载")
@@ -91,7 +95,7 @@ def video():
                 if not openai_whisper_api:
                     col3, col4, col5 = st.columns([0.3, 0.4, 0.4])
                     with col3:
-                        gpu = st.toggle('GPU加速', disabled=torch.cuda.is_available(), help='cuda、pytorch正确后才可使用！', value=gpu_setting)
+                        gpu = st.toggle('GPU加速', disabled=not torch.cuda.is_available(), help='cuda、pytorch正确后才可使用！', value=gpu_setting)
                         vad = st.toggle('VAD辅助', help='启用语音活动检测（VAD）以过滤掉没有语音的音频部分', value=vad_setting)
 
                     with col4:
@@ -165,17 +169,21 @@ def video():
                 with col3:
                     subtitle_model = st.selectbox('字幕模式', ["硬字幕", "软字幕"], index=["硬字幕", "软字幕"].index(subtitle_model_setting), help="请注意：由于软字幕会导致部分字体会无法正常显示，因此可能会出现乱码！\n\n 同时，您无法在网页中预览字幕效果，请打开文件夹访问原视频并使用支持外挂字幕的视频播放器挂载字幕查看效果！")
                 with col4:
-                    font = st.selectbox('字体', fonts, index=fonts.index(font_setting), help="所有字体均从系统读取加载，支持用户自行安装字体。请注意商用风险！")
+                    font = st.selectbox('字幕字体', fonts, index=fonts.index(font_setting), help="所有字体均从系统读取加载，支持用户自行安装字体。请注意商用风险！")
 
-                col3, col4 = st.columns([0.85, 0.15], gap="medium")
+                col3, col4 = st.columns([0.9, 0.1], gap="medium")
                 with col3:
-                    font_size = st.number_input('大小', min_value=1, max_value=30, value=font_size_setting, step=1, help="推荐大小：18")
+                    if subtitle_model == "软字幕":
+                        soft_font_size = st.number_input('软字幕大小', min_value=30, max_value=90, value=soft_font_size_setting, step=1, help="推荐大小：60")
+                        video_config["SUBTITLE"]["soft_font_size"] = soft_font_size
+                    else:
+                        hard_font_size = st.number_input('硬字幕大小', min_value=1, max_value=36, value=hard_font_size_setting, step=1, help="推荐大小：18")
+                        video_config["SUBTITLE"]["hard_font_size"] = hard_font_size
                 with col4:
                     font_color = st.color_picker('颜色', value=font_color_setting)
 
                 video_config["SUBTITLE"]["subtitle_model"] = subtitle_model
                 video_config["SUBTITLE"]["font"] = font
-                video_config["SUBTITLE"]["font_size"] = font_size
                 video_config["SUBTITLE"]["font_color"] = font_color
 
             with st.expander("**高级设置**", expanded=False):
@@ -187,6 +195,7 @@ def video():
                 quality_list = ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow", "placebo"]
                 quality = st.selectbox("FFmpeg-编码器预设(质量)", quality_list, index=quality_list.index(quality_setting), help="编码器预设(质量quality)，默认值为 `medium`。注意，下面有些值是不可使用的，若你不了解，请勿修改！可选值包括：\n- `ultrafast`: 最快的编码速度，但质量最低，文件最大。\n- `superfast`: 非常快的编码速度，质量和文件大小有所提升。\n- `veryfast`: 很快的编码速度，适用于实时编码或需要快速处理的情况。\n- `faster`: 比较快的编码速度，质量进一步提高。\n- `fast`: 快速编码速度，质量较好。\n- `medium`: 默认预设，编码速度和质量的平衡点。\n- `slow`: 较慢的编码速度，输出质量更高，文件更小。\n- `slower`: 更慢的编码速度，质量进一步提高。\n- `veryslow`: 非常慢的编码速度，质量最高，文件最小。\n- `placebo`: 极慢的编码速度，质量微小提升，不推荐使用，除非对质量有极高要求且不在意编码时间。")
                 ffmpeg = st.selectbox("FFmpeg-编码器", ["h264_nvenc", "libx264"], index=["h264_nvenc", "libx264"].index(ffmpeg_setting), help="CUDA可用时，可选择h264_nvenc。否则默认libx264，注意h264_nvenc质量过高，输出文件会很大")
+                log = st.selectbox("FFmpeg-日志级别", ["quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug", "trace"], index=["quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug", "trace"].index(log_setting), help="FFmpeg输出日志。\n- **quiet**：没有输出日志。\n- **panic**：仅在不可恢复的致命错误发生时输出日志。\n- **fatal**：仅在致命错误发生时输出日志。\n- **error**：在错误发生时输出日志。\n- **warning**：在警告级别及以上的事件发生时输出日志。\n- **info**：在信息级别及以上的事件发生时输出日志。\n- **verbose**：输出详细信息，包括调试和信息级别的日志。\n- **debug**：输出调试信息，非常详细的日志输出。\n- **trace**：最详细的日志输出，用于极其详细的调试。")
                 video_config["MORE"]["min_vad"] = min_vad
                 video_config["MORE"]["beam_size"] = beam_size
                 video_config["MORE"]["whisper_prompt"] = whisper_prompt
@@ -194,96 +203,97 @@ def video():
                 video_config["MORE"]["crf"] = crf
                 video_config["MORE"]["quality"] = quality
                 video_config["MORE"]["ffmpeg"] = ffmpeg
-
-        with open(config_dir + '/video.toml', 'w', encoding='utf-8') as file:
-            toml.dump(video_config, file)
+                video_config["MORE"]["log"] = log
 
         with col2:
-            sac.alert(
-                label='**AAVT项目文档 已发布**',
-                description='有问题可以**查阅文档**[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)，或者**加群讨论**哦',
-                size='lg', radius=20, icon=True, closable=True, color='info')
-
-            sac.alert(
-                label='**参数设置 已保存**',
-                description='由于Streamlit机制，修改相同参数**不成功时请尝试重新选择**',
-                size='lg', radius=20, icon=True, closable=True, color='success')
+            if st.button("保存所有参数", type="primary", use_container_width=True):
+                with open(config_dir + '/video.toml', 'w', encoding='utf-8') as file:
+                    toml.dump(video_config, file)
+                sac.alert(
+                    label='**参数设置 已保存**',
+                    description='**所有参数全部保存完毕**',
+                    size='lg', radius=20, icon=True, closable=True, color='success')
+            else:
+                sac.alert(
+                    label='**参数设置 可能未保存**',
+                    description='重新设置后请点击保存',
+                    size='lg', radius=20, icon=True, closable=True, color='error')
 
             if check_ffmpeg():
                 sac.alert(
                     label='**FFmpeg 状态正常**',
-                    description='检测到FFmpeg状态，**FFmpeg可用**',
+                    description='已**成功检测**到FFmpeg',
                     size='lg', radius=20, icon=True, closable=True, color='success')
             else:
                 sac.alert(
                     label='**FFmpeg 状态错误**',
-                    description='未检测到FFmpeg状态，**FFmpeg不可用**，请添加环境变量',
+                    description='**未检测到**FFmpeg',
                     size='lg', radius=20, icon=True, closable=True, color='success')
 
             if check_cuda_support():
                 sac.alert(
-                    label='**FFmpeg GPU加速状态正常**',
-                    description='检测到CUDA状态，**FFmpeg加速可用**',
+                    label='**FFmpeg GPU加速正常**',
+                    description='FFmpeg**加速可用**',
                     size='lg', radius=20, icon=True, closable=True, color='success')
 
             if not openai_whisper_api:
                 if vad:
                     sac.alert(
-                        label='**VAD辅助模式 已开启**',
-                        description='启用语音活动检测（VAD）以过滤掉没有语音的音频部分',
+                        label='**VAD辅助 已开启**',
+                        description='将会**检测语音活动**',
                         size='lg', radius=20, icon=True, closable=True, color='success')
 
             if openai_whisper_api:
                 sac.alert(
-                    label='**OpenAI-API Whipser调用模式 已开启**',
-                    description='请**确保OPENAI相关配置设置不为空**',
+                    label='**Whipser API调用已开启**',
+                    description='确保**OPENAI相关配置不为空**',
                     size='lg', radius=20, icon=True, closable=True, color='warning')
 
             if not openai_whisper_api:
                 if gpu:
                     sac.alert(
                         label='**GPU加速模式 已开启**',
-                        description='**支持CUDA12**，若为 CUDA11，请降级ctranslate2',
+                        description='**若未CUDA11请参阅[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)**',
                         size='lg', radius=20, icon=True, closable=True, color='warning')
 
             if not openai_whisper_api:
                 if local_on:
                     sac.alert(
-                        label='**Whisper本地模型加载模式 已开启**',
-                        description='模型下载：[Hugging Face](https://huggingface.co/Systran)，使用文档：[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
+                        label='**Whisper 本地加载已开启**',
+                        description='[模型下载](https://huggingface.co/Systran) | [使用文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
                         size='lg', radius=20, icon=True, closable=True, color='warning')
 
             if translate_option == [1]:
                 sac.alert(
-                    label='**本地LLM调用翻译模式 已开启**',
-                    description="请**确保相关参数正确无误**，无需key则设置时留空",
+                    label='**本地LLM调用 已开启**',
+                    description="请**确保相关参数无误**",
                     size='lg', radius=20, icon=True, closable=True, color='warning')
 
             if subtitle_model == "软字幕":
                 sac.alert(
                     label='**软字幕 已开启**',
-                    description='软字幕请用**一键生成**模式，且无法在网页中预览效果',
+                    description='软字幕**无法预览效果**',
                     size='lg', radius=20, icon=True, closable=True, color='warning')
 
             if not torch.cuda.is_available():
                 sac.alert(
-                    label='**未检测到CUDA状态或正确的Pytorch**',
-                    description='GPU加速不可用，请检查CUDA、Pytorch！**仅使用CPU请忽略**',
+                    label='**CUDA/Pytorch 错误**',
+                    description='请检查！**仅使用CPU请忽略**',
                     size='lg', radius=20, icon=True, closable=True, color='error')
 
             if ffmpeg != "libx264":
                 if not check_cuda_support():
                     sac.alert(
                         label='**编码器无效 请换回libx264**',
-                        description='未检测到CUDA状态，FFmpeg加速不可用！',
+                        description='**未检测到**h264_nvenc编码器',
                         size='lg', radius=20, icon=True, closable=True, color='error')
                 else:
                     sac.alert(
                         label='**编码器设置 成功**',
-                        description='检测到CUDA状态，编码器可用！',
+                        description='**检测到**h264_nvenc编码器',
                         size='lg', radius=20, icon=True, closable=True, color='success')
 
-            sac.divider(label='**参数提示**', icon='box-fill', align='center', color='gray')
+            sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
 
     if name == '生成字幕':
         with st.expander("video_preview", expanded=True):
@@ -292,10 +302,14 @@ def video():
 
         with col2:
             with st.expander("setting", expanded=True):
-                sac.divider(label='一键生成，无需修改', icon='box-fill', align='center', color='gray')
-                if st.button("一键生成视频", type="primary", use_container_width=True, help="直接生成翻译并合并好的视频文件。\n\n如果觉得生成的字幕不符合预期，可以继续修改字幕点击下方`合并字幕`按钮进行合并"):
+                font_size_setting = hard_font_size_setting
+                if subtitle_model_setting == "软字幕":
+                    font_size_setting = soft_font_size_setting
+
+                sac.divider(label='方案一：一键生成', icon='1-square', align='center', color='gray')
+                if st.button("一键生成视频", type="primary", use_container_width=True, help="这里是方案一：您可以直接生成翻译并合并好的视频文件。\n\n如果觉得生成的字幕不符合预期，可以继续修改字幕点击下方`合并字幕`按钮进行合并"):
                     if uploaded_file is not None:
-                        st.session_state.video_name = uploaded_file.name
+                        st.session_state.video_name = "uploaded." + uploaded_file.name.split('.')[-1]
                         time1 = time.time()
                         msg = st.toast('开始生成!')
                         msg.toast('正在进行视频提取📽️')
@@ -303,10 +317,10 @@ def video():
                         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
                         output_file = cache_dir + current_time
                         os.makedirs(output_file)
-                        with open(output_file + '/' + uploaded_file.name, "wb") as file:
+                        with open(output_file + '/' + st.session_state.video_name, "wb") as file:
                             file.write(uploaded_file.getbuffer())
                         print(f"- 本次任务目录：{output_file}")
-                        file_to_mp3(uploaded_file.name, output_file)
+                        file_to_mp3(log_setting, st.session_state.video_name, output_file)
 
                         time2 = time.time()
                         msg.toast('正在识别视频内容🔍')
@@ -366,7 +380,7 @@ def video():
                         time5 = time.time()
                         st.toast('正在合并视频，请耐心等待生成⚙️')
                         print("***正在合并视频***\n")
-                        srt_mv(uploaded_file.name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
+                        srt_mv(log_setting, st.session_state.video_name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
 
                         time6 = time.time()
                         print("***已完成***\n")
@@ -375,10 +389,10 @@ def video():
                     else:
                         st.toast("未检测到文件", icon=":material/error:")
 
-                sac.divider(label='字幕校对，合并字幕', icon='box-fill', align='center', color='gray')
-                if st.button("生成字幕", type="primary", use_container_width=True, help="只生成字幕文件，您可以调整好后再继续点击下方`合并字幕`进行合并"):
+                sac.divider(label='方案二：分段合成', icon='2-square', align='center', color='gray')
+                if st.button("生成字幕", type="primary", use_container_width=True, help="这里是方案二：您可以先仅生成字幕文件，调整好后再继续点击下方`合并字幕`进行合并"):
                     if uploaded_file is not None:
-                        st.session_state.video_name = uploaded_file.name
+                        st.session_state.video_name = "uploaded." + uploaded_file.name.split('.')[-1]
                         time1 = time.time()
                         msg = st.toast('开始生成!')
                         msg.toast('正在进行视频提取📽️')
@@ -386,10 +400,10 @@ def video():
                         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
                         output_file = cache_dir + current_time
                         os.makedirs(output_file)
-                        with open(output_file + '/' + uploaded_file.name, "wb") as file:
+                        with open(output_file + '/' + st.session_state.video_name, "wb") as file:
                             file.write(uploaded_file.getbuffer())
                         print(f"- 本次任务目录：{output_file}")
-                        file_to_mp3(uploaded_file.name, output_file)
+                        file_to_mp3(log_setting, st.session_state.video_name, output_file)
 
                         time2 = time.time()
                         msg.toast('正在识别视频内容🔍')
@@ -424,15 +438,15 @@ def video():
                             msg.toast('正在翻译文本🤖')
                             print("- 翻译模型:" + translate_option)
                             if 'gpt' in translate_option:
-                                result = translate(openai_key, openai_base, translate_option, result, language1, language2, wait_time)
+                                result = translate(openai_key, openai_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif 'kimi' in translate_option:
-                                result = translate(kimi_key, kimi_base, translate_option, result, language1, language2, wait_time)
+                                result = translate(kimi_key, kimi_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif 'glm' in translate_option:
-                                result = translate(chatglm_key, chatglm_base, translate_option, result, language1, language2, wait_time)
+                                result = translate(chatglm_key, chatglm_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif 'deepseek' in translate_option:
-                                result = translate(deepseek_key, deepseek_base, translate_option, result, language1, language2, wait_time)
+                                result = translate(deepseek_key, deepseek_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif translate_option == '本地模型':
-                                result = local_translate(local_key, local_base, local_model, result, language1, language2)
+                                result = local_translate(local_key, local_base, local_model, result, language1_setting, language2_setting)
                             print(" ")
 
                         time4 = time.time()
@@ -455,11 +469,15 @@ def video():
 
                 if st.button("合并字幕", type="primary", use_container_width=True, help="进行字幕合并，若对一键生成的不满意也可以重新合并"):
                     try:
+                        with open(st.session_state.output_file + "/output.srt", 'w', encoding='utf-8') as srt_file:
+                            srt_file.write(st.session_state.srt_content_new)
+                        with open(st.session_state.output_file + "/output_with_style.srt", 'w', encoding='utf-8') as srt_file:
+                            srt_file.write(st.session_state.srt_data3)
                         test = st.session_state.video_name
                         time1 = time.time()
                         st.toast('正在合并视频，请耐心等待生成⚙️')
                         print("***正在合并视频***\n")
-                        srt_mv(uploaded_file.name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
+                        srt_mv(log_setting, st.session_state.video_name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
                         print("***已完成***\n")
                         time2 = time.time()
                         total_time = time2 - time1
@@ -467,7 +485,7 @@ def video():
                     except:
                         st.toast("未检测到文件", icon=":material/error:")
 
-                sac.divider(label='预览调整，字幕输出', icon='box-fill', align='center', color='gray')
+                sac.divider(label='其他预览设置', icon='arrow-down-square', align='center', color='gray')
                 height = st.number_input("字幕轴显示高度", min_value=400, step=100, value=400)
                 st.session_state.height = height
 
@@ -526,24 +544,18 @@ def video():
                         label='**运行后自动显示**',
                         description='有问题可以查阅文档[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)，或者加群讨论哦',
                         size='lg', radius=20, icon=True, closable=True, color='info')
-                try:
-                    height = st.session_state.height
-                except:
-                    st.session_state.height = 400
+
                 try:
                     with open(st.session_state.output_file + "/output.srt", 'r', encoding='utf-8') as srt_file:
                         srt_content = srt_file.read()
                     srt_data1 = parse_srt_file(srt_content)
-                    if st.button('显示恢复', type="primary"):
-                        st.session_state.height = st.session_state.height + 1
-                        st.toast("已恢复！", icon=":material/task_alt:")
                     edited_data = st.data_editor(srt_data1, height=st.session_state.height, hide_index=True, use_container_width=True)
                     srt_data2 = convert_to_srt(edited_data)
+                    st.session_state.srt_data3 = add_font_settings(srt_data2, font_color_setting, font_setting, font_size_setting)
                     st.session_state.srt_content_new = srt_data2
-                    with open(st.session_state.output_file + "/output.srt", 'w', encoding='utf-8') as srt_file:
-                        srt_file.write(st.session_state.srt_content_new)
+
                 except:
-                    srt_data = [{"index": "1", "start": "00:00:00,000", "end": "00:00:10,000", "content": "若出现Error: Minified React error #185，点击 显示恢复 即可！"}]
+                    srt_data = [{"index": "", "start": "", "end": "", "content": ""}]
                     st.data_editor(srt_data, height=st.session_state.height, hide_index=True, use_container_width=True)
 
         try:
@@ -551,7 +563,8 @@ def video():
                 label=f'总耗时：{st.session_state.time}s',
                 size='lg', radius=20, icon=True, closable=True, color='success')
         except:
-            sac.divider(label='结束线', icon='box-fill', align='center', color='gray')
+            test = 1
+        sac.divider(label='POWERED BY @CHENYME', icon='lightning-charge', align='center', color='gray', key="2")
 
         with col5:
             try:

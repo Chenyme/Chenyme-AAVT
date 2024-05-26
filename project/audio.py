@@ -38,14 +38,17 @@ def audio():
     beam_size_setting = video_config["MORE"]["beam_size"]
     whisper_prompt_setting = video_config["MORE"]["whisper_prompt"]
     temperature_setting = video_config["MORE"]["temperature"]
+    log_setting = video_config["MORE"]["log"]
 
     st.title("AI 内容问答助手")
+    st.write("AI content Q&A assistant")
+    sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="3")
+    sac.alert(label='| **请注意：所有识别参数会自动读取<视频翻译-参数设置>界面中的参数，大模型参数自动读取<主页-设置>中的参数** || 若要修改请前往相关界面进行参数调整 |', banner=True ,size='lg', radius=20, icon=True, closable=True, color='info')
     with st.sidebar:
         uploaded_file = st.file_uploader("请在这里上传视频：", type=["mp3", "mpga", "m4a", "wav", 'mp4', 'mov', 'avi', 'm4v', 'webm', 'flv', 'ico'], label_visibility="collapsed")
 
     col1, col2 = st.columns([0.3, 0.7])
     with col1:
-        sac.divider("模型", align='center', color='gray')
         if st.button("开始识别", type="primary", use_container_width=True):
             if uploaded_file is not None:
                 st.session_state.video_name = uploaded_file.name
@@ -60,7 +63,7 @@ def audio():
                     file.write(uploaded_file.getbuffer())
                 print(f"- 本次任务目录：{output_file}")
                 if uploaded_file.name.split(".")[-1] != "mp3":
-                    file_to_mp3(uploaded_file.name, output_file)
+                    file_to_mp3(log_setting, uploaded_file.name, output_file)
 
                 time2 = time.time()
                 msg.toast('正在识别视频内容🔍')
@@ -71,7 +74,7 @@ def audio():
                     model = faster_whisper_model
                     if faster_whisper_local:
                         model = faster_whisper_local_path
-                    result = faster_whisper_result(output_file, device, "tiny", whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
+                    result = faster_whisper_result(output_file, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
                 st.session_state.text = result["text"]
             else:
                 st.toast("请先上传文件！")
@@ -103,7 +106,6 @@ def audio():
             ], variant='filled', indent=30, open_all=True, index=1)
 
     with col2:
-        sac.divider("助手", align='center', color='gray')
         with st.popover("**设置**", use_container_width=True):
             height = st.number_input("对话框高度", min_value=300, step=100, value=580)
             pre_prompt = st.text_input("Prompt", value="你是基于以下内容的BOT,请结合自身知识和内容回答用户问题，内容：\n")
@@ -141,3 +143,5 @@ def audio():
             msg1 = response.choices[0].message.content
             st.session_state.messages1.append({"role": "assistant", "content": msg1})
             messages.chat_message("assistant").write(msg1)
+
+        sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="4")

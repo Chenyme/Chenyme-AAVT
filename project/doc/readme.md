@@ -1,54 +1,149 @@
-https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink
-项目介绍
-项目名称： 全自动视频翻译
+<div align="center">
+  
+# AI Auto Video(Audio) Translation 
 
-项目描述：
-全自动视频翻译（AAVT）是一款基于AI技术的视频翻译工具。该工具旨在提供一站式的视频翻译解决方案，支持多种视频格式和语言的自动识别、翻译和字幕生成。项目主要特点包括：
 
-支持OpenAI Whisper API和本地Faster Whisper模型的调用。
-提供多种翻译引擎，包括OpenAI GPT、KIMI、ChatGLM和DeepSeek等。
-能够生成多种字幕格式（SRT、ASS、STL等）。
-支持GPU加速和VAD（语音活动检测）辅助。
-使用说明
-环境配置
-安装依赖项
-确保安装了以下依赖项：
 
-Python
-Streamlit
-Streamlit Antd Components
-OpenAI
-MoviePy
-Faster Whisper
-FFmpeg
-配置文件
-项目配置文件存放在config/目录下，包括API密钥和模型配置。主要配置文件为api.toml和video.toml。
+[![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
+[![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
+[![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
+![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
 
-使用步骤
-启动项目
-运行以下命令启动Streamlit应用：
+Chenyme-AAVT V0.8.2
+</div>
 
-sh
-复制代码
-streamlit run app.py
-上传视频文件
-在侧边栏上传需要翻译的视频文件，支持的格式包括mp4、mov、avi、m4v、webm、flv、ico等。
 
-选择模型和设置参数
-根据需求选择使用的识别和翻译模型，可以选择OpenAI API接口调用或本地Faster Whisper模型。配置参数包括：
+非常感谢您来到我的 **全自动视频翻译** 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别视频字幕并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您快速的实现视频翻译。
 
-识别设置：选择Whisper模式（API调用或本地部署）、GPU加速、VAD辅助、视频语言等。
-翻译设置：选择翻译引擎（如ChatGPT、Kimi、ChatGLM等），设置原始语言和目标语言、翻译间隔等。
-字幕设置：选择字幕模式（硬字幕或软字幕）、字体、字体大小、字体颜色等。
-高级设置：包括VAD静音检测、束搜索大小、Whisper提示词、翻译最大token限制等。
-生成字幕
-在“生成字幕”选项卡中，点击“一键生成视频”按钮，开始视频提取、识别、翻译和字幕生成的过程。生成完成后，可以下载生成的字幕文件和处理后的视频。
 
-注意事项
-API调用限制：使用API时需注意调用频率限制，避免出现RateLimitError错误。
-本地模型加载：若选择本地模型加载模式，请确保模型文件正确下载和配置。
-FFmpeg状态：确保FFmpeg和CUDA状态正常，以支持GPU加速和视频合成。
-希望这份详细的项目介绍和使用说明能帮助您更好地了解和使用AAVT项目。如有任何问题，请查阅项目文档或联系项目维护者。
+> - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
+> - **Tips ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
+> - **最新版本 ：V0.8.2 对项目进行了重构，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群。**
+
+#### 这次更新真的很用心！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
+
+<table>
+  <tr>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/6641bdc9-02dc-437c-8cc1-160526da162e" /></td>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
+  </tr>
+</table>
+
+#### [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
+
+## 项目亮点
+> *   支持 **OpenAI API 接口调用** 和 **Faster-Whisper 本地运行**。
+> *   支持 **GPU 加速**、**VAD辅助**。
+> *   支持 **ChatGPT**、**KIMI**、**DeepSeek**、**ChatGLM**、**本地部署模型** 多种翻译模式。
+> *   支持 **调节多种参数**，满足定制化需求。
+> *   支持识别、翻译 **多种语言** 和 **多种文件格式** 。
+> *   支持 **一键生成** 处理好的内容。
+> *   支持对 **字幕修改、微调、预览**。
+> *   支持对内容直接进行 **AI总结、问答**。
+> *   支持视频直接 **生成图文博客**。
+
+
+## 如何安装
+
+#### 1. 安装 [Python](https://www.python.org/downloads/)
+
+- 请确保Python版本大于3.8
+
+#### 2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html)
+
+- [**Release**](https://github.com/Chenyme/Chenyme-AAVT/releases) 中`Full`版本已经打包了FFmpeg库
+ 
+- 设置 FFmpeg 环境变量
+  
+  - `Win+R` 快捷键打开运行对话框。
+  - 输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`。
+  - 在用户变量中找到 `Path`。
+  - 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg\bin`（请根据自己的实际路径调整）。
+
+#### 3. 运行 `install.bat`
+
+- 选择对应版本的 `install.bat`，等待安装所有依赖库
+  
+- CPU运行选择CPU版本，CUDA11.8、CUDA12.1同理
+
+## TODO
+
+
+### 识别相关
+- [x] 更换更快的Whisper项目
+- [x] 支持本地模型加载
+- [x] 支持个人微调Whisper模型
+- [x] VAD辅助优化
+- [x] 字词级断句优化
+- [x] 更多的语种识别
+
+### 翻译相关
+- [x] 翻译优化
+- [x] 更多的语种翻译
+- [x] 更多的翻译模型
+- [x] 更多的翻译引擎
+- [x] 支持本地大语言模型翻译
+
+### 字幕相关
+- [x] 个性化字幕
+- [x] 更多字幕格式
+- [x] 字幕预览、实时修改
+- [ ] 自动化字幕文本校对
+- [ ] 双字幕
+
+### 其他
+- [x] 视频总结、罗列重点
+- [x] 视频预览
+- [x] AI助手
+- [x] 视频生成博客*
+- [ ] 实时语音翻译
+- [ ] 视频中文配音
+
+##### 注：含`*`的功能还不稳定，可能存在某些BUG。
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Chenyme/Chenyme-AAVT&type=Timeline)](https://star-history.com/#Chenyme/Chenyme-AAVT&Timeline)
+
+## 项目界面预览
+
+### 主页面
+
+![1716650523692](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/17499b5b-7529-40a9-8fa5-3adeb7ff2501)
+
+
+### 设置
+
+![1716651279472](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/cf669a85-f844-4e1a-aa3d-09db8d2c24d5)
+
+
+### 内容助手
+
+![1716650851520](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/4453d543-7387-44be-95f7-badf33bbb084)
+
+
+### 视频翻译-参数设置
+
+![1716650870770](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/ae91cade-5791-4b49-9119-34e863985331)
+
+### 视频翻译-运行界面
+
+![1716650895962](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/658580c9-2132-4b14-a9fe-b771eec27391)
+
+### 视频生成
+
+![1716650985701](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/04bdf745-7ece-4c8b-a97b-f779b632dbc3)
+
+
+### 字幕微调
+
+![1716651009788](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/33a02ef5-7386-4f34-ba0b-8947f17b78e3)
+
+
+### 视频博客
+
+![1716651028796](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/21d3d801-35ce-49d4-9661-c508c61f3ca1)
+
 
 常见问题报告（FAQ）
 1. 如何安装和配置AAVT项目？
