@@ -45,7 +45,7 @@ Chenyme-AAVT V0.8.1
 
 ## 如何安装
 
-### 1. 安装 [Python](https://www.python.org/downloads/)
+#### 1. 安装 [Python](https://www.python.org/downloads/)
 
 - 请确保Python版本大于3.8
 
