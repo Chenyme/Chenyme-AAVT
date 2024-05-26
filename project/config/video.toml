@@ -1,0 +1,29 @@
+[WHISPER]
+openai_whisper_api = false
+faster_whisper_model_default = "large"
+faster_whisper_model_local = false
+faster_whisper_model_local_path = "F:/work/oai/Chenyme_AAVT_webui/model/put models here（删除模型时请切换到该模型文件）"
+gpu = false
+vad = false
+lang = "自动识别"
+
+[TRANSLATE]
+translate_model = [ 0,]
+language1 = "English"
+language2 = "中文"
+wait_time = 0.1
+
+[SUBTITLE]
+subtitle_model = "硬字幕"
+font = "System"
+font_size = 18
+font_color = "#FFFFFF"
+
+[MORE]
+min_vad = 500
+beam_size = 5
+whisper_prompt = "Don’t make each line too long."
+temperature = 0.8
+crf = 23
+quality = "medium"
+ffmpeg = "libx264"

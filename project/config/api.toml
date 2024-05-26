@@ -1,0 +1,20 @@
+[GPT]
+openai_key = "sk-"
+openai_base = "https://api.openai.com/v1"
+
+[KIMI]
+kimi_key = "Y-"
+kimi_base = "https://api.moonshot.cn/v1"
+
+[DEEPSEEK]
+deepseek_key = "sk-"
+deepseek_base = "https://api.deepseek.com/"
+
+[CHATGLM]
+chatglm_key = "bd"
+chatglm_base = "https://open.bigmodel.cn/api/paas/v4/"
+
+[LOCAL]
+api_key = ""
+base_url = ""
+model_name = ""

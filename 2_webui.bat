@@ -9,7 +9,7 @@ REM 激活环境
 call env\Scripts\activate.bat
 
 REM 获取字体目录
-python utils/font_data.py
+python project/font_data.py
 
 REM 启动webui
 streamlit run Chenyme-AAVT.py

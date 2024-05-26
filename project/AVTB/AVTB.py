@@ -89,7 +89,7 @@ def avtb():
 
     project_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
     cache_dir = project_dir + "/output/"
-    config_dir = project_dir.replace("project/AVTB", "") + "config/config.toml"
+    config_dir = project_dir.replace("AVTB", "") + "config/api.toml"
     config = toml.load(config_dir)
     st.session_state.base_url = config["GPT"]["openai_base"]
     st.session_state.api_key = config["GPT"]["openai_key"]
@@ -99,7 +99,7 @@ def avtb():
         st.write("视频可以直接生成博客啦，上传一个视频，我会帮助你生成一个博客，博客内容包括视频的文本内容和视频的关键图片。")
         st.write("#### 注意事项")
         st.write("##### 请勿重复点击生成！")
-        st.write("##### 请耐心等待结果，不要在运行时修改参数！")
+        st.write("##### 请耐心等待结果，运行时请勿修改参数！")
         st.write("##### 大模型可能出错，出错后重新尝试即可！")
         sac.buttons(items=[
             sac.ButtonsItem(label='来给我一颗星叭！', icon='github',
