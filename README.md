@@ -13,15 +13,15 @@ Chenyme-AAVT V0.8.1
 </div>
 
 
-非常感谢您来到我的 AI Auto Video-Audio Translation 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别声音并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您更快速的实现视频翻译。
+非常感谢您来到我的 **全自动视频翻译** 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别视频字幕并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您快速的实现视频翻译。
+
 
 > - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
 > - **Tips ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
-> - **V0.8.1(明天更) ：重构了项目，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群**
+> - **最新版本 ：V0.8.1 对项目进行了重构，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群。**
 
-#### 给一颗免费的星鼓励一下叭~感谢!!! 
+#### 这次更新真的很用心！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
 
-#### [AAVT项目文档-持续更新中](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
 <table>
   <tr>
     <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/6641bdc9-02dc-437c-8cc1-160526da162e" /></td>
@@ -32,71 +32,39 @@ Chenyme-AAVT V0.8.1
 #### [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
-> *   支持 `openai`调用和 `faster-whisper` 本地运行。
-> *   支持 `GPU` 加速、`VAD`辅助。
-> *   支持 `ChatGPT`、`KIMI`、`DeepSeek`翻译。
-> *   支持本地大语言模型翻译。
-> *   支持识别、翻译多种语言。
-> *   支持输出多种字幕格式。
-> *   支持对字幕修改、微调、预览。
-> *   支持对音频直接进行AI总结、问答。
-> *   支持视频生成博客。
+> *   支持 **OpenAI API 接口调用** 和 **Faster-Whisper 本地运行**。
+> *   支持 **GPU 加速**、**VAD辅助**。
+> *   支持 **ChatGPT**、**KIMI**、**DeepSeek**、**ChatGLM**、**本地部署模型** 多种翻译模式。
+> *   支持 **调节多种参数**，满足定制化需求。
+> *   支持识别、翻译 **多种语言** 和 **多种文件格式** 。
+> *   支持 **一键生成** 处理好的内容。
+> *   支持对 **字幕修改、微调、预览**。
+> *   支持对内容直接进行 **AI总结、问答**。
+> *   支持视频直接 **生成图文博客**。
 
 
 ## 如何安装
 
-<details open><summary><h3>使用 CPU 运行</h3></summary>
+### 1. 安装 [Python](https://www.python.org/downloads/)
 
-#### 1. 安装 [Python](https://www.python.org/downloads/) >= 3.8
+- 请确保Python版本大于3.8
 
-#### 2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html) , 并设置 FFmpeg 环境变量
+#### 2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html)
 
-- `Win+R` 快捷键打开运行对话框。
-- 输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`。
-- 在用户变量中找到 `Path`。
-- 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg\bin`（请根据自己的实际路径调整）。
+- [**Release**](https://github.com/Chenyme/Chenyme-AAVT/releases) 中`Full`版本已经打包了FFmpeg库
+ 
+- 设置 FFmpeg 环境变量
+  
+  - `Win+R` 快捷键打开运行对话框。
+  - 输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`。
+  - 在用户变量中找到 `Path`。
+  - 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg\bin`（请根据自己的实际路径调整）。
 
-#### 3. 下载 依赖库
-- 运行 `install.bat`，等待安装所有依赖库
-- 运行 `webui.bat`，启动项目。
+#### 3. 运行 `install.bat`
 
-#
-
-</details>
-
-######
-
-<details><summary><h3>使用 GPU 运行</h3></summary>
-
-> 项目默认的 Pytorch 为CPU版本，若要使用 GPU，请重新安装 Pytorch
-
-#### 1. 下载 CUDA
-- 安装 [CUDA（必须12以上版本）](https://developer.nvidia.com/) 
-- 对于 CUDA11，可以参考下方:`CUDA12 之前的版本如何使用`
-
-#### 2. 安装 PyTorch
-
-- 卸载之前的CPU版本（若已经运行过`install.bat`）
-
-  ```py
-  pip uninstall torch -y
-  pip uninstall torchvision -y
-  ```
-
-- 安装**对应版本** [PyTorch](https://pytorch.org/)（请注意版本要和CUDA对应）
-
-#### 3. CUDA12 之前的版本如何使用?
-
-- 说明：由于Faster-whisper的最新版本仅支持 CUDA12。对于 CUDA11，当前的有效解决方法是降级ctranslate2。
-
-  ```py
-  pip install --force-reinsall ctranslate2==3.24
-  ```
-
-#
-
-</details>
-
+- 选择对应版本的 `install.bat`，等待安装所有依赖库
+  
+- CPU运行选择CPU版本，CUDA11.8、CUDA12.1同理
 
 ## TODO
 
@@ -110,11 +78,11 @@ Chenyme-AAVT V0.8.1
 - [x] 更多的语种识别
 
 ### 翻译相关
-- [x] ChatGPT翻译优化*
+- [x] 翻译优化
 - [x] 更多的语种翻译
 - [x] 更多的翻译模型
 - [x] 更多的翻译引擎
-- [x] 适配本地大语言模型接口
+- [x] 支持本地大语言模型翻译
 
 ### 字幕相关
 - [x] 个性化字幕
@@ -127,23 +95,17 @@ Chenyme-AAVT V0.8.1
 - [x] 视频总结、罗列重点
 - [x] 视频预览
 - [x] AI助手
-- [x] 视频生成博客
+- [x] 视频生成博客*
 - [ ] 实时语音翻译
 - [ ] 视频中文配音
 
-### 注：含`*`的功能还不稳定，可能存在某些BUG。
+##### 注：含`*`的功能还不稳定，可能存在某些BUG。
 
-## 特别鸣谢
-本人是 AI 时代的受益者，本项目的开发基本是站在巨人的肩膀上实现的。主要基于 OpenAI 开发的 Whisper 来识别声音和 LLMs 辅助翻译字幕 ，利用 Streamlit 搭建快速使用的 WebUI 界面，以及 FFmpeg 来实现字幕与视频的合并。
-
-### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper、kimi 等开发人员！
-
-#### 如有问题和建议，随时联系我!
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Chenyme/Chenyme-AAVT&type=Timeline)](https://star-history.com/#Chenyme/Chenyme-AAVT&Timeline)
 
-## 项目界面截图
+## 项目界面预览
 
 ### 主页面
 
@@ -160,13 +122,16 @@ Chenyme-AAVT V0.8.1
 ![1716650851520](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/4453d543-7387-44be-95f7-badf33bbb084)
 
 
-### 视频翻译
+### 视频翻译-参数设置
 
 ![1716650870770](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/ae91cade-5791-4b49-9119-34e863985331)
+
+### 视频翻译-运行界面
 
 ![1716650895962](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/658580c9-2132-4b14-a9fe-b771eec27391)
 
 ### 视频生成
+
 ![1716650985701](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/04bdf745-7ece-4c8b-a97b-f779b632dbc3)
 
 
@@ -179,3 +144,7 @@ Chenyme-AAVT V0.8.1
 
 ![1716651028796](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/21d3d801-35ce-49d4-9661-c508c61f3ca1)
 
+## 鸣谢
+
+#### 本人是 AI 时代的受益者，本项目的开发基本是站在巨人的肩膀上实现的。主要基于 OpenAI 开发的 Whisper 来识别声音和 LLMs 辅助翻译字幕 ，利用 Streamlit 搭建快速使用的 WebUI 界面，以及 FFmpeg 来实现字幕与视频的合并。
+#### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper 等开发人员！
