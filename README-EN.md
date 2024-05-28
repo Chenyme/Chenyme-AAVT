@@ -13,8 +13,8 @@ Chenyme-AAVT V0.8.3
 Thank you very much for coming to my **Automatic Video Translation** project! This project aims to provide a simple and easy-to-use automatic video (audio) recognition and translation tool to help you quickly recognize video subtitles and generate subtitle files, and then merge the translated subtitles with the original video for quick video translation.
 
 > - **Note0: The subtitle translation misalignment issue will be gradually optimized. Due to postgraduate studies, the update speed may slow down, thank you for your understanding~~~**
-> - **Note1: It is recommended to use the Faster-whisper and Large models for the best sentence breaking and recognition experience.**
-> - **Note2: The new version has significant changes and many bugs, so updates are frequent recently, it is recommended to update.**
+> - **Note1: It is recommended to use the Faster-whisper and Large models for the best sentence breaking and recognition experience!**
+> - **Note2: The new version has significant changes and many bugs, so updates are frequent recently, it is recommended to update!**
 > - **Note3: After this version stabilizes, updates will slow down, studies are important, if you have any questions, you can join the group to discuss!**
 
 #### This update really took a long time! Give a free star to encourage it~ Thank you! [AAVT Project Documentation](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
