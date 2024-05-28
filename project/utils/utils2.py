@@ -142,7 +142,6 @@ def faster_whisper_result(file_path, device, model_name, prompt, temp, vad, lang
 
 
 def translate(api_key, base_url, model, result, language1, language2, wait_time):
-
     if "gpt" in model:
         if base_url != "https://api.openai.com/v1":
             print(f"- 代理地址：{base_url}")
@@ -191,6 +190,53 @@ def translate(api_key, base_url, model, result, language1, language2, wait_time)
     return result
 
 
+def translate_srt(api_key, base_url, model, srt_content, language1, language2, wait_time):
+    if "gpt" in model:
+        if base_url != "https://api.openai.com/v1":
+            print(f"- 代理地址：{base_url}")
+        print("- 翻译内容：\n")
+        client = OpenAI(api_key=api_key, base_url=base_url)
+        segment_id = 0
+        for segment in srt_content:
+            text = segment['text']
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": f"You are a professional translator in {language1} and {language2}" },
+                    {"role": "user", "content": f"Reply directly to {language2} translation results. Note: Just give the translation results, prohibited to return anything other! Content to be translated: \n" + str(text)}
+                ])
+            answer = response.choices[0].message.content
+            srt_content[segment_id]['text'] = answer
+            segment_id += 1
+            print(answer)
+            time.sleep(wait_time)
+
+    else:
+        print("- 翻译内容：\n")
+        if "moonshot" in model:
+            client = OpenAI(api_key=api_key, base_url=base_url)
+        elif "glm" in model:
+            client = OpenAI(api_key=api_key, base_url=base_url)
+        elif "deepseek" in model:
+            client = OpenAI(api_key=api_key, base_url=base_url)
+
+        segment_id = 0
+        for segment in srt_content:
+            text = segment['text']
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": f"你是对{language1}和{language2}十分专业的翻译专家"},
+                    {"role": "user", "content": f"将下面的文本的翻译成{language2}。你只允许给出最后的翻译结果，除结果外不允许回复任何无关的话语。文本：" + str(text)}
+                ])
+            answer = response.choices[0].message.content
+            srt_content[segment_id]['text'] = answer
+            segment_id += 1
+            print(answer)
+            time.sleep(wait_time)
+    return srt_content
+
+
 def local_translate(api_key, base_url, model, result, language1, language2):
     print("- 本地大模型翻译")
     print("- 翻译内容：\n")
@@ -209,6 +255,25 @@ def local_translate(api_key, base_url, model, result, language1, language2):
         segment_id += 1
         print(answer)
     return result
+
+
+def local_translate_srt(api_key, base_url, model, srt_content, language1, language2):
+    print("- 本地大模型翻译")
+    print("- 翻译内容：\n")
+    client = OpenAI(api_key=api_key, base_url=base_url)
+    segment_id = 0
+    for segment in srt_content:
+        text = segment['text']
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": f"你是对{language1}和{language2}十分专业的翻译专家"},
+                {"role": "user", "content": f"将下面的文本的翻译成{language2}。你只允许给出最后的翻译结果，除结果外不允许回复任何无关的话语。文本：" + str(text)}])
+        answer = response.choices[0].message.content
+        srt_content[segment_id]['text'] = answer
+        segment_id += 1
+        print(answer)
+    return srt_content
 
 
 def milliseconds_to_srt_time_format(milliseconds):  # 将毫秒表示的时间转换为SRT字幕的时间格式
@@ -394,3 +459,26 @@ def add_font_settings(srt_content, font_color, font_face, font_size):
             result.append(formatted_line)
 
     return "\n".join(result)
+
+
+def read_srt_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        srt = file.read().split('\n\n')
+        timestamp_pattern = re.compile(r"(\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3})")
+        subtitles = []
+
+        for block in srt:
+            lines = block.split('\n')
+            if len(lines) >= 3:
+                num = lines[0]
+                times = lines[1]
+                text = "\n".join(lines[2:])
+
+                if timestamp_pattern.match(times):
+                    subtitles.append({
+                        'number': num,
+                        'time': times,
+                        'text': text
+                    })
+
+    return subtitles

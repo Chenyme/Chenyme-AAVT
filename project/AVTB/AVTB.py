@@ -95,19 +95,15 @@ def avtb():
     st.session_state.api_key = config["GPT"]["openai_key"]
 
     with st.sidebar:
-        st.write("POWERED BY @CHENYME")
-        st.write("视频可以直接生成博客啦，上传一个视频，我会帮助你生成一个博客，博客内容包括视频的文本内容和视频的关键图片。")
+        sac.buttons(items=[sac.ButtonsItem(label='来给我一颗星叭！', icon='github', href='https://github.com/Chenyme/Chenyme_AVTB_Demo')], variant='dashed', index=None, direction='vertical', use_container_width=True, align='center', color='dark')
         st.write("#### 注意事项")
-        st.write("##### 请勿重复点击生成！")
-        st.write("##### 请耐心等待结果，运行时请勿修改参数！")
-        st.write("##### 大模型可能出错，出错后重新尝试即可！")
-        sac.buttons(items=[
-            sac.ButtonsItem(label='来给我一颗星叭！', icon='github',
-                            href='https://github.com/Chenyme/Chenyme_AVTB_Demo')],
-            variant='dashed', index=None, direction='vertical', use_container_width=True, align='center',
-            color='dark')
+        st.write("##### 请耐心等待，运行时请勿修改参数！")
+        st.write("##### 大模型可能出错，内容仅供参考！")
 
-    st.title("AI Video To Blog - 视频生成博客")
+    st.subheader("视频生成博客")
+    st.caption("AI Video To Blog")
+    sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="9")
+
     col1, col2 = st.columns(2)
     with col2:
         with st.expander("**项目设置**", expanded=True):
@@ -231,7 +227,6 @@ def avtb():
             if uploaded_file is not None:
                 st.title("")
 
-    st.title("")
     sac.divider(label='结果运行后，将在下方显示', align='center', color='gray')
 
     try:

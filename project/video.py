@@ -65,16 +65,17 @@ def video():
     with st.sidebar:
         uploaded_file = st.file_uploader("请在这里上传视频：", type=['mp4', 'mov', 'avi', 'm4v', 'webm', 'flv', 'ico'], label_visibility="collapsed")
 
-    st.title("全自动视频翻译")
-    st.write("AI Auto Video Translation")
-    sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="1")
+    st.subheader("全自动视频翻译")
+    st.caption("AI Auto Video Translation")
 
     name = sac.segmented(
         items=[
             sac.SegmentedItem(label="参数设置", icon="gear-wide-connected"),
-            sac.SegmentedItem(label="生成字幕", icon="file-earmark-check-fill"),
+            sac.SegmentedItem(label="视频生成", icon="camera-video"),
+            sac.SegmentedItem(label="GitHub", icon="github", href="https://github.com/Chenyme/Chenyme-AAVT"),
         ], align='center', size='sm', radius=20, color='red', divider=False, use_container_width=True
     )
+
     if name == '参数设置':
         col1, col2 = st.columns([0.65, 0.35], gap="medium")
         with col1:
@@ -187,15 +188,19 @@ def video():
                 video_config["SUBTITLE"]["font_color"] = font_color
 
             with st.expander("**高级设置**", expanded=False):
-                min_vad = st.number_input("VAD静音检测(ms)", min_value=100, max_value=5000, value=min_vad_setting, step=100, disabled=openai_whisper_api, help="`min_silence_duration_ms`参数，最小静音持续时间，启用VAD辅助后生效！")
-                beam_size = st.number_input("束搜索大小", min_value=1, max_value=20, value=beam_size_setting, step=1, disabled=openai_whisper_api, help="`beam_size`参数。用于定义束搜索算法中每个时间步保留的候选项数量。束搜索算法通过在每个时间步选择最有可能的候选项来构建搜索树，并根据候选项的得分进行排序和剪枝。较大的beam_size值会保留更多的候选项，扩大搜索空间，可能提高生成结果的准确性，但也会增加计算开销。相反，较小的beam_size值会减少计算开销，但可能导致搜索过早地放弃最佳序列。")
-                whisper_prompt = st.text_input("Whisper提示词", value=whisper_prompt_setting, help="若您无更好的Whisper提示词，请勿随意修改！否则会影响断句效果")
-                temperature = st.number_input("Whisper温度", min_value=0.0, max_value=1.0, value=temperature_setting, step=0.1, help="Whisper转录时模型温度，越大随机性（创造性）越高。")
-                crf = st.selectbox("FFmpeg-恒定速率因子", [0, 18, 23, 28], index=[0, 18, 23, 28].index(crf_setting), help="CRF 值的范围通常为 0 到 51，数值越低，质量越高。建议值：\n- `0`: 无损压缩，质量最高，文件最大。\n- `18`: 视觉上接近无损，非常高的质量，文件较大。\n- `23`: 默认值，质量和文件大小的平衡点。\n- `28`: 较低的质量，文件较小。")
-                quality_list = ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow", "placebo"]
-                quality = st.selectbox("FFmpeg-编码器预设(质量)", quality_list, index=quality_list.index(quality_setting), help="编码器预设(质量quality)，默认值为 `medium`。注意，下面有些值是不可使用的，若你不了解，请勿修改！可选值包括：\n- `ultrafast`: 最快的编码速度，但质量最低，文件最大。\n- `superfast`: 非常快的编码速度，质量和文件大小有所提升。\n- `veryfast`: 很快的编码速度，适用于实时编码或需要快速处理的情况。\n- `faster`: 比较快的编码速度，质量进一步提高。\n- `fast`: 快速编码速度，质量较好。\n- `medium`: 默认预设，编码速度和质量的平衡点。\n- `slow`: 较慢的编码速度，输出质量更高，文件更小。\n- `slower`: 更慢的编码速度，质量进一步提高。\n- `veryslow`: 非常慢的编码速度，质量最高，文件最小。\n- `placebo`: 极慢的编码速度，质量微小提升，不推荐使用，除非对质量有极高要求且不在意编码时间。")
-                ffmpeg = st.selectbox("FFmpeg-编码器", ["h264_nvenc", "libx264"], index=["h264_nvenc", "libx264"].index(ffmpeg_setting), help="CUDA可用时，可选择h264_nvenc。否则默认libx264，注意h264_nvenc质量过高，输出文件会很大")
-                log = st.selectbox("FFmpeg-日志级别", ["quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug", "trace"], index=["quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug", "trace"].index(log_setting), help="FFmpeg输出日志。\n- **quiet**：没有输出日志。\n- **panic**：仅在不可恢复的致命错误发生时输出日志。\n- **fatal**：仅在致命错误发生时输出日志。\n- **error**：在错误发生时输出日志。\n- **warning**：在警告级别及以上的事件发生时输出日志。\n- **info**：在信息级别及以上的事件发生时输出日志。\n- **verbose**：输出详细信息，包括调试和信息级别的日志。\n- **debug**：输出调试信息，非常详细的日志输出。\n- **trace**：最详细的日志输出，用于极其详细的调试。")
+                col3, col4 = st.columns([0.5, 0.5], gap="medium")
+                with col3:
+                    min_vad = st.number_input("VAD静音检测(ms)", min_value=100, max_value=5000, value=min_vad_setting, step=100, disabled=openai_whisper_api, help="`min_silence_duration_ms`参数，最小静音持续时间，启用VAD辅助后生效！")
+                    beam_size = st.number_input("束搜索大小", min_value=1, max_value=20, value=beam_size_setting, step=1, disabled=openai_whisper_api, help="`beam_size`参数。用于定义束搜索算法中每个时间步保留的候选项数量。束搜索算法通过在每个时间步选择最有可能的候选项来构建搜索树，并根据候选项的得分进行排序和剪枝。较大的beam_size值会保留更多的候选项，扩大搜索空间，可能提高生成结果的准确性，但也会增加计算开销。相反，较小的beam_size值会减少计算开销，但可能导致搜索过早地放弃最佳序列。")
+                    whisper_prompt = st.text_input("Whisper提示词", value=whisper_prompt_setting, help="若您无更好的Whisper提示词，请勿随意修改！否则会影响断句效果")
+                    temperature = st.number_input("Whisper温度", min_value=0.0, max_value=1.0, value=temperature_setting, step=0.1, help="Whisper转录时模型温度，越大随机性（创造性）越高。")
+                with col4:
+                    crf = st.selectbox("FFmpeg-恒定速率因子", [0, 18, 23, 28], index=[0, 18, 23, 28].index(crf_setting), help="CRF 值的范围通常为 0 到 51，数值越低，质量越高。建议值：\n- `0`: 无损压缩，质量最高，文件最大。\n- `18`: 视觉上接近无损，非常高的质量，文件较大。\n- `23`: 默认值，质量和文件大小的平衡点。\n- `28`: 较低的质量，文件较小。")
+                    quality_list = ["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow", "placebo"]
+                    quality = st.selectbox("FFmpeg-编码器预设(质量)", quality_list, index=quality_list.index(quality_setting), help="编码器预设(质量quality)，默认值为 `medium`。注意，下面有些值是不可使用的，若你不了解，请勿修改！可选值包括：\n- `ultrafast`: 最快的编码速度，但质量最低，文件最大。\n- `superfast`: 非常快的编码速度，质量和文件大小有所提升。\n- `veryfast`: 很快的编码速度，适用于实时编码或需要快速处理的情况。\n- `faster`: 比较快的编码速度，质量进一步提高。\n- `fast`: 快速编码速度，质量较好。\n- `medium`: 默认预设，编码速度和质量的平衡点。\n- `slow`: 较慢的编码速度，输出质量更高，文件更小。\n- `slower`: 更慢的编码速度，质量进一步提高。\n- `veryslow`: 非常慢的编码速度，质量最高，文件最小。\n- `placebo`: 极慢的编码速度，质量微小提升，不推荐使用，除非对质量有极高要求且不在意编码时间。")
+                    ffmpeg = st.selectbox("FFmpeg-编码器", ["h264_nvenc", "libx264"], index=["h264_nvenc", "libx264"].index(ffmpeg_setting), help="CUDA可用时，可选择h264_nvenc。否则默认libx264，注意h264_nvenc质量过高，输出文件会很大")
+                    log = st.selectbox("FFmpeg-日志级别", ["quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug", "trace"], index=["quiet", "panic", "fatal", "error", "warning", "info", "verbose", "debug", "trace"].index(log_setting), help="FFmpeg输出日志。\n- **quiet**：没有输出日志。\n- **panic**：仅在不可恢复的致命错误发生时输出日志。\n- **fatal**：仅在致命错误发生时输出日志。\n- **error**：在错误发生时输出日志。\n- **warning**：在警告级别及以上的事件发生时输出日志。\n- **info**：在信息级别及以上的事件发生时输出日志。\n- **verbose**：输出详细信息，包括调试和信息级别的日志。\n- **debug**：输出调试信息，非常详细的日志输出。\n- **trace**：最详细的日志输出，用于极其详细的调试。")
+
                 video_config["MORE"]["min_vad"] = min_vad
                 video_config["MORE"]["beam_size"] = beam_size
                 video_config["MORE"]["whisper_prompt"] = whisper_prompt
@@ -207,6 +212,7 @@ def video():
 
         with col2:
             if st.button("保存所有参数", type="primary", use_container_width=True):
+                sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
                 with open(config_dir + '/video.toml', 'w', encoding='utf-8') as file:
                     toml.dump(video_config, file)
                 sac.alert(
@@ -214,26 +220,27 @@ def video():
                     description='**所有参数全部保存完毕**',
                     size='lg', radius=20, icon=True, closable=True, color='success')
             else:
+                sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
                 sac.alert(
                     label='**参数设置 可能未保存**',
                     description='重新设置后请点击保存',
                     size='lg', radius=20, icon=True, closable=True, color='error')
 
             if check_ffmpeg():
-                sac.alert(
-                    label='**FFmpeg 状态正常**',
-                    description='已**成功检测**到FFmpeg',
-                    size='lg', radius=20, icon=True, closable=True, color='success')
+                if check_cuda_support():
+                    sac.alert(
+                        label='**FFmpeg GPU加速正常**',
+                        description='FFmpeg**加速可用**',
+                        size='lg', radius=20, icon=True, closable=True, color='success')
+                else:
+                    sac.alert(
+                        label='**FFmpeg 状态正常**',
+                        description='已**成功检测**到FFmpeg',
+                        size='lg', radius=20, icon=True, closable=True, color='success')
             else:
                 sac.alert(
                     label='**FFmpeg 状态错误**',
                     description='**未检测到**FFmpeg',
-                    size='lg', radius=20, icon=True, closable=True, color='success')
-
-            if check_cuda_support():
-                sac.alert(
-                    label='**FFmpeg GPU加速正常**',
-                    description='FFmpeg**加速可用**',
                     size='lg', radius=20, icon=True, closable=True, color='success')
 
             if not openai_whisper_api:
@@ -293,9 +300,9 @@ def video():
                         description='**检测到**h264_nvenc编码器',
                         size='lg', radius=20, icon=True, closable=True, color='success')
 
-            sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
+            sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="1")
 
-    if name == '生成字幕':
+    if name == '视频生成':
         with st.expander("video_preview", expanded=True):
             col5, col6 = st.columns(2, gap="medium")
         col1, col2 = st.columns([0.8, 0.2])
@@ -384,6 +391,7 @@ def video():
 
                         time6 = time.time()
                         print("***已完成***\n")
+                        st.toast("任务已完成！", icon=":material/task_alt:")
                         total_time = time6 - time1
                         st.session_state.time = f"{total_time:.2f}"
                     else:
@@ -462,6 +470,7 @@ def video():
 
                         time5 = time.time()
                         print("***已完成***\n")
+                        st.toast("任务已完成！", icon=":material/task_alt:")
                         total_time = time5 - time1
                         st.session_state.time = f"{total_time:.2f}"
                     else:
@@ -479,6 +488,7 @@ def video():
                         print("***正在合并视频***\n")
                         srt_mv(log_setting, st.session_state.video_name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
                         print("***已完成***\n")
+                        st.toast("任务已完成！", icon=":material/task_alt:")
                         time2 = time.time()
                         total_time = time2 - time1
                         st.session_state.time = f"{total_time:.2f}"
@@ -553,7 +563,6 @@ def video():
                     srt_data2 = convert_to_srt(edited_data)
                     st.session_state.srt_data3 = add_font_settings(srt_data2, font_color_setting, font_setting, font_size_setting)
                     st.session_state.srt_content_new = srt_data2
-
                 except:
                     srt_data = [{"index": "", "start": "", "end": "", "content": ""}]
                     st.data_editor(srt_data, height=st.session_state.height, hide_index=True, use_container_width=True)

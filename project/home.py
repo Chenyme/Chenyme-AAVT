@@ -9,17 +9,15 @@ from project.utils.utils2 import cache, convert_size, get_folders_info
 
 # 主页面
 def home():
-    st.title("🖥Chenyme-AAVT V0.8.2")
+    st.subheader("🖥Chenyme-AAVT V0.8.3")
     st.caption("POWERED BY @CHENYME")
 
     with st.sidebar:
         sac.buttons(items=[
-            sac.ButtonsItem(label='来给我一颗星叭！', icon='github',
-                            href='https://github.com/Chenyme/Chenyme-AAVT')],
-            variant='dashed', index=None, direction='vertical', use_container_width=True, align='center', color='dark')
+            sac.ButtonsItem(label='来给我一颗星叭！', icon='github', href='https://github.com/Chenyme/Chenyme-AAVT')], variant='dashed', index=None, direction='vertical', use_container_width=True, align='center', color='dark')
         sac.alert(
             label='**项目文档 已发布**',
-            description='**点击查阅文档**[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
+            description='**文档链接：**[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
             size='lg', radius=20, icon=True, closable=True, color='info')
 
     project_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
@@ -228,3 +226,5 @@ def home():
                         label='**未找到指定目录，或者目录已经删除**',
                         description='如果您是自行安装的环境，请前往环境目录删除多余libiomp5md.dll',
                         size='lg', radius=20, icon=True, closable=True, color='warning')
+
+        sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="5")

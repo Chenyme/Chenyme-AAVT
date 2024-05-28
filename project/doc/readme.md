@@ -3,13 +3,12 @@
 # AI Auto Video(Audio) Translation 
 
 
-
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
 
-Chenyme-AAVT V0.8.2
+Chenyme-AAVT V0.8.3
 </div>
 
 
@@ -17,10 +16,11 @@ Chenyme-AAVT V0.8.2
 
 
 > - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
-> - **Tips ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
-> - **最新版本 ：V0.8.2 对项目进行了重构，感谢大家的支持，这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群。**
+> - **Tips1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
+> - **Tips2 ：新版本改动很大，BUG较多，因此近期更新比较频繁，建议更新。**
+> - **Tips3 ：这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群讨论噢。**
 
-#### 这次更新真的很用心！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
+#### 这次更新真的很耗时鸭！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
 
 <table>
   <tr>
@@ -109,40 +109,54 @@ Chenyme-AAVT V0.8.2
 
 ### 主页面
 
-![1716650523692](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/17499b5b-7529-40a9-8fa5-3adeb7ff2501)
-
+![1716910190616](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/0bfebaf3-53c5-42ae-8031-b898dc27df6f)
 
 ### 设置
 
-![1716651279472](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/cf669a85-f844-4e1a-aa3d-09db8d2c24d5)
+![1716910203660](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/49b89451-1129-4073-b1b5-0094af65f53e)
 
+### 视频识别
 
-### 内容助手
+##### 参数设置
 
-![1716650851520](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/4453d543-7387-44be-95f7-badf33bbb084)
+![d967ac4074d0c8ecba07b95de533730](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/72bc0e88-2148-486c-ac46-4f87a55e946b)
 
+##### 运行界面
 
-### 视频翻译-参数设置
+![b861c5019833b770f98344f7a4c73a4](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/ced915ec-a07b-43d2-9cf9-f92910033cb9)
 
-![1716650870770](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/ae91cade-5791-4b49-9119-34e863985331)
-
-### 视频翻译-运行界面
-
-![1716650895962](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/658580c9-2132-4b14-a9fe-b771eec27391)
-
-### 视频生成
+##### 视频生成
 
 ![1716650985701](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/04bdf745-7ece-4c8b-a97b-f779b632dbc3)
 
-
-### 字幕微调
+##### 字幕微调
 
 ![1716651009788](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/33a02ef5-7386-4f34-ba0b-8947f17b78e3)
+
+### 内容助手
+
+##### 参数设置
+
+![461474f5d96b61b70bd239a9e3ddf8d](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/f22a11c2-3c58-4a92-ab4c-954e3710a254)
+
+##### 运行界面
+
+![14575fd5efbe138f364329626501b09](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/8a81ea44-95ae-488f-9412-014ff1c030e3)
+
+### 字幕翻译
+
+![35bc5a96676c7f2b9d71042eb7c877f](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/635865b1-6ec1-41fd-858c-e1dcc87d684b)
 
 
 ### 视频博客
 
-![1716651028796](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/21d3d801-35ce-49d4-9661-c508c61f3ca1)
+![09f60b8099f8ce19b83f4da63b26817](https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/bbfca353-53d4-4a19-994f-7beddbbf17d7)
+
+
+## 鸣谢
+
+#### 本人是 AI 时代的受益者，本项目的开发基本是站在巨人的肩膀上实现的。主要基于 OpenAI 开发的 Whisper 来识别声音和 LLMs 辅助翻译字幕 ，利用 Streamlit 搭建快速使用的 WebUI 界面，以及 FFmpeg 来实现字幕与视频的合并。
+#### 非常感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper 等开发人员！
 
 
 常见问题报告（FAQ）
