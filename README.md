@@ -24,7 +24,7 @@ Chenyme-AAVT V0.8.3
 
 <table>
   <tr>
-    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/6641bdc9-02dc-437c-8cc1-160526da162e" /></td>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/ecbde183-d4e5-413e-a584-d3762cd79d5d" /></td>
     <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
   </tr>
 </table>
