@@ -1,7 +1,0 @@
-官方模型链接：https://huggingface.co/Systran
-请将模型的所有文件下载放到 ./models/ 目录下
-文件名可以是任意的，文件内存放对应模型的所有文件，具体存放格式可以参考另外一个参考模型。
-
-Official model link: https://huggingface.co/Systran
-Please download all files of the model to the ./models/ directory
-The file name can be arbitrary. All files of the corresponding model are stored in the file. For the specific storage format, please refer to another reference model.
