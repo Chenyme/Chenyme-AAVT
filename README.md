@@ -16,8 +16,8 @@ Chenyme-AAVT V0.8.3
 
 
 > - **Note0 ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
-> - **Note1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验1**
-> - **Note2 ：新版本改动很大，BUG较多，因此近期更新比较频繁，建议更新1**
+> - **Note1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验！**
+> - **Note2 ：新版本改动很大，BUG较多，因此近期更新比较频繁，建议更新！**
 > - **Note3 ：这个版本稳定后更新会放缓，学业为重，大家有问题可以加群讨论噢！**
 
 #### 这次更新真的很耗时鸭！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
