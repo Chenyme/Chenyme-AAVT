@@ -7,7 +7,7 @@ kimi_key = "Y-"
 kimi_base = "https://api.moonshot.cn/v1"
 
 [DEEPSEEK]
-deepseek_key = "sk-9f8e218e61664eabafdb2bbb8fb0cf79"
+deepseek_key = "sk-"
 deepseek_base = "https://api.deepseek.com/"
 
 [CHATGLM]
