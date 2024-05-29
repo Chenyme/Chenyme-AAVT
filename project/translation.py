@@ -89,7 +89,7 @@ def translation():
 
                     if 'gpt' in translate_option:
                         result = translate_srt(openai_key, openai_base, translate_option, srt_content, language1_setting, language2_setting, wait_time_setting)
-                    elif 'kimi' in translate_option:
+                    elif 'moonshot' in translate_option:
                         result = translate_srt(kimi_key, kimi_base, translate_option, srt_content, language1_setting, language2_setting, wait_time_setting)
                     elif 'glm' in translate_option:
                         result = translate_srt(chatglm_key, chatglm_base, translate_option, srt_content, language1_setting, language2_setting, wait_time_setting)

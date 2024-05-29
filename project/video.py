@@ -363,7 +363,7 @@ def video():
                             print("- 翻译模型:" + translate_option)
                             if translate_option == 'gpt-3.5-turbo' or translate_option == 'gpt-4o':
                                 result = translate(openai_key, openai_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
-                            elif 'kimi' in translate_option:
+                            elif 'moonshot' in translate_option:
                                 result = translate(kimi_key, kimi_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif 'glm' in translate_option:
                                 result = translate(chatglm_key, chatglm_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
@@ -447,7 +447,7 @@ def video():
                             print("- 翻译模型:" + translate_option)
                             if 'gpt' in translate_option:
                                 result = translate(openai_key, openai_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
-                            elif 'kimi' in translate_option:
+                            elif 'moonshot' in translate_option:
                                 result = translate(kimi_key, kimi_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif 'glm' in translate_option:
                                 result = translate(chatglm_key, chatglm_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
