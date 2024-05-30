@@ -175,8 +175,8 @@ def content():
                 if uploaded_file is not None:
                     st.session_state.video_name = "uploaded." + uploaded_file.name.split('.')[-1]
                     time1 = time.time()
-                    msg = st.toast('开始生成!')
-                    msg.toast('正在进行视频提取📽️')
+                    st.toast('已开始生成，请不要在运行时切换菜单或修改参数!', icon=":material/person_alert:")
+                    msg = st.toast('正在进行视频提取', icon=":material/play_circle:")
 
                     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
                     output_file = cache_dir + current_time
@@ -188,7 +188,7 @@ def content():
                         file_to_mp3(log_setting, st.session_state.video_name, output_file)
 
                     time2 = time.time()
-                    msg.toast('正在识别视频内容🔍')
+                    msg.toast('正在识别视频内容', icon=":material/hearing:")
                     if openai_whisper_api:
                         result = openai_whisper_result(openai_key, openai_base, output_file, "Don’t make each line too long.", temperature_setting)
                     else:
@@ -200,7 +200,7 @@ def content():
                     st.session_state.text = result["text"]
                     st.toast("已识别完成，开始对话叭！", icon=":material/task_alt:")
                 else:
-                    st.toast("请先上传文件！")
+                    st.toast("未检测到文件", icon=":material/error:")
 
             with st.expander("模型选择", expanded=True):
                 translate_option = sac.chip(

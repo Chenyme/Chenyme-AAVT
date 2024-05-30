@@ -318,8 +318,8 @@ def video():
                     if uploaded_file is not None:
                         st.session_state.video_name = "uploaded." + uploaded_file.name.split('.')[-1]
                         time1 = time.time()
-                        msg = st.toast('开始生成!')
-                        msg.toast('正在进行视频提取📽️')
+                        st.toast('已开始生成，请不要在运行时切换菜单或修改参数!', icon=":material/person_alert:")
+                        msg = st.toast('正在进行视频提取', icon=":material/play_circle:")
 
                         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
                         output_file = cache_dir + current_time
@@ -330,7 +330,7 @@ def video():
                         file_to_mp3(log_setting, st.session_state.video_name, output_file)
 
                         time2 = time.time()
-                        msg.toast('正在识别视频内容🔍')
+                        msg.toast('正在识别视频内容', icon=":material/hearing:")
                         if openai_whisper_api:
                             result = openai_whisper_result(openai_key, openai_base, output_file, whisper_prompt_setting, temperature_setting)
                         else:
@@ -359,7 +359,7 @@ def video():
 
                         if translate_option != '无需翻译':
                             print("***正在执行翻译***\n")
-                            msg.toast('正在翻译文本🤖')
+                            msg.toast('正在翻译文本', icon=":material/translate:")
                             print("- 翻译模型:" + translate_option)
                             if translate_option == 'gpt-3.5-turbo' or translate_option == 'gpt-4o':
                                 result = translate(openai_key, openai_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
@@ -374,7 +374,7 @@ def video():
                             print(" ")
 
                         time4 = time.time()
-                        msg.toast('正在生成SRT字幕文件📃')
+                        msg.toast('正在生成SRT字幕文件', icon=":material/edit_note:")
                         print("***正在生成SRT字幕文件***\n")
                         srt_content = generate_srt_from_result(result)
                         srt_content_style = generate_srt_from_result_2(result, font_setting, font_size_setting, font_color_setting)
@@ -385,7 +385,7 @@ def video():
                         st.session_state.output_file = output_file
 
                         time5 = time.time()
-                        st.toast('正在合并视频，请耐心等待生成⚙️')
+                        st.toast('正在合并视频，请耐心等待生成', icon=":material/arrow_or_edge:")
                         print("***正在合并视频***\n")
                         srt_mv(log_setting, st.session_state.video_name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
 
@@ -402,8 +402,8 @@ def video():
                     if uploaded_file is not None:
                         st.session_state.video_name = "uploaded." + uploaded_file.name.split('.')[-1]
                         time1 = time.time()
-                        msg = st.toast('开始生成!')
-                        msg.toast('正在进行视频提取📽️')
+                        st.toast('已开始生成，请不要在运行时切换菜单或修改参数!', icon=":material/person_alert:")
+                        msg = st.toast('正在进行视频提取', icon=":material/play_circle:")
 
                         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
                         output_file = cache_dir + current_time
@@ -414,7 +414,7 @@ def video():
                         file_to_mp3(log_setting, st.session_state.video_name, output_file)
 
                         time2 = time.time()
-                        msg.toast('正在识别视频内容🔍')
+                        msg.toast('正在识别视频内容', icon=":material/hearing:")
                         if openai_whisper_api:
                             result = openai_whisper_result(openai_key, openai_base, output_file, whisper_prompt_setting, temperature_setting)
                         else:
@@ -443,11 +443,11 @@ def video():
 
                         if translate_option != '无需翻译':
                             print("***正在执行翻译***\n")
-                            msg.toast('正在翻译文本🤖')
+                            msg.toast('正在翻译文本', icon=":material/translate:")
                             print("- 翻译模型:" + translate_option)
                             if 'gpt' in translate_option:
                                 result = translate(openai_key, openai_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
-                            elif 'moonshot' in translate_option:
+                            elif 'kimi' in translate_option:
                                 result = translate(kimi_key, kimi_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
                             elif 'glm' in translate_option:
                                 result = translate(chatglm_key, chatglm_base, translate_option, result, language1_setting, language2_setting, wait_time_setting)
@@ -458,7 +458,7 @@ def video():
                             print(" ")
 
                         time4 = time.time()
-                        msg.toast('正在生成SRT字幕文件📃')
+                        msg.toast('正在生成SRT字幕文件', icon=":material/edit_note:")
                         print("***正在生成SRT字幕文件***\n")
                         srt_content = generate_srt_from_result(result)
                         srt_content_style = generate_srt_from_result_2(result, font_setting, font_size_setting, font_color_setting)
@@ -484,7 +484,7 @@ def video():
                             srt_file.write(st.session_state.srt_data3)
                         test = st.session_state.video_name
                         time1 = time.time()
-                        st.toast('正在合并视频，请耐心等待生成⚙️')
+                        st.toast('正在合并视频，请耐心等待生成', icon=":material/arrow_or_edge:")
                         print("***正在合并视频***\n")
                         srt_mv(log_setting, st.session_state.video_name, crf_setting, quality_setting, ffmpeg_setting, st.session_state.output_file, font_setting, font_size_setting, font_color_setting, subtitle_model_setting)
                         print("***已完成***\n")

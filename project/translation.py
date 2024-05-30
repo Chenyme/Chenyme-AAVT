@@ -1,7 +1,6 @@
 import os
 import toml
 import datetime
-from openai import OpenAI
 import streamlit as st
 import streamlit_antd_components as sac
 from project.utils.utils2 import read_srt_file, parse_srt_file, convert_to_srt, translate_srt, local_translate_srt
@@ -76,7 +75,8 @@ def translation():
             if st.button("执行字幕翻译", type="primary", use_container_width=True):
                 if uploaded_file is not None:
                     st.session_state.video_name = "uploaded.srt"
-                    st.toast('开始翻译!')
+                    st.toast('已开始生成，请不要在运行时切换菜单或修改参数!', icon=":material/person_alert:")
+                    msg = st.toast('正在进行视频提取', icon=":material/play_circle:")
 
                     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
                     output_file = cache_dir + current_time
@@ -107,7 +107,7 @@ def translation():
                     st.session_state.srt_content = srt_content
                     with open(st.session_state.path + '/translate.srt', 'w', encoding='utf-8') as file:
                         file.write(srt_content)
-                    st.toast("已成功保存", icon=":material/task_alt:")
+                    msg.toast("翻译文件已成功保存", icon=":material/task_alt:")
                 else:
                     st.toast("未检测到文件", icon=":material/error:")
 
