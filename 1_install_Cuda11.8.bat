@@ -113,17 +113,5 @@ if %errorlevel% equ 0 (
     pip install opencv-python
 )
 
-
-REM 检查和更新 moviepy
-pip show moviepy > nul
-if %errorlevel% equ 0 (
-    echo 更新 moviepy...
-    pip install --upgrade moviepy
-) else (
-    echo 安装 moviepy...
-    pip install moviepy
-)
-
-
 echo 更新完成
 pause
