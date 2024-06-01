@@ -4,10 +4,10 @@ import cv2
 import toml
 import base64
 import datetime
+import subprocess
 import streamlit as st
 import streamlit_antd_components as sac
 from openai import OpenAI
-from moviepy.editor import VideoFileClip
 
 
 def avtb():
@@ -50,12 +50,12 @@ def avtb():
                 cv2.imwrite(f'{output_dir}/frame_{timestamp}.png', frame)
         video.release()
 
-    def mp4_to_mp3(path):  # 虚拟化文件路径
-        video = VideoFileClip(path + '/uploaded.mp4')
-        audio = video.audio
-        audio.write_audiofile(path + '/output_audio.mp3', codec='libmp3lame', bitrate='128k')
-        audio.close()
-        video.close()
+    def mp4_to_mp3(path):
+        try:
+            command = f"ffmpeg -loglevel error -i uploaded.mp4 -vn -acodec libmp3lame -ab 320k -f mp3 output_audio.mp3"
+            subprocess.run(command, shell=True, cwd=path)
+        except:
+            raise EOFError("错误！可能是 FFmpeg 未被正确配置 或 上传文件格式不受支持！")
         return path + '/output_audio.mp3'
 
     def openai_whisper(key, base, prompt, tem, path):
