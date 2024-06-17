@@ -8,23 +8,23 @@
 [![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
 
-Chenyme-AAVT V0.8.3
+Chenyme-AAVT V0.8.4
 </div>
 
 
 非常感谢您来到我的 **全自动视频翻译** 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别视频字幕并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您快速的实现视频翻译。
 
+> - **Note1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验！**
+> - **Note2 ：由于考研，更新速度可能会放缓，学业为重，感谢理解~~~ 大家有想法、有问题、想交流的朋友们可以加群一起讨论噢！**
 
-> - **Note ：字幕翻译的错位问题会逐步优化。由于考研，更新速度可能会放缓，感谢理解~~~**
-> - **Tips1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验。**
-> - **Tips2 ：新版本改动很大，BUG较多，因此近期更新比较频繁，建议更新。**
-> - **Tips3 ：这个版本以后更新不会这么勤了，学业为重，大家有问题可以加群讨论噢。**
+#### 给一颗免费的星支持一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
 
-#### 这次更新真的很耗时鸭！给一颗免费的星鼓励一下叭~感谢！[AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)
+#### 本项目开源可魔改，发布请保留原作者 @chenyme 和 项目链接，感谢支持！请勿在任何平台收费项目源码！（代码这么烂也能收？）
+
 
 <table>
   <tr>
-    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/6641bdc9-02dc-437c-8cc1-160526da162e" /></td>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/e77b5b73-21a1-48d5-a4fc-589aeb78cfff" /></td>
     <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
   </tr>
 </table>
