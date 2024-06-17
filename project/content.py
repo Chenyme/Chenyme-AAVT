@@ -15,16 +15,22 @@ def content():
     cache_dir = project_dir + "/cache/"  # 本地缓存
     model_dir = project_dir.replace("project", "model")
 
-    api_config = toml.load(config_dir + "api.toml")  # 加载API配置
-    openai_key = api_config["GPT"]["openai_key"]
-    openai_base = api_config["GPT"]["openai_base"]
-    kimi_key = api_config["KIMI"]["kimi_key"]
+    api_config = toml.load(config_dir + "api.toml")  # 加载配置
+    gemini_key = api_config["GEMINI"]["gemini_key"]  # GEMINI
+    gemini_base = api_config["GEMINI"]["gemini_base"]
+    ai01_key = api_config["AI01"]["AI01_key"]  # 01
+    ai01_base = api_config["AI01"]["AI01_base"]
+    kimi_key = api_config["KIMI"]["kimi_key"]  # kimi
     kimi_base = api_config["KIMI"]["kimi_base"]
-    deepseek_key = api_config["DEEPSEEK"]["deepseek_key"]
-    deepseek_base = api_config["DEEPSEEK"]["deepseek_base"]
-    chatglm_key = api_config["CHATGLM"]["chatglm_key"]
+    chatglm_key = api_config["CHATGLM"]["chatglm_key"]  # chatglm
     chatglm_base = api_config["CHATGLM"]["chatglm_base"]
-    local_key = api_config["LOCAL"]["api_key"]
+    openai_key = api_config["GPT"]["openai_key"]  # openai
+    openai_base = api_config["GPT"]["openai_base"]
+    claude_key = api_config["CLAUDE"]["claude_key"]  # claude
+    claude_base = api_config["CLAUDE"]["claude_base"]
+    deepseek_key = api_config["DEEPSEEK"]["deepseek_key"]  # deepseek
+    deepseek_base = api_config["DEEPSEEK"]["deepseek_base"]
+    local_key = api_config["LOCAL"]["api_key"]  # local
     local_base = api_config["LOCAL"]["base_url"]
     local_model = api_config["LOCAL"]["model_name"]
 
@@ -48,6 +54,7 @@ def content():
     st.caption("AI Content Q&A Assistant")
 
     with st.sidebar:
+        st.write("#### 文件上传器")
         uploaded_file = st.file_uploader("请在这里上传文件：", type=["mp3", "mpga", "m4a", "wav", 'mp4', 'mov', 'avi', 'm4v', 'webm', 'flv', 'ico'], label_visibility="collapsed")
 
     name = sac.segmented(
@@ -59,7 +66,7 @@ def content():
     )
 
     if name == "参数设置":
-        col1, col2 = st.columns([0.65, 0.35], gap="medium")
+        col1, col2 = st.columns([0.7, 0.3], gap="medium")
         with col1:
             with st.expander("**识别设置**", expanded=True):
                 model = st.selectbox("Whisper模式", ("OpenAI-API 接口调用", "Faster-Whisper 本地部署"), index=0 if openai_whisper_api else 1, help="`OpenAI-API 接口调用`：使用OpenAI的官方接口进行识别，文件限制25MB（不是上传视频文件，是该项目转换后的音频文件，可以前往Cache查看每次的大小），过大会导致上传失败\n\n`Faster-Whisper 本地部署`：本地识别字幕，无需担心大小限制。请注意，若网络不佳请启用下方的本地模型加载")
@@ -169,7 +176,7 @@ def content():
             sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="1")
 
     if name == "内容问答":
-        col1, col2 = st.columns([0.75, 0.25])
+        col1, col2 = st.columns([0.7, 0.3])
         with col2:
             if st.button("开始识别", type="primary", use_container_width=True):
                 if uploaded_file is not None:
@@ -202,25 +209,42 @@ def content():
                 else:
                     st.toast("未检测到文件", icon=":material/error:")
 
-            with st.expander("模型选择", expanded=True):
-                translate_option = sac.chip(
-                    items=[
-                        sac.ChipItem('gpt-3.5-turbo', icon='robot'),
-                        sac.ChipItem('gpt-4-turbo', icon='robot'),
-                        sac.ChipItem('gpt-4o', icon='robot'),
-                        sac.ChipItem('gpt-4v', icon='robot'),
-                        sac.ChipItem('moonshot-v1-8k', icon='robot'),
-                        sac.ChipItem('moonshot-v1-32k', icon='robot'),
-                        sac.ChipItem('moonshot-v1-128k', icon='robot'),
-                        sac.ChipItem('glm-3-turbo', icon='robot'),
-                        sac.ChipItem('glm-4v', icon='robot'),
-                        sac.ChipItem('glm-4', icon='robot'),
-                        sac.ChipItem('gpt-4o', icon='robot'),
-                        sac.ChipItem('gpt-4v', icon='robot'),
-                        sac.ChipItem('deepseek-chat', icon='robot'),
-                        sac.ChipItem('Local', icon='robot'),
-                    ], align='start', direction='vertical', radius='md', variant='filled', index=0
-                )
+            with st.container():
+                translate_option = sac.menu([
+                    sac.MenuItem('Local本地模型', icon='house-up-fill'),
+                    sac.MenuItem('Moonshot-月之暗面', icon='node-plus-fill', children=[
+                        sac.MenuItem('moonshot-v1-8k', icon='robot'),
+                        sac.MenuItem('moonshot-v1-32k', icon='robot'),
+                        sac.MenuItem('moonshot-v1-128k', icon='robot')
+                    ]),
+                    sac.MenuItem('ChatGLM-智谱AI', icon='node-plus-fill', children=[
+                        sac.MenuItem('glm-4', icon='robot'),
+                        sac.MenuItem('glm-4-0520', icon='robot'),
+                        sac.MenuItem('glm-4-flash', icon='robot'),
+                        sac.MenuItem('glm-4-air', icon='robot'),
+                        sac.MenuItem('glm-4-airx', icon='robot')
+                    ]),
+                    sac.MenuItem('ChatGPT-OpenAI', icon='node-plus-fill', children=[
+                        sac.MenuItem('gpt-3.5-turbo', icon='robot'),
+                        sac.MenuItem('gpt-4', icon='robot'),
+                        sac.MenuItem('gpt-4-turbo', icon='robot'),
+                        sac.MenuItem('gpt-4o', icon='robot')
+                    ]),
+                    sac.MenuItem('DeepSeek-深度求索', icon='node-plus-fill', children=[
+                        sac.MenuItem('deepseek-chat', icon='robot'),
+                        sac.MenuItem('deepseek-coder', icon='robot')
+                    ]),
+                    sac.MenuItem('01AI-零一万物', icon='node-plus-fill', children=[
+                        sac.MenuItem('yi-spark', icon='robot'),
+                        sac.MenuItem('yi-medium', icon='robot'),
+                        sac.MenuItem('yi-medium-200k', icon='robot'),
+                        sac.MenuItem('yi-vision', icon='robot'),
+                        sac.MenuItem('yi-large', icon='robot'),
+                        sac.MenuItem('yi-large-rag', icon='robot'),
+                        sac.MenuItem('yi-large-turbo', icon='robot'),
+                        sac.MenuItem('yi-large-preview', icon='robot')
+                    ]),
+                ], height=650, size='sm', indent=20, open_all=True)
 
         with col1:
             with st.popover("**对话设置**", use_container_width=True):
@@ -250,6 +274,8 @@ def content():
                 elif "glm" in translate_option:
                     client = OpenAI(api_key=chatglm_key, base_url=chatglm_base)
                 elif "deepseek" in translate_option:
+                    client = OpenAI(api_key=deepseek_key, base_url=deepseek_base)
+                elif "yi" in translate_option:
                     client = OpenAI(api_key=deepseek_key, base_url=deepseek_base)
                 elif "local" in translate_option:
                     translate_option = local_model

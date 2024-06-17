@@ -6,3 +6,6 @@ torchaudio
 streamlit
 streamlit_antd_components
 opencv-python
+anthropic
+google-generativeai
+

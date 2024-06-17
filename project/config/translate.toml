@@ -1,4 +1,6 @@
 [TRANSLATE]
 language1 = "English"
 language2 = "中文"
-wait_time = 0.10000000000000003
+wait_time = 0.1
+srt = "关闭"
+prompt_pre = "Prompt for GPT"

@@ -2,7 +2,7 @@
 openai_whisper_api = true
 faster_whisper_model_default = "tiny"
 faster_whisper_model_local = false
-faster_whisper_model_local_path = "F:/work/oai/Chenyme_AAVT_webui/model/tiny"
+faster_whisper_model_local_path = "F:/new/model/tiny"
 gpu = false
 
 [MORE]

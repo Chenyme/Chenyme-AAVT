@@ -76,6 +76,25 @@ if %errorlevel% equ 0 (
     pip install openai
 )
 
+REM 检查和更新 anthropic
+pip show anthropic > nul
+if %errorlevel% equ 0 (
+    echo 更新 anthropic...
+    pip install --upgrade anthropic
+) else (
+    echo 安装 anthropic...
+    pip install anthropic
+)
+
+REM 检查和更新 google-generativeai
+pip show google-generativeai > nul
+if %errorlevel% equ 0 (
+    echo 更新 google-generativeai...
+    pip install --upgrade google-generativeai
+) else (
+    echo 安装 google-generativeai...
+    pip install google-generativeai
+)
 
 REM 检查并卸载 torch torchvision torchaudio
 echo 检查 torch torchvision torchaudio
