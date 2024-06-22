@@ -24,23 +24,21 @@ Chenyme-AAVT V0.8.4
 
 <table>
   <tr>
-    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/e77b5b73-21a1-48d5-a4fc-589aeb78cfff" /></td>
     <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/27cd4029-7f85-453f-9982-161d267a21b7" /></td>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
   </tr>
 </table>
 
 #### [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
 
 ## 项目亮点
-> *   支持 **OpenAI API 接口调用** 和 **Faster-Whisper 本地运行**。
-> *   支持 **GPU 加速**、**VAD辅助**。
-> *   支持 **ChatGPT**、**KIMI**、**DeepSeek**、**ChatGLM**、**本地部署模型** 多种翻译模式。
-> *   支持 **调节多种参数**，满足定制化需求。
+> *   支持 **OpenAI API** 和 **Faster-Whisper** 识别后端。
+> *   支持 **GPU 加速**、**VAD辅助**、**FFmpeg加速**。
+> *   支持 **本地部署模型**、**ChatGPT**、**KIMI**、**DeepSeek**、**ChatGLM**、**Claude**等多种引擎翻译。
 > *   支持识别、翻译 **多种语言** 和 **多种文件格式** 。
-> *   支持 **一键生成** 处理好的内容。
-> *   支持对 **字幕修改、微调、预览**。
+> *   支持对 **一键生成**、**字幕微调**、**视频预览**。
 > *   支持对内容直接进行 **AI总结、问答**。
-> *   支持视频直接 **生成图文博客**。
+> *   支持视频 **生成图文博客**。
 
 
 ## 如何安装
