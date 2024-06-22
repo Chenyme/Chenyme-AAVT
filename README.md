@@ -12,7 +12,7 @@ Chenyme-AAVT V0.8.4
 </div>
 
 
-非常感谢您来到我的 **全自动视频翻译** 项目！该项目旨在提供一个简单易用的全自动视频（音频）识别、翻译工具，帮助您快速识别视频字幕并翻译生成字幕文件，然后将翻译后的字幕与原视频合并，以便您快速的实现视频翻译。
+非常感谢您来到我的 **全自动视频翻译** 项目！该项目旨在提供一个简单易用的自动识别、翻译工具和其他视频辅助工具，帮助快速识别视频字幕、翻译字幕、辅助图文。
 
 > - **Note1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验！**
 > - **Note2 ：由于考研，更新速度可能会放缓，学业为重，感谢理解~~~ 大家有想法、有问题、想交流的朋友们可以加群一起讨论噢！**
@@ -25,7 +25,7 @@ Chenyme-AAVT V0.8.4
 <table>
   <tr>
     <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/e77b5b73-21a1-48d5-a4fc-589aeb78cfff" /></td>
-    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
+    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/27cd4029-7f85-453f-9982-161d267a21b7" /></td>
   </tr>
 </table>
 
