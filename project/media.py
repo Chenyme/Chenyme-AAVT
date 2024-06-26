@@ -6,7 +6,7 @@ import torch
 import datetime
 import streamlit as st
 import streamlit_antd_components as sac
-from project.utils.utils2 import (file_to_mp3, openai_whisper_result, faster_whisper_result, translate, local_translate,
+from project.utils.utils2 import (file_to_mp3, openai_whisper_result, runWhisperSeperateProc, translate, local_translate,
                                   generate_srt_from_result, generate_srt_from_result_2, srt_mv, show_video, parse_srt_file,
                                   convert_to_srt, srt_to_ass, srt_to_stl, srt_to_vtt, check_cuda_support, check_ffmpeg,
                                   add_font_settings)
@@ -391,7 +391,7 @@ def media():
                             model = faster_whisper_model
                             if faster_whisper_local:
                                 model = faster_whisper_local_path
-                            result = faster_whisper_result(output_file1, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
+                            result = runWhisperSeperateProc(output_file1, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
 
                         time3 = time.time()
                         translation_dict = {
@@ -526,7 +526,7 @@ def media():
                             model = faster_whisper_model
                             if faster_whisper_local:
                                 model = faster_whisper_local_path
-                            result = faster_whisper_result(output_file, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
+                            result = runWhisperSeperateProc(output_file, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
 
                         time3 = time.time()
                         translation_dict = {
@@ -635,7 +635,7 @@ def media():
                             model = faster_whisper_model
                             if faster_whisper_local:
                                 model = faster_whisper_local_path
-                            result = faster_whisper_result(output_file, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
+                            result = runWhisperSeperateProc(output_file, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
 
                         time3 = time.time()
                         translation_dict = {
