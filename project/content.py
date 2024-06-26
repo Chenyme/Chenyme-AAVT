@@ -6,7 +6,7 @@ import datetime
 import streamlit as st
 import streamlit_antd_components as sac
 from openai import OpenAI
-from .utils.utils2 import (openai_whisper_result, faster_whisper_result, file_to_mp3, check_ffmpeg, check_cuda_support)
+from .utils.utils2 import (openai_whisper_result, runWhisperSeperateProc, file_to_mp3, check_ffmpeg, check_cuda_support)
 
 
 def content():
@@ -203,7 +203,7 @@ def content():
                         model = faster_whisper_model
                         if faster_whisper_local:
                             model = faster_whisper_local_path
-                        result = faster_whisper_result(output_file, device, model, "Don’t make each line too long.", temperature_setting, False, "自动识别", beam_size_setting, 500)
+                        result = runWhisperSeperateProc(output_file, device, model, "Don’t make each line too long.", temperature_setting, False, "自动识别", beam_size_setting, 500)
                     st.session_state.text = result["text"]
                     st.toast("已识别完成，开始对话叭！", icon=":material/task_alt:")
                 else:
