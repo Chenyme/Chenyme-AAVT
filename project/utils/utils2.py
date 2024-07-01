@@ -1,3 +1,4 @@
+from multiprocessing import Process, Manager
 import os
 import re
 import math
@@ -114,7 +115,7 @@ def openai_whisper_result(key, base, path, prompt, temperature):
     return result
 
 
-def faster_whisper_result(file_path, device, model_name, prompt, temp, vad, lang, beam_size, min_vad):
+def faster_whisper_result(file_path, device, model_name, prompt, temp, vad, lang, beam_size, min_vad, returnList):
     if model_name not in ['tiny', 'tiny.en', 'base', 'base.en', 'small', 'small.en', 'medium', 'medium.en', 'large-v1',
                           'large-v2', 'large-v3', 'large', 'distil-small.en', 'distil-medium.en', 'distil-large-v2',
                           'distil-large-v3']:
@@ -165,7 +166,17 @@ def faster_whisper_result(file_path, device, model_name, prompt, temp, vad, lang
 
     result = faster_whisper_result_dict(segments)
     print(f"- whisper识别内容：\n{result['text']}\n")
-    return result
+    returnList[0] = result
+
+
+def runWhisperSeperateProc(*args):
+    with Manager() as manager:
+        returnList = manager.list([None])
+        p = Process(target=faster_whisper_result, args=args + (returnList,))
+        p.start()
+        p.join()
+        p.close()
+        return returnList[0]
 
 
 def translate(system_prompt, user_prompt, api_key, base_url, model, result, wait_time, srt):
