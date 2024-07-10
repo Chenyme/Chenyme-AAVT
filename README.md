@@ -64,6 +64,9 @@ Chenyme-AAVT V0.8.4
   
 - CPU运行选择CPU版本，CUDA11.8、CUDA12.1同理
 
+#### 或者你也可以使用下面的Colab版本
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+
 ## TODO
 
 

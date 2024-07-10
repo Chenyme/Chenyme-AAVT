@@ -60,6 +60,9 @@ Thank you very much for coming to my **Automatic Video Translation** project! Th
 - Choose the corresponding version of `install.bat` and wait for all dependencies to be installed.
 - If running on CPU, select the CPU version, similarly for CUDA11.8, CUDA12.1.
 
+#### Or you can use Colab here
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+
 ## TODO
 
 ### Recognition Related
