@@ -5,7 +5,8 @@
 
 [![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
 [![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
-[![下载 Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+[![Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
 
 Chenyme-AAVT V0.8.4
@@ -43,32 +44,31 @@ Chenyme-AAVT V0.8.4
 
 ## 如何安装
 
-#### 1. 安装 [Python](https://www.python.org/downloads/)
+### 使用 Windows
 
-- 请确保Python版本大于3.8
+1. 安装 [Python](https://www.python.org/downloads/)，请确保Python版本大于3.8
 
-#### 2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html)
+2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html)，[**Release**](https://github.com/Chenyme/Chenyme-AAVT/releases) 中`Full`版本已经打包了FFmpeg库
 
-- [**Release**](https://github.com/Chenyme/Chenyme-AAVT/releases) 中`Full`版本已经打包了FFmpeg库
- 
-- 设置 FFmpeg 环境变量
-  
-  - `Win+R` 快捷键打开运行对话框。
-  - 输入 `rundll32 sysdm.cpl,EditEnvironmentVariables`。
-  - 在用户变量中找到 `Path`。
-  - 点击新建，输入 FFmpeg 的路径。 示例：`D:\APP\ffmpeg\bin`（请根据自己的实际路径调整）。
+3. 运行 `install.bat`
 
-#### 3. 运行 `install.bat`
+### 使用 docker
 
-- 选择对应版本的 `install.bat`，等待安装所有依赖库
-  
-- CPU运行选择CPU版本，CUDA11.8、CUDA12.1同理
+```
+docker pull eisai/chenyme-aavt
+```
 
-#### 或者你也可以使用下面的Colab版本
+具体使用方法，请查阅：[eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))
+
+感谢 @Eisaichen 提供此版本
+
+### 使用 Colab
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
 
-## TODO
+感谢 @Kirie233 提供此版本
 
+## TODO
 
 ### 识别相关
 - [x] 更换更快的Whisper项目
