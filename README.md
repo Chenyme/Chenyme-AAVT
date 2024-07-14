@@ -22,10 +22,9 @@ Chenyme-AAVT V0.8.4
 
 #### 本项目开源可魔改，发布请保留原作者 @chenyme 和 项目链接，感谢支持！请勿在任何平台收费项目源码！（代码这么烂也能收？）
 
-
 <table>
   <tr>
-    <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/3d962f99-0755-487a-847e-40512edff6bb" /></td>
+    <td><img src="https://github.com/user-attachments/assets/000155f2-fbee-4372-ace1-c3e4bcf7f327" /></td>
     <td><img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" /></td>
   </tr>
 </table>
