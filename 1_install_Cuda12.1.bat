@@ -43,15 +43,16 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 pip install --upgrade pip
 
+pip uninstall streamlit
 
 REM 检查和更新 streamlit
 pip show streamlit > nul
 if %errorlevel% equ 0 (
     echo 更新 streamlit...
-    pip install --upgrade streamlit
+    pip install streamlit==1.36.0
 ) else (
     echo 安装 streamlit...
-    pip install streamlit
+    pip install streamlit==1.36.0
 )
 
 
