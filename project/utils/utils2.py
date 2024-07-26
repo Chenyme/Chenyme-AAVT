@@ -4,6 +4,7 @@ import re
 import math
 import time
 import json
+import torch
 import requests
 import anthropic
 import subprocess
@@ -170,12 +171,15 @@ def faster_whisper_result(file_path, device, model_name, prompt, temp, vad, lang
 
 
 def runWhisperSeperateProc(*args):
+    print("\n*** Faster Whisper 多进程调用中 ***")
+    print("- 进程启动中，出现 Warning streamlit.runtime.state.session_state_proxy... 属于正常现象，可忽略\n")
     with Manager() as manager:
         returnList = manager.list([None])
         p = Process(target=faster_whisper_result, args=args + (returnList,))
         p.start()
         p.join()
         p.close()
+        print("\n- 进程已结束，结果已返回！\n")
         return returnList[0]
 
 
@@ -556,7 +560,8 @@ def generate_srt_from_result_2(result, font, font_size, font_color):  # 格式�
 def check_cuda_support():
     try:
         result = subprocess.run(["ffmpeg", "-hwaccels"], capture_output=True, text=True)
-        return "cuda" in result.stdout
+        if torch.cuda.is_available() and "cuda" in result.stdout:
+            return True
     except Exception as e:
         print(f" 未检测到 CUDA 状态，本地合并为 CPU 模式，若要使用 GPU 请检查 CUDA 是否配置成功")
         return False
@@ -670,7 +675,7 @@ def check_ffmpeg():
             return True
         else:
             return False
-    except FileNotFoundError:
+    except:
         return False
 
 

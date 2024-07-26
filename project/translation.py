@@ -72,7 +72,7 @@ def translation():
                     sac.MenuItem('glm-4-airx', icon='robot')
                 ]),
                 sac.MenuItem('ChatGPT-OpenAI', icon='node-plus-fill', children=[
-                    sac.MenuItem('gpt-3.5-turbo', icon='robot'),
+                    sac.MenuItem('gpt-4o-mini', icon='robot'),
                     sac.MenuItem('gpt-4', icon='robot'),
                     sac.MenuItem('gpt-4-turbo', icon='robot'),
                     sac.MenuItem('gpt-4o', icon='robot')

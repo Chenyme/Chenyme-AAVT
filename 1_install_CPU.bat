@@ -26,10 +26,10 @@ REM 检查和更新 streamlit
 pip show streamlit > nul
 if %errorlevel% equ 0 (
     echo 更新 streamlit...
-    pip install streamlit==1.36.0
+    pip install streamlit==1.37.0
 ) else (
     echo 安装 streamlit...
-    pip install streamlit==1.36.0
+    pip install streamlit==1.37.0
 )
 
 REM 检查和更新 streamlit-antd-components
@@ -76,10 +76,10 @@ REM 检查和更新 torch torchvision torchaudio
 pip show torch torchvision torchaudio > nul
 if %errorlevel% equ 0 (
     echo 更新 torch torchvision torchaudio...
-    pip install --upgrade torch torchvision torchaudio
+    pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1
 ) else (
     echo 安装 torch torchvision torchaudio...
-    pip install torch torchvision torchaudio
+    pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1
 )
 
 REM 检查和更新 faster-whisper

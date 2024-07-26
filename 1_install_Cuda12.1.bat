@@ -49,10 +49,10 @@ REM 检查和更新 streamlit
 pip show streamlit > nul
 if %errorlevel% equ 0 (
     echo 更新 streamlit...
-    pip install streamlit==1.36.0
+    pip install streamlit==1.37.0
 ) else (
     echo 安装 streamlit...
-    pip install streamlit==1.36.0
+    pip install streamlit==1.37.0
 )
 
 
@@ -108,7 +108,7 @@ if %errorlevel% equ 0 (
 
 echo 安装 torch torchvision torchaudio...
 echo 国内环境不稳定，建议开启VPN下载
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu121
 
 
 REM 检查和更新 faster-whisper

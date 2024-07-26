@@ -1,9 +1,9 @@
 openai
 faster-whisper
-torch
-torchvision
-torchaudio
-streamlit
+torch==2.3.1
+torchvision==0.18.1
+torchaudio==2.3.1
+streamlit==1.37.0
 streamlit_antd_components
 opencv-python
 anthropic

@@ -198,7 +198,7 @@ def avtb():
         with col3:
             base_url = st.text_input("**BASE_URL：**", value=st.session_state.base_url)
         with col4:
-            api_key = st.text_input("**API_KEY：**", value=st.session_state.api_key)
+            api_key = st.text_input("**API_KEY：**", value=st.session_state.api_key, type="password", placeholder="请输入API_KEY")
         with col5:
             temperature = st.number_input("**模型温度：**", min_value=0.0, max_value=1.0, value=0.8, step=0.1)
 
@@ -235,9 +235,9 @@ def avtb():
                 st.toast("文本提取完成！")
                 print("文本提取完成！\n")
 
-                # GPT4o生成文章
+                # GPT-4o-mini生成文章
                 text = result['text']
-                content = openai_api(api_key, base_url, "gpt-4o",
+                content = openai_api(api_key, base_url, "gpt-4o-mini",
                                      "请你将下面的内容，以" + name + "的时间写成一篇文章" + text,
                                      temperature, "你是一位写作高手！")
 

@@ -8,12 +8,11 @@ from project.AVTB.AVTB import avtb
 from project.AVG.AVG import avg
 
 st.set_page_config(
-    page_title="Chenyme-AAVT v0.8.4",
+    page_title="Chenyme-AAVT v0.8.5",
     page_icon=":material/radio_button_checked:",
-    layout="wide",  # 设置布局样式为宽展示
-    initial_sidebar_state="expanded"  # 设置初始边栏状态为展开
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
-
 
 with st.sidebar.container():
     st.subheader("Chenyme-AAVT")
@@ -33,17 +32,17 @@ with st.sidebar.container():
     )
     sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray')
 
-with st.container():
-    if menu == "主页":
-        home()
-    elif menu == '内容助手':
-        content()
-    elif menu == '媒体识别':
-        media()
-    elif menu == '字幕翻译':
-        translation()
-    elif menu == '图文博客':
-        avtb()
-    elif menu == '声音模拟':
-        avg()
+
+if menu == "主页":
+    home()
+elif menu == '内容助手':
+    content()
+elif menu == '媒体识别':
+    media()
+elif menu == '字幕翻译':
+    translation()
+elif menu == '图文博客':
+    avtb()
+elif menu == '声音模拟':
+    avg()
 

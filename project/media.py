@@ -98,7 +98,7 @@ def media():
             uploaded_file = st.file_uploader("**请在这里上传视频：**", type=['mp4', 'mov', 'avi', 'm4v', 'webm', 'flv', 'ico'], label_visibility="collapsed")
 
     if name == '参数设置':
-        col1, col2 = st.columns([0.7, 0.3], gap="medium")
+        col1, col2 = st.columns([0.66, 0.34], gap="small")
         with col1:
             with st.expander("**识别设置**", expanded=True):
                 model = st.selectbox("Whisper模式", ("OpenAI-API 接口调用", "Faster-Whisper 本地部署"), index=0 if openai_whisper_api else 1, help="`OpenAI-API 接口调用`：使用OpenAI的官方接口进行识别，文件限制25MB（不是上传视频文件，是该项目转换后的音频文件，可以前往Cache查看每次的大小），过大会导致上传失败\n\n`Faster-Whisper 本地部署`：本地识别字幕，无需担心大小限制。请注意，若网络不佳请启用下方的本地模型加载")
@@ -175,7 +175,7 @@ def media():
                         sac.CasItem('glm-4-air', icon='robot'),
                         sac.CasItem('glm-4-airx', icon='robot')]),
                     sac.CasItem('ChatGPT-OpenAI', icon='node-plus-fill', children=[
-                        sac.CasItem('gpt-3.5-turbo', icon='robot'),
+                        sac.CasItem('gpt-4o-mini', icon='robot'),
                         sac.CasItem('gpt-4', icon='robot'),
                         sac.CasItem('gpt-4-turbo', icon='robot'),
                         sac.CasItem('gpt-4o', icon='robot')]),
@@ -266,94 +266,83 @@ def media():
                 video_config["MORE"]["log"] = log
 
         with col2:
-            if st.button("保存所有参数", type="primary", use_container_width=True):
+            if st.button("**保存参数设置**", type="primary", use_container_width=True):
                 sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
                 with open(config_dir + '/video.toml', 'w', encoding='utf-8') as file:
                     toml.dump(video_config, file)
-                sac.alert(
-                    label='**参数设置 已保存**',
-                    description='**所有参数全部保存完毕**',
-                    size='lg', radius=20, icon=True, closable=True, color='success')
+                st.success("""
+                **参数设置 已保存**
+                ###### 所有参数设置已成功保存！""", icon=":material/check:")
             else:
                 sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
-                sac.alert(
-                    label='**参数设置 可能未保存**',
-                    description='重新设置后请点击保存',
-                    size='lg', radius=20, icon=True, closable=True, color='error')
+                st.error("""
+                **参数设置 未保存**
+                ###### 参数设置尚未保存，请及时保存！""", icon=":material/close:")
 
             if check_ffmpeg():
                 if check_cuda_support():
-                    sac.alert(
-                        label='**FFmpeg GPU加速正常**',
-                        description='FFmpeg**加速可用**',
-                        size='lg', radius=20, icon=True, closable=True, color='success')
+                    st.success("""
+                    **FFmpeg GPU加速正常**
+                    ###### 本次 FFmpeg 合并将使用 GPU 加速！""", icon=":material/check:")
                 else:
-                    sac.alert(
-                        label='**FFmpeg 状态正常**',
-                        description='已**成功检测**到FFmpeg',
-                        size='lg', radius=20, icon=True, closable=True, color='success')
+                    st.warning("""
+                    **FFmpeg 正常，但 GPU 加速失败**
+                    ###### FFmpeg hwaccels 失败！（可忽略）""", icon=":material/warning:")
             else:
-                sac.alert(
-                    label='**FFmpeg 状态错误**',
-                    description='**未检测到**FFmpeg',
-                    size='lg', radius=20, icon=True, closable=True, color='success')
+                st.error("""
+                **FFmpeg 状态错误**
+                ###### 未检测到 FFmpeg，请确认！""", icon=":material/close:")
 
             if not openai_whisper_api:
                 if vad:
-                    sac.alert(
-                        label='**VAD辅助 已开启**',
-                        description='将会**检测语音活动**',
-                        size='lg', radius=20, icon=True, closable=True, color='success')
+                    st.success("""
+                    **VAD辅助 已开启**
+                    ###### 本次识别将启用语音检测辅助！""", icon=":material/check:")
 
             if openai_whisper_api:
-                sac.alert(
-                    label='**Whipser API调用已开启**',
-                    description='确保**OPENAI相关配置不为空**',
-                    size='lg', radius=20, icon=True, closable=True, color='warning')
+                st.warning("""
+                **OpenAI API调用 识别 已开启**
+                ###### 请确保 OPENAI 相关参数设置不为空！""", icon=":material/warning:")
 
             if not openai_whisper_api:
                 if gpu:
-                    sac.alert(
-                        label='**GPU加速模式 已开启**',
-                        description='**若未CUDA11请参阅[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)**',
-                        size='lg', radius=20, icon=True, closable=True, color='warning')
-
-            if not openai_whisper_api:
+                    if torch.cuda.is_available():
+                        st.success("""
+                        **GPU加速模式 已开启**
+                        ###### 本次识别将使用 GPU 加速模式""", icon=":material/check:")
+                    else:
+                        st.error("""
+                        **GPU加速模式 未开启**
+                        ###### 未检测到CUDA，请关闭 GPU 加速！""", icon=":material/close:")
                 if local_on:
-                    sac.alert(
-                        label='**Whisper 本地加载已开启**',
-                        description='[模型下载](https://huggingface.co/Systran) | [使用文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
-                        size='lg', radius=20, icon=True, closable=True, color='warning')
+                    st.success("""
+                    **本地模型识别 已开启**
+                    ###### [模型下载](https://huggingface.co/Systran) | [使用文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)""", icon=":material/check:")
 
             if translate_option == [1]:
-                sac.alert(
-                    label='**本地LLM调用 已开启**',
-                    description="请**确保相关参数无误**",
-                    size='lg', radius=20, icon=True, closable=True, color='warning')
+                st.warning("""
+                **本地/自定义 翻译模式已开启**
+                ###### 请确保 本地/自定义 模型参数正确！""", icon=":material/warning:")
 
             if subtitle_model == "软字幕":
-                sac.alert(
-                    label='**软字幕 已开启**',
-                    description='软字幕**无法预览效果**',
-                    size='lg', radius=20, icon=True, closable=True, color='warning')
+                st.warning("""
+                **软字幕模式 已开启**
+                ###### 注意：WebUI 无法正常预览软字幕！""", icon=":material/warning:")
 
             if not torch.cuda.is_available():
-                sac.alert(
-                    label='**CUDA/Pytorch 错误**',
-                    description='请检查！**仅使用CPU请忽略**',
-                    size='lg', radius=20, icon=True, closable=True, color='error')
+                st.error("""
+                **CUDA 状态错误**
+                ###### 未检测到CUDA，CPU 用户请忽略！""", icon=":material/close:")
 
             if ffmpeg != "libx264":
                 if not check_cuda_support():
-                    sac.alert(
-                        label='**编码器无效 请换回libx264**',
-                        description='**未检测到**h264_nvenc编码器',
-                        size='lg', radius=20, icon=True, closable=True, color='error')
+                    st.error("""
+                    **编码器无效 请换回libx264**
+                    ###### 未检测到 h264_nvenc 编码器""", icon=":material/close:")
                 else:
-                    sac.alert(
-                        label='**编码器设置 成功**',
-                        description='**检测到**h264_nvenc编码器',
-                        size='lg', radius=20, icon=True, closable=True, color='success')
+                    st.success("""
+                    **编码器设置 成功**
+                    ###### 检测到 h264_nvenc 编码器""", icon=":material/check:")
 
             sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="1")
 
@@ -417,7 +406,7 @@ def media():
                             tuple([20, 23]): 'glm-4-flash',
                             tuple([20, 24]): 'glm-4-air',
                             tuple([20, 25]): 'glm-4-airx',
-                            tuple([26, 27]): 'gpt-3.5-turbo',
+                            tuple([26, 27]): 'gpt-4o-mini',
                             tuple([26, 28]): 'gpt-4',
                             tuple([26, 29]): 'gpt-4-turbo',
                             tuple([26, 30]): 'gpt-4o',
@@ -516,7 +505,6 @@ def media():
                             file.write(uploaded_file.getbuffer())
                         print(f"- 本次任务目录：{output_file}")
                         file_to_mp3(log_setting, st.session_state.video_name, output_file)
-
                         time2 = time.time()
                         msg.toast('正在识别视频内容', icon=":material/hearing:")
                         if openai_whisper_api:
@@ -524,10 +512,10 @@ def media():
                         else:
                             device = 'cuda' if gpu_setting else 'cpu'
                             model = faster_whisper_model
+
                             if faster_whisper_local:
                                 model = faster_whisper_local_path
                             result = runWhisperSeperateProc(output_file, device, model, whisper_prompt_setting, temperature_setting, vad_setting, lang_setting, beam_size_setting, min_vad_setting)
-
                         time3 = time.time()
                         translation_dict = {
                             tuple([0]): '无需翻译',
@@ -552,7 +540,7 @@ def media():
                             tuple([20, 23]): 'glm-4-flash',
                             tuple([20, 24]): 'glm-4-air',
                             tuple([20, 25]): 'glm-4-airx',
-                            tuple([26, 27]): 'gpt-3.5-turbo',
+                            tuple([26, 27]): 'gpt-4o-mini',
                             tuple([26, 28]): 'gpt-4',
                             tuple([26, 29]): 'gpt-4-turbo',
                             tuple([26, 30]): 'gpt-4o',
@@ -661,7 +649,7 @@ def media():
                             tuple([20, 23]): 'glm-4-flash',
                             tuple([20, 24]): 'glm-4-air',
                             tuple([20, 25]): 'glm-4-airx',
-                            tuple([26, 27]): 'gpt-3.5-turbo',
+                            tuple([26, 27]): 'gpt-4o-mini',
                             tuple([26, 28]): 'gpt-4',
                             tuple([26, 29]): 'gpt-4-turbo',
                             tuple([26, 30]): 'gpt-4o',

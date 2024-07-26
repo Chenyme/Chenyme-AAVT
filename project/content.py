@@ -119,59 +119,53 @@ def content():
                 sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
                 with open(config_dir + '/content.toml', 'w', encoding='utf-8') as file:
                     toml.dump(content_config, file)
-                sac.alert(
-                    label='**参数设置 已保存**',
-                    description='**所有参数全部保存完毕**',
-                    size='lg', radius=20, icon=True, closable=True, color='success')
+                st.success("""
+                **参数设置 已保存**
+                ###### 所有参数设置已成功保存！""", icon=":material/check:")
             else:
                 sac.divider(label='**参数提示**', icon='activity', align='center', color='gray')
-                sac.alert(
-                    label='**参数设置 可能未保存**',
-                    description='重新设置后请点击保存',
-                    size='lg', radius=20, icon=True, closable=True, color='error')
+                st.error("""
+                **参数设置 未保存**
+                ###### 参数设置尚未保存，请及时保存！""", icon=":material/close:")
 
             if check_ffmpeg():
                 if check_cuda_support():
-                    sac.alert(
-                        label='**FFmpeg GPU加速正常**',
-                        description='FFmpeg**加速可用**',
-                        size='lg', radius=20, icon=True, closable=True, color='success')
+                    st.success("""
+                    **FFmpeg GPU加速正常**
+                    ###### 本次 FFmpeg 合并将使用 GPU 加速！""", icon=":material/check:")
                 else:
-                    sac.alert(
-                        label='**FFmpeg 状态正常**',
-                        description='已**成功检测**到FFmpeg',
-                        size='lg', radius=20, icon=True, closable=True, color='success')
+                    st.warning("""
+                    **FFmpeg 正常，但 GPU 加速失败**
+                    ###### FFmpeg hwaccels 失败！（可忽略）""", icon=":material/warning:")
             else:
-                sac.alert(
-                    label='**FFmpeg 状态错误**',
-                    description='**未检测到**FFmpeg',
-                    size='lg', radius=20, icon=True, closable=True, color='success')
+                st.error("""
+                **FFmpeg 状态错误**
+                ###### 未检测到 FFmpeg，请确认！""", icon=":material/close:")
 
             if openai_whisper_api:
-                sac.alert(
-                    label='**Whipser API调用已开启**',
-                    description='确保**OPENAI相关配置不为空**',
-                    size='lg', radius=20, icon=True, closable=True, color='warning')
+                st.warning("""
+                **OpenAI API调用 识别 已开启**
+                ###### 请确保 OPENAI 相关参数设置不为空！""", icon=":material/warning:")
 
             if not openai_whisper_api:
                 if gpu:
-                    sac.alert(
-                        label='**GPU加速模式 已开启**',
-                        description='**若未CUDA11请参阅[AAVT](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)**',
-                        size='lg', radius=20, icon=True, closable=True, color='warning')
-
-            if not openai_whisper_api:
+                    if torch.cuda.is_available():
+                        st.success("""
+                        **GPU加速模式 已开启**
+                        ###### 本次识别将使用 GPU 加速模式""", icon=":material/check:")
+                    else:
+                        st.error("""
+                        **GPU加速模式 未开启**
+                        ###### 未检测到CUDA，请关闭 GPU 加速！""", icon=":material/close:")
                 if local_on:
-                    sac.alert(
-                        label='**Whisper 本地加载已开启**',
-                        description='[模型下载](https://huggingface.co/Systran) | [使用文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)',
-                        size='lg', radius=20, icon=True, closable=True, color='warning')
+                    st.success("""
+                    **本地模型识别 已开启**
+                    ###### [模型下载](https://huggingface.co/Systran) | [使用文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink)""", icon=":material/check:")
 
             if not torch.cuda.is_available():
-                sac.alert(
-                    label='**CUDA/Pytorch 错误**',
-                    description='请检查！**仅使用CPU请忽略**',
-                    size='lg', radius=20, icon=True, closable=True, color='error')
+                st.error("""
+                **CUDA 状态错误**
+                ###### 未检测到CUDA，CPU 用户请忽略！""", icon=":material/close:")
 
             sac.divider(label='POWERED BY @CHENYME', icon="lightning-charge", align='center', color='gray', key="1")
 
@@ -225,7 +219,7 @@ def content():
                         sac.MenuItem('glm-4-airx', icon='robot')
                     ]),
                     sac.MenuItem('ChatGPT-OpenAI', icon='node-plus-fill', children=[
-                        sac.MenuItem('gpt-3.5-turbo', icon='robot'),
+                        sac.MenuItem('gpt-4o-mini', icon='robot'),
                         sac.MenuItem('gpt-4', icon='robot'),
                         sac.MenuItem('gpt-4-turbo', icon='robot'),
                         sac.MenuItem('gpt-4o', icon='robot')

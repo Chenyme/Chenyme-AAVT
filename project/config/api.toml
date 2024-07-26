@@ -1,32 +1,32 @@
 [GEMINI]
-gemini_key = "key"
+gemini_key = ""
 gemini_base = ""
 
 [AI01]
-AI01_key = "key"
+AI01_key = ""
 AI01_base = "https://api.lingyiwanwu.com/v1"
 
 [KIMI]
-kimi_key = "Y-"
+kimi_key = ""
 kimi_base = "https://api.moonshot.cn/v1"
 
 [CHATGLM]
-chatglm_key = "bd"
-chatglm_base = "https://open.bigmodel.cn/api/paas/v4/"
+chatglm_key = ""
+chatglm_base = "https://open.bigmodel.cn/api/paas/v4"
 
 [GPT]
-openai_key = "sk-"
+openai_key = ""
 openai_base = "https://api.openai.com/v1"
 
 [CLAUDE]
-claude_key = "key"
+claude_key = ""
 claude_base = "https://api.anthropic.com/v1/messages"
 
 [DEEPSEEK]
-deepseek_key = "sk-"
+deepseek_key = ""
 deepseek_base = "https://api.deepseek.com/"
 
 [LOCAL]
 api_key = ""
-base_url = "base"
-model_name = "name"
+base_url = ""
+model_name = ""
