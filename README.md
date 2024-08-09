@@ -29,14 +29,12 @@ Chenyme-AAVT V0.8.5
 > （示例）改：pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu121
 
 
-#### 给一颗免费的星支持一下叭~感谢！[AAVT安装教程](https://blog.chenyme.top/blog/aavt-install) | [AAVT项目文档](https://zwho5v3j233.feishu.cn/wiki/OGcrwinzhi88MkkvEMVcLkDgnzc?from=from_copylink) | [AAVT电报群组](https://t.me/+j8SNSwhS7xk1NTc9)
+#### 给一颗免费的星支持一下叭~感谢！[AAVT安装教程](https://blog.chenyme.top/blog/aavt-install) | [AAVT常见问题](https://blog.chenyme.top/blog/aavt-qa) | [AAVT电报群组](https://t.me/+j8SNSwhS7xk1NTc9)
 
 #### 本项目开源可魔改，发布请保留原作者 @chenyme 和 项目链接，感谢支持！请勿在任何平台收费项目源码！（代码这么烂也能收？）
 
 由于微信群聊人数限制，入群请直接在电报私信我。
 <br>
-
-
 
 
 <img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" />
