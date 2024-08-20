@@ -1,69 +1,67 @@
 <div align="center">
-  
-# AI Auto Video(Audio) Translation 
 
+<img src="https://img.picui.cn/free/2024/08/20/66c499e2c8e10.png" alt="chenymeaavtpng.png" title="chenymeaavtpng.png" width="75%" />
 
-[![简体中文 badge](https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-Simplified%20Chinese-blue)](./README.md)
-[![英文 badge](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
+[![英文](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
+[![下载](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square&label=下载)](https://github.com/Chenyme/Chenyme-AAVT/releases)
+[![群组](https://img.shields.io/badge/群组-Telegram-blue?logo=telegram)](https://t.me/+j8SNSwhS7xk1NTc9)
+[![Latest Release](https://img.shields.io/github/v/release/Chenyme/Chenyme-AAVT.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
+![PyPI - Version](https://img.shields.io/pypi/v/AAVT?logo=pypi)
+[![License](https://img.shields.io/github/license/Chenyme/Chenyme-AAVT.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/blob/main/LICENSE)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
-[![Download](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
-![PyPI - Version](https://img.shields.io/pypi/v/AAVT)
-[![](https://img.shields.io/badge/Telegram-电报群组-blue.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDI0YzYuNjI3IDAgMTItNS4zNzMgMTItMTJTMTguNjI3IDAgMTIgMCAwIDUuMzczIDAgMTJzNS4zNzMgMTIgMTIgMTJaIiBmaWxsPSJ1cmwoI2EpIi8+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik01LjQyNSAxMS44NzFhNzk2LjQxNCA3OTYuNDE0IDAgMCAxIDYuOTk0LTMuMDE4YzMuMzI4LTEuMzg4IDQuMDI3LTEuNjI4IDQuNDc3LTEuNjM4LjEgMCAuMzIuMDIuNDcuMTQuMTIuMS4xNS4yMy4xNy4zMy4wMi4xLjA0LjMxLjAyLjQ3LS4xOCAxLjg5OC0uOTYgNi41MDQtMS4zNiA4LjYyMi0uMTcuOS0uNSAxLjE5OS0uODE5IDEuMjI5LS43LjA2LTEuMjI5LS40Ni0xLjg5OC0uOS0xLjA2LS42ODktMS42NDktMS4xMTktMi42NzgtMS43OTgtMS4xOS0uNzgtLjQyLTEuMjA5LjI2LTEuOTA4LjE4LS4xOCAzLjI0Ny0yLjk3OCAzLjMwNy0zLjIyOC4wMS0uMDMuMDEtLjE1LS4wNi0uMjEtLjA3LS4wNi0uMTctLjA0LS4yNS0uMDItLjExLjAyLTEuNzg4IDEuMTQtNS4wNTYgMy4zNDgtLjQ4LjMzLS45MDkuNDktMS4yOTkuNDgtLjQzLS4wMS0xLjI0OC0uMjQtMS44NjgtLjQ0LS43NS0uMjQtMS4zNDktLjM3LTEuMjk5LS43OS4wMy0uMjIuMzMtLjQ0Ljg5LS42NjlaIiBmaWxsPSIjZmZmIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMTEuOTkiIHkxPSIwIiB4Mj0iMTEuOTkiIHkyPSIyMy44MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIHN0b3AtY29sb3I9IiMyQUFCRUUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMjlFRDkiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48L3N2Zz4K)](https://t.me/+j8SNSwhS7xk1NTc9)
 
-
-
-Chenyme-AAVT V0.8.5
 </div>
 
+---
 
-非常感谢您来到我的 **全自动视频翻译** 项目！该项目旨在提供一个简单易用的自动识别、翻译工具和其他视频辅助工具，帮助快速识别视频字幕、翻译字幕、辅助图文。
+> [!NOTE]
+> 🌟 **如果本项目对您有帮助，记得 Star 🌟 支持一下吧~**
+>
+> 📝 **推荐识别时使用 Large 模型以获取更好的体验！由于正在备考，更新速度会放缓，感谢理解！** 
+>
+> 📖[**安装教程**](https://blog.chenyme.top/blog/aavt-install) | ❓ [ **常见问题**](https://blog.chenyme.top/blog/aavt-qa) | 💬 [ **电报群组**](https://t.me/+j8SNSwhS7xk1NTc9)
 
-> - **Note1 ：推荐选用 Faster-whisper 和 Large 模型以获得最好的断句、识别体验！**
-> - **Note2 ：由于考研，更新速度可能会放缓，学业为重，感谢理解~~~ 大家有想法、有问题、想交流的朋友们可以加群一起讨论噢！**
-> - **【紧急公告】Pytorch近期 2.4.x 版本，部分用户会直接报错：OSError找不到指定的模块fbgemm.dll，目前尚未知任何原因！**
-> 
-> 若发生此类错误，请尝试将对应的安装脚本(.bat文件)中的 torch 版本 修改为 2.3.1 并删除已安装 env 文件，重新运行安装脚本！
-> 
-> （示例）原：pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-> 
-> （示例）改：pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1 --index-url https://download.pytorch.org/whl/cu121
-
-
-#### 给一颗免费的星支持一下叭~感谢！[AAVT安装教程](https://blog.chenyme.top/blog/aavt-install) | [AAVT常见问题](https://blog.chenyme.top/blog/aavt-qa) | [AAVT电报群组](https://t.me/+j8SNSwhS7xk1NTc9)
-
-#### 本项目开源可魔改，发布请保留原作者 @chenyme 和 项目链接，感谢支持！请勿在任何平台收费项目源码！（代码这么烂也能收？）
-
-由于微信群聊人数限制，入群请直接在电报私信我。
 <br>
 
+## 项目介绍
+**Chenyme-AAVT 全自动视频翻译项目** 致力于提供一个简便高效且免费的媒体识别与翻译自动化流程，帮助您快速完成音视频字幕的识别、翻译和处理等多种功能，当然目前项目已经不仅仅是帮您识别并翻译声音，还可以自动化生成营销图文、对字幕单独翻译。计划未来会基于现有基本功能继续加入更多有意思的工具，比如 实时识别、口型校正、声音克隆、音色辨别 等等，敬请期待！
 
-<img src="https://github.com/Chenyme/Chenyme-AAVT/assets/118253778/b20ddf3c-34c7-460b-bf98-fe66d856c6be" />
+当前已完成的**基本**功能：
+
+- 【音频识别】|【视频识别】|【字幕翻译】|【图文博客】|【声音模拟】|【批量翻译】
+
+<br>
+
+![20240820210851.jpg](https://img.picui.cn/free/2024/08/20/66c4959ec9c2d.jpg)
+
+项目亮点：
+- 支持识别和翻译**多种语言**
+- 支持 **全流程本地化、免费化部署**
+- 支持对视频 **一键生成博客内容、营销图文**
+- 支持 **自动化翻译**、**二次修改字幕**、**预览视频**
+- 支持开启 **GPU 加速**、**VAD 辅助**、**FFmpeg 加速**
+- 支持使用 **ChatGPT**、**Claude**、**Gemini**、**DeepSeek** 等多家大模型翻译引擎
 
 
-#### [测试效果 点击下载](https://github.com/Chenyme/Chenyme-AAVT/blob/main/public/test_vedio.mp4?raw=true)
+## 如何部署
 
-## 项目亮点
-> *   支持 **OpenAI API** 和 **Faster-Whisper** 识别后端。
-> *   支持 **GPU 加速**、**VAD辅助**、**FFmpeg加速**。
-> *   支持 **本地部署模型**、**ChatGPT**、**KIMI**、**DeepSeek**、**ChatGLM**、**Claude**等多种引擎翻译。
-> *   支持识别、翻译 **多种语言** 和 **多种文件格式** 。
-> *   支持对 **一键生成**、**字幕微调**、**视频预览**。
-> *   支持对内容直接进行 **AI总结、问答**。
-> *   支持视频 **生成图文博客**。
+### 在 Windows 中部署
+> 📖[**安装教程**](https://blog.chenyme.top/blog/aavt-install)
+>
+> [**Release**](https://github.com/Chenyme/Chenyme-AAVT/releases) 中带有 `Full` 的是已打包了FFmpeg库的版本
 
+### 1.手动部署
 
-## 如何安装
-> **修复闪退.bat请在 出现闪退/报错OMP/报错NoneType 的情况下 再运行，不要直接运行！**
+1. 安装 [Python](https://www.python.org/downloads/)，请确保Python版本大于3.8！
+2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html)，并设置为环境变量！
+3. （CPU部署可忽略）安装 [CUDA](https://developer.nvidia.com/cuda-toolkit)，推荐版本为 CUDA11.8、12.1、12.4！
+4. 运行 `0_Check.bat` 检查有哪些环境还没有正确安装！
+5. (环境检查通过后) 运行 `install.bat`，选择您对应的版本继续安装！
 
-### 使用 Windows
-
-1. 安装 [Python](https://www.python.org/downloads/)，请确保Python版本大于3.8
-
-2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html)，[**Release**](https://github.com/Chenyme/Chenyme-AAVT/releases) 中`Full`版本已经打包了FFmpeg库
-
-3. 运行 `install.bat`
-
-### 使用 docker
+### 使用 docker 部署
+> 注：目前 项目最新版本为 V0.9.0 此 Docker 的版本为0.8.x
+>
+> 感谢 @Eisaichen 提供此版本
 
 ```
 docker pull eisai/chenyme-aavt
@@ -71,13 +69,10 @@ docker pull eisai/chenyme-aavt
 
 具体使用方法，请查阅：[eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))
 
-感谢 @Eisaichen 提供此版本
-
-### 使用 Colab
+### 使用 Google Colab
+> 感谢 @Kirie233 提供此版本
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
-
-感谢 @Kirie233 提供此版本
 
 ## TODO
 
