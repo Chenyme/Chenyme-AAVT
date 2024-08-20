@@ -13,9 +13,9 @@ font_names = [item for item in fonts if '@' not in item]
 # 销毁根窗口
 root.destroy()
 
-path = os.getcwd().replace("utils","/")
+path = os.getcwd().replace("utils", "/")
 
 # 写入文本文件
 with open(path + '/config/font.txt', 'w', encoding='utf-8') as file:
     for font in font_names:
-        file.write(font + '/')
+        file.write(font + '\n')

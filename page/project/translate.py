@@ -69,10 +69,8 @@ wait_time_setting = translate_config["translate"]["wait_time"]
 prompt_pre_setting = translate_config["translate"]["prompt"]
 srt_setting = translate_config["translate"]["srt"]
 translate_readme = translate_config["other"]["first"]
-system_prompt = prompt[prompt_pre_setting]["system_prompt"].replace("{language1}", language_index1).replace(
-    "{language2}", language_index2)
-user_prompt = prompt[prompt_pre_setting]["user_prompt"].replace("{language1}", language_index1).replace("{language2}",
-                                                                                                        language_index2)
+system_prompt = prompt[prompt_pre_setting]["system_prompt"].replace("{language1}", language_index1).replace("{language2}", language_index2)
+user_prompt = prompt[prompt_pre_setting]["user_prompt"].replace("{language1}", language_index1).replace("{language2}", language_index2)
 
 translation_dict = {
     (0,): '无需翻译',
@@ -200,18 +198,15 @@ with tab2:
 
         st.write("")
         col6, col7 = st.columns(2)
-        language = ["简体中文", "繁体中文", "英语", "日语", "泰语", "德语", "法语", "俄语", "韩国语", "越南语",
-                    "意大利语", "阿拉伯语", "西班牙语", "孟加拉语", "葡萄牙语", "印地语（北印度语）", ]
+        language = ["简体中文", "繁体中文", "英语", "日语", "泰语", "德语", "法语", "俄语", "韩国语", "越南语", "意大利语", "阿拉伯语", "西班牙语", "孟加拉语", "葡萄牙语", "印地语（北印度语）", ]
         with col6:
             st.write("###### 原始语言")
             st.caption("文件的原始语言")
-            language1 = st.selectbox('原始语言', language, index=language.index(language_index1),
-                                     label_visibility="collapsed")
+            language1 = st.selectbox('原始语言', language, index=language.index(language_index1), label_visibility="collapsed")
         with col7:
             st.write("###### 目标语言")
             st.caption("文件的目标语言")
-            language2 = st.selectbox('目标语言', language, index=language.index(language_index2),
-                                     label_visibility="collapsed")
+            language2 = st.selectbox('目标语言', language, index=language.index(language_index2), label_visibility="collapsed")
         st.write("")
         srt_choose = ["关闭", "原始语言为首", "目标语言为首"]
         st.write("###### 双语字幕")
@@ -227,15 +222,11 @@ with tab2:
         st.write("###### 翻译提示词")
         st.caption("翻译使用的提示词，可前往全局设置-翻译设置中配置新的提示词")
         try:
-            prompt_pre_setting = st.selectbox('预设prompt', prompt.keys(),
-                                              index=list(prompt.keys()).index(prompt_pre_setting),
-                                              label_visibility="collapsed")
+            prompt_pre_setting = st.selectbox('预设prompt', prompt.keys(), index=list(prompt.keys()).index(prompt_pre_setting), label_visibility="collapsed")
         except:
             prompt_pre_setting = st.selectbox('预设prompt', prompt.keys(), label_visibility="collapsed")
-        system_prompt = prompt[prompt_pre_setting]["system_prompt"].replace("{language1}", language1).replace(
-            "{language2}", language2)
-        user_prompt = prompt[prompt_pre_setting]["user_prompt"].replace("{language1}", language1).replace("{language2}",
-                                                                                                          language2)
+        system_prompt = prompt[prompt_pre_setting]["system_prompt"].replace("{language1}", language1).replace("{language2}", language2)
+        user_prompt = prompt[prompt_pre_setting]["user_prompt"].replace("{language1}", language1).replace("{language2}", language2)
         st.write("")
 
     with TranslateSave:
@@ -302,29 +293,21 @@ with tab1:
 
                 msg_tra = st.toast("正在翻译字幕", icon=":material/translate:")
                 if translate_option == '本地模型':
-                    result = local_translate_srt(system_prompt, user_prompt, local_key, local_url, local_model,
-                                                 srt_content, srt_setting)
+                    result = local_translate_srt(system_prompt, user_prompt, local_key, local_url, local_model, srt_content, srt_setting)
                 elif 'gemini' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, gemini_key, gemini_url, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, gemini_key, gemini_url, translate_option, srt_content, wait_time_setting, srt_setting)
                 elif 'yi' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, ai01_key, ai01_url, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, ai01_key, ai01_url, translate_option, srt_content, wait_time_setting, srt_setting)
                 elif 'gpt' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, chatgpt_key, chatgpt_url, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, chatgpt_key, chatgpt_url, translate_option, srt_content, wait_time_setting, srt_setting)
                 elif 'moonshot' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, kimi_key, kimi_base, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, kimi_key, kimi_base, translate_option, srt_content, wait_time_setting, srt_setting)
                 elif 'glm' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, chatglm_key, chatglm_url, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, chatglm_key, chatglm_url, translate_option, srt_content, wait_time_setting, srt_setting)
                 elif 'deepseek' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, deepseek_key, deepseek_url, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, deepseek_key, deepseek_url, translate_option, srt_content, wait_time_setting, srt_setting)
                 elif 'claude' in translate_option:
-                    result = translate_srt(system_prompt, user_prompt, claude_key, chatglm_url, translate_option,
-                                           srt_content, wait_time_setting, srt_setting)
+                    result = translate_srt(system_prompt, user_prompt, claude_key, chatglm_url, translate_option, srt_content, wait_time_setting, srt_setting)
                 print("\033[1;34m🎉 字幕翻译已完成！\033[0m")
                 msg_tra.toast("翻译任务结束！", icon=":material/translate:")
 
@@ -358,8 +341,7 @@ with tab1:
                 st.write(
                     "请注意，除关闭 CMD 外，执行任务后无法取消任务！请勿在执行时点击任何 项目按钮 或 切换菜单，以免导致识别报错！")
                 st.write("")
-                uploaded_file_translate = st.file_uploader("上传您的音频文件", type=["srt"],
-                                                           label_visibility="collapsed")
+                uploaded_file_translate = st.file_uploader("上传您的音频文件", type=["srt"], label_visibility="collapsed")
                 st.write("")
                 if st.button("**点击上传**", use_container_width=True, type="primary"):
                     st.session_state.uploaded_file_translate = uploaded_file_translate
@@ -440,8 +422,7 @@ with tab1:
                 try:
                     st.caption("字幕时间轴")
                     srt_data1 = parse_srt_file(st.session_state.srt_content_translate, srt_setting)
-                    edited_data = st.data_editor(srt_data1, height=st.session_state.height_srt, hide_index=True,
-                                                 use_container_width=True)
+                    edited_data = st.data_editor(srt_data1, height=st.session_state.height_srt, hide_index=True, use_container_width=True)
                     srt_data2 = convert_to_srt(edited_data, srt_setting)
                     st.session_state.srt_translate = srt_data2
                     st.write("")
@@ -450,13 +431,10 @@ with tab1:
                         uploaded_file = st.session_state.uploaded_file_translate
                         stringio = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
                         srt_data1 = parse_srt_file(stringio, srt_setting="关闭")
-                        edited_data = st.data_editor(srt_data1, height=st.session_state.height_srt, hide_index=True,
-                                                     use_container_width=True)
+                        edited_data = st.data_editor(srt_data1, height=st.session_state.height_srt, hide_index=True, use_container_width=True)
                         srt_data2 = convert_to_srt(edited_data, srt_setting="关闭")
                         st.session_state.srt_translate = srt_data2
                         st.write("")
                     except:
-                        st.info(
-                            "##### 结果预览区域 \n\n&nbsp;\n\n **生成完毕后会在此区域自动显示字幕时间轴** \n\n 运行前，请在右侧使用上传文件工具导入你的音频文件！\n\n&nbsp;\n\n&nbsp;",
-                            icon=":material/view_in_ar:")
+                        st.info("##### 结果预览区域 \n\n&nbsp;\n\n **生成完毕后会在此区域自动显示字幕时间轴** \n\n 运行前，请在右侧使用上传文件工具导入你的音频文件！\n\n&nbsp;\n\n&nbsp;", icon=":material/view_in_ar:")
                         st.write("")
