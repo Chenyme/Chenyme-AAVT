@@ -160,7 +160,7 @@ if prompt := st.chat_input(placeholder="NOTE：请注意您的 Token 消耗哦 ~
 
         client = OpenAI(api_key=HomeKey, base_url=HomeUrl)
         response = client.chat.completions.create(model=model, messages=recent_messages, temperature=0.8)
-        print(recent_messages)
+
         msg = response.choices[0].message.content
         st.session_state.messages.append({"role": "assistant", "content": msg})
         st.chat_message("assistant").write(msg)

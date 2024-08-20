@@ -1,4 +1,5 @@
 import os
+
 import json
 import toml
 import time
@@ -11,6 +12,11 @@ from utils.public import (FileToMp3, OpenaiWhisperResult, runWhisperSeperateProc
                           show_video, add_font_settings, srt_to_ass, srt_to_vtt, srt_to_sbv)
 
 style()
+
+
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+
 
 path = os.getcwd() + "/"
 llms_path = "config/llms.toml"
@@ -336,7 +342,7 @@ with tab2:
 
 with tab1:
     # 配置处理
-    faster_whisper_model_local_index = faster_local_path + "\\" + faster_whisper_model_local_index
+    faster_whisper_model_local_index = faster_local_path + "/" + faster_whisper_model_local_index
 
     col1, col2 = st.columns([0.75, 0.25])  # 置顶标题、执行按钮流程模块
 

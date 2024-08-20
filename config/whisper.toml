@@ -14,7 +14,7 @@ min_vad = 500
 beam_size = 5
 
 [Faster_Local]
-path = "E:\\project\\aavt\\aavt\\model\\faster-whisper"
+path = ""
 GPU = false
 VAD = false
 Temp = 0.8
@@ -23,4 +23,4 @@ min_vad = 500
 beam_size = 5
 
 [other]
-first = true
+first = false

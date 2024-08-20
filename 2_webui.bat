@@ -37,25 +37,11 @@ if exist env\Scripts\activate.bat (
 REM 确保返回到脚本目录
 cd /d "%script_path%"
 
-REM 获取字体目录
-echo Running font directory setup...
-python utils\get_font.py
-if %errorlevel% neq 0 (
-    echo [ERROR] Failed to retrieve font directory.
-    pause
-)
-
 REM 提示用户关于 Streamlit 的电子邮件提示
 echo Launching Streamlit Web UI...
 echo NOTE: 若有 Streamlit 的电子邮件提示直接Enter 跳过
 
-REM 获取字体目录
-echo Running font directory setup...
 python styles\info.py
-if %errorlevel% neq 0 (
-    echo [ERROR] Failed to retrieve font directory.
-    pause
-)
 
 REM 启动 Streamlit Web UI
 streamlit run Chenyme-AAVT.py

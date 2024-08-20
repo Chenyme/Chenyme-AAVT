@@ -16,6 +16,6 @@ root.destroy()
 path = os.getcwd().replace("utils","/")
 
 # 写入文本文件
-with open(path + '\\config\\font.txt', 'w', encoding='utf-8') as file:
+with open(path + '/config/font.txt', 'w', encoding='utf-8') as file:
     for font in font_names:
-        file.write(font + '\n')
+        file.write(font + '/')

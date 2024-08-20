@@ -470,7 +470,7 @@ with tab1:
     font_size_setting = hard_font_size_setting
     if subtitle_model_setting == "软字幕":
         font_size_setting = soft_font_size_setting
-    faster_whisper_model_local_index = faster_local_path + "\\" + faster_whisper_model_local_index
+    faster_whisper_model_local_index = faster_local_path + "/" + faster_whisper_model_local_index
 
     col1, col2 = st.columns([0.75, 0.28])  # 置顶标题、执行按钮流程模块
 
@@ -1040,8 +1040,8 @@ with tab3:
 
                 # 处理不规则字符
                 answer = answer.replace("```markdown\n", "")
-                answer = answer.replace("images\\", "")
-                answer = answer.replace("photos\\", "")
+                answer = answer.replace("images" + os.path.sep, "")
+                answer = answer.replace("photos" + os.path.sep, "")
                 answer = answer.rstrip("`")
 
                 with open(photos_path + 'output.md', 'w', encoding='utf-8') as file:

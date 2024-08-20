@@ -1,18 +1,20 @@
 import os
 import toml
+import subprocess
 import streamlit as st
 from styles.global_style import style
 style(True)
 
-
 os.environ['KMP_DUPLICATE_LIB_OK']='True'  # 修复OMP
 
-path = os.getcwd() + "\\"
+path = os.getcwd() + "/"
 project_config_path = path + "config/project.toml"
+get_font_path = path + "utils/get_font.py"
 with open(project_config_path, 'r', encoding='utf-8') as config_file:
     project = toml.load(config_file)
 open_protect = project["protect"]["open"]
 password_protect = project["protect"]["password"]
+
 if not open_protect:
     st.session_state.verify = True
 
@@ -36,7 +38,6 @@ if "verify" in st.session_state:
     pg = st.navigation(pages, position="sidebar")
     pg.run()
 else:
-
     st.write("# ")
     st.markdown("<h1 style='text-align: center;'>Chenyme-AAVT V0.9.0</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: grey; font-size: 12px;'>&copy; 2024 Powered By @Chenyme</p>", unsafe_allow_html=True)

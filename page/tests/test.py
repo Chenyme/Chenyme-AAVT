@@ -7,13 +7,13 @@ import streamlit_antd_components as sac
 from styles.global_style import style
 
 style()
-path = os.getcwd() + "\\"
-llms_path = path + "config\\llms.toml"
-translate_config_path = path + "config\\translate.toml"
-prompt_config_path = path + "config\\prompt.json"
-project_config_path = path + "config\\project.toml"
-tts_cache_path = path + "cache\\tts\\"
-public_path = path + "cache\\public\\"
+path = os.getcwd() + "/"
+llms_path = path + "config/llms.toml"
+translate_config_path = path + "config/translate.toml"
+prompt_config_path = path + "config/prompt.json"
+project_config_path = path + "config/project.toml"
+tts_cache_path = path + "cache/tts/"
+public_path = path + "cache/public/"
 
 with open(llms_path, 'r', encoding="utf-8") as config_file:
     llms = toml.load(config_file)
@@ -63,7 +63,7 @@ with tab1:
             current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             open_cache_path = tts_cache_path + current_time
             os.makedirs(open_cache_path)
-            open_tts_path = f"{open_cache_path}\\TTSOutput.mp3"
+            open_tts_path = f"{open_cache_path}/TTSOutput.mp3"
 
             client = OpenAI(api_key=chatgpt_key, base_url=chatgpt_url)
             response = client.audio.speech.create(

@@ -5,7 +5,7 @@ quality = "medium"
 ffmpeg = "libx264"
 
 [protect]
-open = false
+open = true
 password = "chenymeaavt"
 
 [other]

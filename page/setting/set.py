@@ -11,7 +11,7 @@ import google.generativeai as genai
 import shutil
 style()
 
-path = os.getcwd() + "\\"
+path = os.getcwd() + "/"
 llms_path = path + "config/llms.toml"
 whisper_path = path + "config/whisper.toml"
 font_data_path = path + "config/font.txt"
@@ -19,7 +19,7 @@ video_config_path = path + "config/video.toml"
 prompt_config_path = path + "config/prompt.json"
 project_config_path = path + "config/project.toml"
 video_cache_path = path + "cache/video/"
-model_path = path + "model\\faster-whisper"
+model_path = path + "model/faster-whisper"
 with open(llms_path, 'r', encoding="utf-8") as config_file:
     llms = toml.load(config_file)
 with open(whisper_path, 'r', encoding="utf-8") as config_file:
@@ -141,7 +141,7 @@ if "new" in st.session_state:
     del st.session_state["new"]
 if "set_first" in st.session_state:
     st.toast("首次使用初始化成功！", icon=":material/verified:")
-    del st.session_state["first"]
+    del st.session_state["set_first"]
 if "delete" in st.session_state:
     st.toast("已成功删除！", icon=":material/verified:")
     del st.session_state["delete"]
@@ -955,7 +955,7 @@ with tab5:
         with col2:
             if st.button(f"**点击删除**", use_container_width=True, type="primary"):
                 try:
-                    if selected_folder.split('\\')[-1] not in selected_module:
+                    if os.path.basename(selected_folder) not in selected_module:
                         shutil.rmtree(selected_folder)
                         st.session_state.delete = True
                         st.rerun()
