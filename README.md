@@ -3,6 +3,7 @@
 <img src="https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/chenymeaavt1.png" title="chenymeaavt.png" width="80%" />
 
 <br>
+<br>
 
 [![英文](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square&label=下载)](https://github.com/Chenyme/Chenyme-AAVT/releases)
@@ -28,9 +29,9 @@
 ## 项目介绍
 **Chenyme-AAVT 全自动视频翻译项目** 致力于提供一个简便高效且免费的媒体识别与翻译自动化流程，帮助您快速完成音视频字幕的识别、翻译和处理等多种功能，当然目前项目已经不仅仅是帮您识别并翻译声音，还可以自动化生成营销图文、对字幕单独翻译。计划未来会基于现有基本功能继续加入更多有意思的工具，比如 实时识别、口型校正、声音克隆、音色辨别 等等，敬请期待！
 
-当前已完成的**基本**功能：
+当前已支持的**基本**功能，非全部功能：
 
-- 【 [音频识别](#音频识别) 】|【 [视频识别](#视频识别) 】|【 [字幕翻译](字幕翻译) 】|【 [图文博客](#图文博客) 】|【 [声音模拟](#声音模拟) 】
+- 【[音频识别](?tab=readme-ov-file#音频识别)】|【[视频识别](?tab=readme-ov-file#视频识别)】|【[图文博客](?tab=readme-ov-file#图文博客)】|【[字幕翻译](?tab=readme-ov-file#字幕翻译)】|【[声音模拟](?tab=readme-ov-file#声音模拟)】
 
 <br>
 
@@ -82,11 +83,12 @@
 - 支持对视频 **一键生成博客内容、营销图文**
 - 支持 **自动化翻译**、**二次修改字幕**、**预览视频**
 - 支持开启 **GPU 加速**、**VAD 辅助**、**FFmpeg 加速**
-- 支持使用 **ChatGPT**、**Claude**、**Gemini**、**DeepSeek** 等多家大模型翻译引擎
+- 支持使用 **ChatGPT**、**Claude**、**Gemini**、**DeepSeek** 等众多大模型翻译引擎
 
 <br>
 
 ## 如何部署
+> 若需要验证，密码为：`chenymeaavt`，此为新功能，可在设置中关闭项目保护
 
 ### Windows 部署
 📖[**安装教程**](https://blog.chenyme.top/blog/aavt-install) | Release 中带有 `Full` 的是已打包了FFmpeg库的版本
@@ -123,11 +125,10 @@ docker pull eisai/chenyme-aavt
 
 <br>
 
+### Mac os 部署
+已支持，近期会写教程
 
 ### 其他环境部署
-
-- #### Mac os
-理论上 Mac os 部署是可行的，最新版本我也对 Mac 中的部分不适配内容进行了优化，由于没有 Mac 使用具体情况我也不知道。不过群内有很多 Mac 佬已经成功部署了
 
 - #### Linux
 由于近期那台电脑丢在学校，暂时没研究，其实我觉得解决 FFMpeg 和 Cuda，应该就没问题了
