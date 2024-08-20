@@ -1,3 +1,10 @@
 [server]
+maxUploadSize = 102400
 
-maxUploadSize = 51200  # 设置为你想要的最大文件上传大小（以MB为单位）
+[theme]
+base = "light"
+primaryColor = "#007AFF"
+backgroundColor = "#F8F8F8"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1C1C1E"
+font = "sans serif"
