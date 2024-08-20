@@ -1,0 +1,51 @@
+[Home]
+key = "sk-mTx1Qx04xagOqpHJB0DeF581E8C84370818c7aD5D15cA309"
+url = "https://api.chenyme.top/v1"
+model = [ 0, 1,]
+
+[Local]
+key = ""
+url = ""
+model = ""
+
+[Custom]
+key = ""
+url = ""
+model = ""
+
+[Global]
+key = ""
+url = ""
+all = false
+
+[ChatGPT]
+key = ""
+url = "https://api.openai.com/v1"
+
+[Claude]
+key = ""
+url = "https://api.anthropic.com/v1/messages"
+
+[Gemini]
+key = ""
+url = ""
+
+[DeepSeek]
+key = ""
+url = "https://api.deepseek.com/v1"
+
+[Kimi]
+key = ""
+url = "https://api.moonshot.cn/v1"
+
+[ChatGLM]
+key = ""
+url = "https://open.bigmodel.cn/api/paas/v4/"
+
+[Yi]
+key = ""
+url = "https://api.lingyiwanwu.com/v1"
+
+[translate]
+context_size = 2
+summarize = false

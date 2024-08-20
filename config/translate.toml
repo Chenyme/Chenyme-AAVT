@@ -1,0 +1,10 @@
+[translate]
+translate_index = [ 2, 4,]
+language_index1 = "简体中文"
+language_index2 = "简体中文"
+wait_time = 0.2
+srt = "关闭"
+prompt = "Prompt for GPT"
+
+[other]
+first = false

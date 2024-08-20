@@ -1,0 +1,12 @@
+[ffmpeg]
+log = "error"
+crf = 23
+quality = "medium"
+ffmpeg = "libx264"
+
+[protect]
+open = false
+password = "chenymeaavt"
+
+[other]
+first = false

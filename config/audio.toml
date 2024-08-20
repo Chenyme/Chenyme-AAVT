@@ -1,0 +1,22 @@
+[whisper]
+language_list = [ "自动识别", "zh", "en", "ja", "th", "de", "fr", "ru", "ko", "vi", "it", "ar", "es", "bn", "pt", "hi",]
+openai_whisper_model_list = [ "whisper-1",]
+faster_whisper_model_list = [ "tiny", "tiny.en", "base", "base.en", "small", "small.en", "medium", "medium.en", "large-v1", "large-v2", "large-v3", "large", "distil-small.en", "distil-medium.en", "distil-large-v2", "distil-large-v3",]
+language_index = "自动识别"
+openai_whisper_model_index = "whisper-1"
+faster_whisper_model_index = "tiny"
+faster_whisper_model_local_index = "put models here（删除模型时请切换到该模型文件）"
+
+[translate]
+translate_index = [ 2, 4,]
+language_list = [ "简体中文", "繁体中文", "英语", "日语", "泰语", "德语", "法语", "俄语", "韩国语", "越南语", "意大利语", "阿拉伯语", "西班牙语", "孟加拉语", "葡萄牙语", "印地语（北印度语）",]
+language_index1 = "英语"
+language_index2 = "简体中文"
+prompt = "Prompt for GPT"
+wait_time = 0.20000000000000004
+
+[subtitle]
+srt = "目标语言为首"
+
+[other]
+first = false

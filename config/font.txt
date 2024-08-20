@@ -1,0 +1,319 @@
+System
+Terminal
+Fixedsys
+Modern
+Roman
+Script
+Courier
+MS Serif
+MS Sans Serif
+Small Fonts
+ROG Fonts
+Marlett
+Arial
+Arabic Transparent
+Arial Baltic
+Arial CE
+Arial CYR
+Arial Greek
+Arial TUR
+Arial Black
+Bahnschrift Light
+Bahnschrift SemiLight
+Bahnschrift
+Bahnschrift SemiBold
+Bahnschrift Light SemiCondensed
+Bahnschrift SemiLight SemiConde
+Bahnschrift SemiCondensed
+Bahnschrift SemiBold SemiConden
+Bahnschrift Light Condensed
+Bahnschrift SemiLight Condensed
+Bahnschrift Condensed
+Bahnschrift SemiBold Condensed
+Calibri
+Calibri Light
+Cambria
+Cambria Math
+Candara
+Candara Light
+Comic Sans MS
+Consolas
+Constantia
+Corbel
+Corbel Light
+Courier New
+Courier New Baltic
+Courier New CE
+Courier New CYR
+Courier New Greek
+Courier New TUR
+Ebrima
+Franklin Gothic Medium
+Gabriola
+Gadugi
+Georgia
+Impact
+Ink Free
+Javanese Text
+Leelawadee UI
+Leelawadee UI Semilight
+Lucida Console
+Lucida Sans Unicode
+Malgun Gothic
+Malgun Gothic Semilight
+Microsoft Himalaya
+Microsoft JhengHei
+Microsoft JhengHei UI
+Microsoft JhengHei Light
+Microsoft JhengHei UI Light
+Microsoft New Tai Lue
+Microsoft PhagsPa
+Microsoft Sans Serif
+Microsoft Tai Le
+微软雅黑
+Microsoft YaHei UI
+微软雅黑 Light
+Microsoft YaHei UI Light
+Microsoft Yi Baiti
+MingLiU-ExtB
+PMingLiU-ExtB
+MingLiU_HKSCS-ExtB
+Mongolian Baiti
+MS Gothic
+MS UI Gothic
+MS PGothic
+MV Boli
+Myanmar Text
+Nirmala UI
+Nirmala UI Semilight
+Palatino Linotype
+Sans Serif Collection
+Segoe Fluent Icons
+Segoe MDL2 Assets
+Segoe Print
+Segoe Script
+Segoe UI
+Segoe UI Black
+Segoe UI Emoji
+Segoe UI Historic
+Segoe UI Light
+Segoe UI Semibold
+Segoe UI Semilight
+Segoe UI Symbol
+Segoe UI Variable Small Light
+Segoe UI Variable Small Semilig
+Segoe UI Variable Small
+Segoe UI Variable Small Semibol
+Segoe UI Variable Text Light
+Segoe UI Variable Text Semiligh
+Segoe UI Variable Text
+Segoe UI Variable Text Semibold
+Segoe UI Variable Display Light
+Segoe UI Variable Display Semil
+Segoe UI Variable Display
+Segoe UI Variable Display Semib
+宋体
+新宋体
+SimSun-ExtB
+Sitka Small
+Sitka Small Semibold
+Sitka Text
+Sitka Text Semibold
+Sitka Subheading
+Sitka Subheading Semibold
+Sitka Heading
+Sitka Heading Semibold
+Sitka Display
+Sitka Display Semibold
+Sitka Banner
+Sitka Banner Semibold
+Sylfaen
+Symbol
+Tahoma
+Times New Roman
+Times New Roman Baltic
+Times New Roman CE
+Times New Roman CYR
+Times New Roman Greek
+Times New Roman TUR
+Trebuchet MS
+Verdana
+Webdings
+Wingdings
+Yu Gothic
+Yu Gothic UI
+Yu Gothic UI Semibold
+Yu Gothic Light
+Yu Gothic UI Light
+Yu Gothic Medium
+Yu Gothic UI Semilight
+等线
+等线 Light
+仿宋
+楷体
+黑体
+HoloLens MDL2 Assets
+AniMe Matrix - MB_EN
+Agency FB
+Algerian
+Book Antiqua
+Arial Narrow
+Arial Rounded MT Bold
+Baskerville Old Face
+Bauhaus 93
+Bell MT
+Bernard MT Condensed
+Bodoni MT
+Bodoni MT Black
+Bodoni MT Condensed
+Bodoni MT Poster Compressed
+Bookman Old Style
+Bradley Hand ITC
+Britannic Bold
+Berlin Sans FB
+Berlin Sans FB Demi
+Broadway
+Brush Script MT
+Bookshelf Symbol 7
+Californian FB
+Calisto MT
+Castellar
+Century Schoolbook
+Centaur
+Century
+Chiller
+Colonna MT
+Cooper Black
+Copperplate Gothic Bold
+Copperplate Gothic Light
+Curlz MT
+Dubai
+Dubai Light
+Dubai Medium
+Elephant
+Engravers MT
+Eras Bold ITC
+Eras Demi ITC
+Eras Light ITC
+Eras Medium ITC
+Felix Titling
+Forte
+Franklin Gothic Book
+Franklin Gothic Demi
+Franklin Gothic Demi Cond
+Franklin Gothic Heavy
+Franklin Gothic Medium Cond
+Freestyle Script
+French Script MT
+Footlight MT Light
+方正舒体
+方正姚体
+Garamond
+Gigi
+Gill Sans MT
+Gill Sans MT Condensed
+Gill Sans Ultra Bold Condensed
+Gill Sans Ultra Bold
+Gloucester MT Extra Condensed
+Gill Sans MT Ext Condensed Bold
+Century Gothic
+Goudy Old Style
+Goudy Stout
+Harlow Solid Italic
+Harrington
+Haettenschweiler
+High Tower Text
+Imprint MT Shadow
+Informal Roman
+Blackadder ITC
+Edwardian Script ITC
+Kristen ITC
+Jokerman
+Juice ITC
+Kunstler Script
+Wide Latin
+Lucida Bright
+Lucida Calligraphy
+Leelawadee
+Lucida Fax
+Lucida Handwriting
+Lucida Sans
+Lucida Sans Typewriter
+Magneto
+Maiandra GD
+Matura MT Script Capitals
+Mistral
+Modern No. 20
+Microsoft Uighur
+Monotype Corsiva
+Niagara Engraved
+Niagara Solid
+OCR A Extended
+Old English Text MT
+Onyx
+MS Outlook
+Palace Script MT
+Papyrus
+Parchment
+Perpetua
+Perpetua Titling MT
+Playbill
+Poor Richard
+Pristina
+Rage Italic
+Ravie
+MS Reference Sans Serif
+MS Reference Specialty
+Rockwell Condensed
+Rockwell
+Rockwell Extra Bold
+Script MT Bold
+Showcard Gothic
+隶书
+幼圆
+Snap ITC
+华文彩云
+Stencil
+华文仿宋
+华文琥珀
+华文楷体
+华文隶书
+华文宋体
+华文细黑
+华文行楷
+华文新魏
+华文中宋
+Tw Cen MT
+Tw Cen MT Condensed
+Tw Cen MT Condensed Extra Bold
+Tempus Sans ITC
+Viner Hand ITC
+Vivaldi
+Vladimir Script
+Wingdings 2
+Wingdings 3
+ZWAdobeF
+MT Extra
+Euclid
+Euclid Symbol
+Euclid Extra
+Euclid Fraktur
+Euclid Math One
+Euclid Math Two
+Fences
+Tiger
+MT Extra Tiger
+Symbol Tiger
+Tiger Expert
+Symbol Tiger Expert
+得意黑
+Cascadia Code ExtraLight
+Cascadia Code Light
+Cascadia Code SemiLight
+Cascadia Code
+Cascadia Code SemiBold
+Cascadia Mono ExtraLight
+Cascadia Mono Light
+Cascadia Mono SemiLight
+Cascadia Mono
+Cascadia Mono SemiBold

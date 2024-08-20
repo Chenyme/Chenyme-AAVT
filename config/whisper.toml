@@ -1,0 +1,26 @@
+[Mode]
+WhisperMode = "FasterWhisper - LocalModel"
+
+[OpenAI]
+Temp = 0.8
+Prompt = "Don't make each line too long."
+
+[Faster]
+GPU = false
+VAD = false
+Temp = 0.8
+Prompt = "Don't make each line too long."
+min_vad = 500
+beam_size = 5
+
+[Faster_Local]
+path = "E:\\project\\aavt\\aavt\\model\\faster-whisper"
+GPU = false
+VAD = false
+Temp = 0.8
+Prompt = "Don't make each line too long."
+min_vad = 500
+beam_size = 5
+
+[other]
+first = true
