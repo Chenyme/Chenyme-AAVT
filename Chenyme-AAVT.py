@@ -1,19 +1,22 @@
 import os
 import toml
-import subprocess
 import streamlit as st
+from utils.get_font import get_font_data
 from styles.global_style import style
-style(True)
 
-os.environ['KMP_DUPLICATE_LIB_OK']='True'  # 修复OMP
+style(True)
+get_font_data()
+
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'  # 修复OMP
 
 path = os.getcwd() + "/"
 project_config_path = path + "config/project.toml"
-get_font_path = path + "utils/get_font.py"
+
 with open(project_config_path, 'r', encoding='utf-8') as config_file:
     project = toml.load(config_file)
 open_protect = project["protect"]["open"]
 password_protect = project["protect"]["password"]
+
 
 if not open_protect:
     st.session_state.verify = True

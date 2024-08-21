@@ -42,7 +42,9 @@
 ## 项目亮点
 
 <details>
-  <summary><b>TODO | 待办</b></summary>
+  <summary><b>📃 TODO | 待办</b></summary>
+
+<br>
 
 ### 识别相关
 - [x] 更换更快的Whisper项目
@@ -87,50 +89,72 @@
 
 <br>
 
-## 如何部署
-> 若需要验证，密码为：`chenymeaavt`，此为新功能，可在设置中关闭项目保护
+## Windows 部署
+> 💡 注：请确保安装前前置环境就绪后再运行 install.bat！
 
-### Windows 部署
-📖[**安装教程**](https://blog.chenyme.top/blog/aavt-install) | Release 中带有 `Full` 的是已打包了FFmpeg库的版本
-
-1. 安装 [Python](https://www.python.org/downloads/) (请确保Python版本大于3.8！)
-   
-2. 安装 [FFmpeg](https://www.ffmpeg.org/download.html) (请不要忘记设置为环境变量！)
-   
-3. 安装 [CUDA](https://developer.nvidia.com/cuda-toolkit) (CPU部署可忽略，推荐版本为 CUDA11.8、12.1、12.4！)
-
-4. 运行 `0_Check.bat` (检查有哪些环境还没有正确安装，以免出错)
-
-5. 运行 `1_Install.bat`(环境检查通过后，界面内选择您对应的版本继续安装！)
-
-6. 运行 `2_WebUI.bat`(运行成功即可)
 
 <br>
 
-### docker 部署
-注：目前 项目最新版本为 V0.9.0 此 Docker 的版本为0.8.x，
+<details>
+  <summary><b>ℹ️ 前置环境：Python、FFmpeg、CUDA 说明 </b></summary>
+<br>
+
+### Python | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#47a521d01156)
+  - 💡 Python > 3.8 的版本
+  - 前往 Python 官网下载 安装程序
+  - 运行安装，在安装时请点击 ADD TO PATH 选项
+### FFMpeg | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#1897915fc461)
+  - 💡 若您不知道如何安装编译，请在项目Release中的下载 `Full` 版本，自带编译后的FFMpeg
+  - 前往 FFMpeg 官网下载编译好的 Windows 版本
+  - 设置 FFmpeg 为环境变量
+### CUDA(CPU 可忽略) | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#1faea2d7295f)
+  - 💡 推荐使用版本为 CUDA11.8、12.1、12.4
+  - 前往 CUDA 官网下载 CUDA 安装程序
+  - 安装 CUDA
+## &nbsp;
+</details>
+
+
+#### 运行 `1_Install.bat`
+  -  脚本会先检测是否成功配置 Python、FFMpeg 
+  -  脚本检查通过后，根据界面内提示选择版本
+  -  等待脚本执行安装完成
+
+#### 运行 `2_WebUI.bat` 启动项目
+
+<br>
+
+## Docker 部署
+> 💡 目前 项目最新版本为 V0.9.0 此 Docker 方法的版本为 V0.8.x，
+>
+> 感谢 @Eisaichen 提供此版本
+
+具体使用方法，请查阅：📖 [eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))
 
 ```
 docker pull eisai/chenyme-aavt
 ```
-
-具体使用方法，请查阅：[eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))，感谢 @Eisaichen 提供此版本
-
 <br>
 
 
-### Google Colab 部署
+## Google Colab 部署
+> 感谢 @Kirie233 提供此版本
 
-请点击后阅读相关部署教程 | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)，感谢 @Kirie233 提供此版本
+
+具体使用方法，请查阅：📖 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)，
 
 <br>
 
-### Mac os 部署
+## Mac os 部署
+
 已支持，近期会写教程
 
-### 其他环境部署
+<br>
 
-- #### Linux
+## 其他环境部署
+
+### Linux
+
 由于近期那台电脑丢在学校，暂时没研究，其实我觉得解决 FFMpeg 和 Cuda，应该就没问题了
 
 <br>
@@ -182,7 +206,3 @@ docker pull eisai/chenyme-aavt
 ![17](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/opentts.png)
 
 <br>
-
-## 鸣谢
-
-本人是 AI 时代的受益者，本项目的开发基本是站在巨人的肩膀上实现的。感谢开源精神，感谢 OpenAI 、 Streamlit 、 FFmpeg 、Faster-whisper 等开发人员！

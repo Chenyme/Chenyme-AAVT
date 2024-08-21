@@ -2,174 +2,196 @@
 chcp 65001 > nul
 setlocal
 
-REM 创建新项目环境
+:: 初始化检测标志
+set "ENV_CHECK_SUCCESS=1"
+
+echo === 依赖环境检测 ===
 echo.
-echo 正在创建新的虚拟环境...
+
+:: 检测 Python
+where python >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [ERROR] 未检测到 Python，请确认已正确安装。
+    set "ENV_CHECK_SUCCESS=0"
+) else (
+    echo [✔️ OK] Python 已安装
+)
+
+:: 检测 FFmpeg
+where ffmpeg >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [ERROR] 未检测到 FFmpeg，请确认已正确安装。
+    set "ENV_CHECK_SUCCESS=0"
+) else (
+    echo [✔️ OK] FFMpeg 已安装
+)
+
+:: 检查是否通过所有检测
+if "%ENV_CHECK_SUCCESS%"=="0" (
+    echo [❌ ERROR] 检测未通过！
+    echo.
+    echo 安装已退出，请安装上述缺失的环境后重试！
+    echo.
+    pause >nul
+    exit /b 1
+)
+
+echo [✔️ OK] Env 检测已通过
+
+echo.
+echo.
+
+:: 创建虚拟环境
+echo === 创建虚拟环境 ===
+echo.
 python -m venv env
 
 if exist env\Scripts\activate.bat (
-    REM 激活新项目环境
-    echo 虚拟环境已成功创建和激活！
+    echo [✔️ OK] 虚拟环境创建成功
     call env\Scripts\activate.bat
-    echo.
+    echo [✔️ OK] 虚拟环境成功激活
 ) else (
-    echo [错误] 虚拟环境创建失败。
+    echo [❌ ERROR] 虚拟环境创建失败
     exit /b 1
 )
 
-REM 检查 torch、torchvision、torchaudio 是否已安装
+
+:: 检查 torch、torchvision、torchaudio 是否安装
 pip show torch torchvision torchaudio >nul 2>&1
-
-REM 如果没有安装则退出
 if %errorlevel% neq 0 (
-    echo [信息] 未检测到 torch、torchvision、torchaudio，无需删除。
-    exit /b 0
+    echo [❔ INFO] 未检测到 torch、torchvision、torchaudio，跳过此步骤
+) else (
+    echo.
+
+    set /p confirm="检测到 torch、torchvision、torchaudio 已安装，是否卸载重装？ (Y/N): "
+
+    if /i "%confirm%"=="Y" (
+        pip uninstall -y torch torchvision torchaudio
+        if %errorlevel% neq 0 (
+            echo [❌ ERROR] 删除 torch、torchvision、torchaudio 失败。
+            exit /b 1
+        )
+        echo [✔️ OK] 已成功删除 torch、torchvision、torchaudio。
+    ) else (
+        echo.
+        echo [✔️ OK] 已跳过 Pytorch 卸载安装步骤
+
+        goto continue_install_common
+    )
 )
 
-REM 如果安装了则提示用户是否确认删除
-set /p confirm="检测到已安装的 torch、torchvision、torchaudio。你确定要删除它们吗？ (Y/N): "
 
-REM 判断用户输入，不区分大小写
-if /i "%confirm%" neq "Y" (
-    goto skip_uninstall
-)
-
-REM 执行删除操作
-pip uninstall -y torch torchvision torchaudio
-if %errorlevel% neq 0 (
-    echo [错误] 删除现有的 torch, torchvision, torchaudio 失败。
-    exit /b 1
-)
-echo [成功] torch, torchvision, torchaudio 已成功删除。
-
-:skip_uninstall
-echo [跳过操作] 用户选择不删除，继续执行剩余脚本。
 echo.
 
+:: Pytorch 版本选择
+echo === 自定义 Pytorch 参数 ===
+
+:choose_torch_version
+echo.
+echo Pytorch 版本
+
+echo 1. 最新版本 (2.4.0)
+echo 2. 修复版本 (2.3.1)
+echo.
+
+echo 若您运行遇到 OSError: [WinError 126] Not found fbgemm.dll时 请选择修复版本
+
+set /p torch_version_choice="请输入选项(1-2): "
+
+if "%torch_version_choice%"=="1" (
+    set "torch_version=2.4.0"
+    goto choose_cuda_version
+) else if "%torch_version_choice%"=="2" (
+    set "torch_version=2.3.1"
+    goto choose_cuda_version
+) else (
+    echo [❌ ERROR] 输入无效，请输入 1 到 2 之间的数字。
+    goto choose_torch_version
+)
+
+
+
 :choose_cuda_version
-echo ================================================
-echo                CUDA 版本选择菜单
-echo ================================================
+echo.
+echo CUDA 版本
+
 echo 1. CUDA 11.8
 echo 2. CUDA 12.1
 echo 3. CUDA 12.4
-echo 4. CPU版本（无CUDA支持）
-echo ================================================
+echo 4. CPU（不使用 CUDA）
 echo.
 
 set /p cuda_choice="请输入选项(1-4): "
 
-REM 验证输入是否为合法选项
 if "%cuda_choice%"=="1" (
-    set "cuda_version=11.8"
-    echo 您选择了 CUDA 11.8 版本，相关软件包将根据此版本安装，并将执行降级操作。
-    goto cuda11_8_install
+    set "cuda_version=118"
+    goto continue_install
 ) else if "%cuda_choice%"=="2" (
-    set "cuda_version=12.1"
-    echo 您选择了 CUDA 12.1 版本，相关软件包将根据此版本安装。
-    goto cuda12_1_install
+    set "cuda_version=121"
+    goto continue_install
 ) else if "%cuda_choice%"=="3" (
-    set "cuda_version=12.4"
-    echo 您选择了 CUDA 12.4 版本，相关软件包将根据此版本安装。
-    goto cuda12_4_install
+    set "cuda_version=124"
+    goto continue_install
 ) else if "%cuda_choice%"=="4" (
     set "cuda_version=CPU"
-    echo 您选择了 CPU 版本，将不安装 CUDA 相关软件包。
-    goto cpu_install
+    goto continue_install
 ) else (
-    echo.
-    echo 输入无效，请输入 1 到 4 之间的数字！
-    echo.
+    echo [❌ ERROR] 输入无效，请输入 1 到 4 之间的数字。
     goto choose_cuda_version
 )
 
-:cuda11_8_install
-echo.
-echo 正在安装 CUDA 11.8 版本相关软件包...
-echo 国内环境不稳定，建议开启 VPN 下载
+:continue_install
+
 echo.
 
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-if %errorlevel% neq 0 (
-    echo [错误] 安装 torch, torchvision, torchaudio 失败，请检查网络或 VPN。
-    exit /b 1
+:: 安装相应的 CUDA 或 CPU 版本软件包
+if "%cuda_version%"=="CPU" (
+
+    echo [✔️ OK] 正在进行安装 CPU 版本
+    echo.
+
+    if "%torch_version%"=="2.4.0" (
+        pip install torch torchvision torchaudio
+    ) else (
+        pip install torch==2.3.1 torchvision torchaudio
+    )
+
+) else (
+    echo [✔️ OK] 正在进行安装 CUDA %cuda_version% 版本
+    if "%torch_version%"=="2.3.1" (
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu%cuda_version%
+    ) else (
+        pip install torch==2.3.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/test/cu%cuda_version%
+    )
 )
 
 echo.
-echo 最新版本 ctranslate2 仅支持 CUDA 12，正在降级到适用于 CUDA 11.8 的版本...
-pip install --force-reinstall ctranslate2==3.24.0
-if %errorlevel% neq 0 (
-    echo [错误] 安装 ctranslate2 版本 3.24.0 失败。
-    exit /b 1
-)
 
-goto common_install
+:: 通用库安装
 
-:cuda12_1_install
+:continue_install_common
 echo.
-echo 正在安装 CUDA 12.1 版本相关软件包...
-echo 国内环境不稳定，建议开启 VPN 下载
+echo.
+echo === 安装依赖库 ===
+echo.
+echo [✔️ OK] 正在进行安装其他通用依赖库
 echo.
 
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-if %errorlevel% neq 0 (
-    echo [错误] 安装 torch, torchvision, torchaudio 失败，请检查网络或 VPN。
-    exit /b 1
-)
-
-goto common_install
-
-:cuda12_4_install
-echo.
-echo 正在安装 CUDA 12.4 版本相关软件包...
-echo 国内环境不稳定，建议开启 VPN 下载
-echo.
-
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-if %errorlevel% neq 0 (
-    echo [错误] 安装 torch, torchvision, torchaudio 失败，请检查网络或 VPN。
-    exit /b 1
-)
-
-goto common_install
-
-:cpu_install
-echo.
-echo 正在安装 CPU 版本相关软件包...
-echo.
-
-pip install torch torchvision torchaudio
-if %errorlevel% neq 0 (
-    echo [错误] 安装 torch, torchvision, torchaudio 失败，请检查网络或 VPN。
-    exit /b 1
-)
-
-goto common_install
-
-:common_install
-echo.
-echo          正在安装其他通用库...
-echo.
-
-pip install streamlit==1.37.1
-pip install streamlit-antd-components==0.3.2
-pip install openai==1.41.0
-pip install anthropic==0.34.0
-pip install google-generativeai==0.7.2
-pip install faster-whisper==1.0.3
-pip install opencv-python==4.10.0.84
-pip install pandas==2.2.2
+pip install streamlit==1.37.1 streamlit-antd-components==0.3.2
+pip install openai anthropic google-generativeai faster-whisper opencv-python pandas
 pip uninstall -y numpy
-pip install numpy
+pip install "numpy<2.0.0"
 
 if %errorlevel% neq 0 (
-    echo [错误] 安装部分库失败，请检查网络或其他问题。
+
+    echo [❌ ERROR] 库安装失败。
+
     exit /b 1
+    pause >nul
 )
 
 echo.
-echo 所有软件包已成功安装！
-echo 按任意键退出！
 echo.
+echo [✔️ OK] 成功安装，脚本执行完成！
 
-pause
+pause >nul

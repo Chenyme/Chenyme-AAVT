@@ -547,13 +547,32 @@ def generate_srt_from_result_2(result, font, font_size, font_color):  # 格式�
     return srt_content
 
 
+def check_cuda_installed():
+    if torch.cuda.is_available():
+        return True
+    else:
+        return False
+
+def check_ffmpeg_hwaccel():
+    try:
+        result = subprocess.run(["ffmpeg", "-hwaccels"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        hwaccels = result.stdout.splitlines()
+        if 'cuda' in hwaccels:
+            return True
+        else:
+            return False
+    except Exception as e:
+        return False
+
+
 def srt_mv(log, name, crf, quality, setting, path, font, font_size, font_color, subtitle_model):  # 视频合成字幕
     font_color = font_color.lstrip('#')  # 去掉 '#' 符号
     bb = font_color[4:6]
     gg = font_color[2:4]
     rr = font_color[0:2]
     font_color = f"&H{bb}{gg}{rr}&"
-    cuda_supported = False
+    cuda_installed = check_cuda_installed()
+    cuda_supported = check_ffmpeg_hwaccel() if cuda_installed else False
 
     if subtitle_model == "硬字幕":
         if cuda_supported:

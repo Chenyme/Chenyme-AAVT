@@ -9,7 +9,7 @@ cd /d "%script_path%"
 REM 检查 PowerShell 是否可用
 where powershell > nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] PowerShell not found. Please ensure PowerShell is installed.
+    echo [❌ ERROR] PowerShell not found. Please ensure PowerShell is installed.
     exit /b 1
 )
 
@@ -17,7 +17,7 @@ REM 设置 PowerShell 执行策略
 echo Setting PowerShell execution policy...
 powershell -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
 if %errorlevel% neq 0 (
-    echo [ERROR] Failed to set PowerShell execution policy.
+    echo [❌ ERROR] Failed to set PowerShell execution policy.
     exit /b 1
 )
 
@@ -26,24 +26,16 @@ echo Activating virtual environment...
 if exist env\Scripts\activate.bat (
     call env\Scripts\activate.bat
     if %errorlevel% neq 0 (
-        echo [ERROR] Failed to activate the virtual environment.
+        echo [❌ ERROR] Failed to activate the virtual environment.
         exit /b 1
     )
 ) else (
-    echo [ERROR] Virtual environment not found. Please ensure it is created.
+    echo [❌ ERROR] Virtual environment not found. Please ensure it is created.
     exit /b 1
 )
 
 REM 确保返回到脚本目录
 cd /d "%script_path%"
-
-REM 获取字体目录
-echo Running font directory setup...
-python utils\get_font.py
-if %errorlevel% neq 0 (
-    echo [ERROR] Failed to retrieve font directory.
-    pause
-)
 
 REM 提示用户关于 Streamlit 的电子邮件提示
 echo Launching Streamlit Web UI...
@@ -55,7 +47,7 @@ REM 启动 Streamlit Web UI
 streamlit run Chenyme-AAVT.py
 if %errorlevel% neq 0 (
     echo.
-    echo [ERROR] 运行出错！
+    echo [❌ ERROR] 运行出错！
     echo.
     echo "若显示 OMP: Error #15，请点击项目目录中的闪退修复！"
     echo "若显示其他报错，请前往GitHub或群内反馈！"
