@@ -753,12 +753,12 @@ with tab2:
 
                 for i in st.session_state.video_name_list:
                     container.caption(f"{i}")
+                    video_name = "uploaded" + ".mp4"
+                    output_file = f"{st.session_state.output_file_batch}/{i}"
+
                     print("\n\033[1;34m🚀 任务开始执行\033[0m")
                     print(f"\033[1;34m📂 本次任务目录:\033[0m\033[1;34m {output_file} \033[0m")
                     print("\033[1;33m⚠️ 请不要在任务运行期间切换菜单或修改参数！\033[0m")
-
-                    video_name = "uploaded" + ".mp4"
-                    output_file = f"{st.session_state.output_file_batch}/{i}"
 
                     msg = st.toast('正在识别视频内容', icon=":material/hearing:")
                     if whisper_mode == "OpenAIWhisper - API":

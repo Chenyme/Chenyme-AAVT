@@ -6,3 +6,4 @@ pandas==2.2.2
 streamlit==1.37.1
 streamlit_antd_components==0.3.2
 google-generativeai==0.7.2
+numpy<2.0.0

@@ -42,8 +42,7 @@
 ## 项目亮点
 
 <details>
-  <summary><b>📃 TODO | 待办</b></summary>
-
+  <summary><b>📃 TODO | 待办事项</b></summary>
 <br>
 
 ### 识别相关
@@ -90,17 +89,12 @@
 <br>
 
 ## Windows 部署
-> 💡 注：请确保安装前前置环境就绪后再运行 install.bat！
-
-
-<br>
-
 <details>
-  <summary><b>ℹ️ 前置环境：Python、FFmpeg、CUDA 说明 </b></summary>
+  <summary><b>👉 前置环境：Python、FFmpeg、CUDA 说明 </b></summary>
 <br>
-
+  
 ### Python | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#47a521d01156)
-  - 💡 Python > 3.8 的版本
+  - 💡 选择 Python > 3.8 的版本
   - 前往 Python 官网下载 安装程序
   - 运行安装，在安装时请点击 ADD TO PATH 选项
 ### FFMpeg | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#1897915fc461)
@@ -114,48 +108,91 @@
 ## &nbsp;
 </details>
 
+<br>
 
-#### 运行 `1_Install.bat`
-  -  脚本会先检测是否成功配置 Python、FFMpeg 
-  -  脚本检查通过后，根据界面内提示选择版本
-  -  等待脚本执行安装完成
-
-#### 运行 `2_WebUI.bat` 启动项目
+> ‼️ 请确保前置环境已准备好后再继续下面的步骤‼️ 
+> ### 1. 运行部署脚本
+>  - 前往 Release 页面下载 Win 的最新发行版
+>  - 运行 `1_Install.bat`，等待脚本检查
+>  - 通过后根据界面内提示选择版本安装
+> ### 2. 运行项目Web
+>  - 运行 `2_WebUI.bat`
+>  - 输入 `chenymeaavt` 进入项目（此为新版本的保护功能，可关闭）
+>
+> &nbsp;
+>
+> ℹ️ **WebUI 会自动拉起，若没有自动跳转请手动在浏览器输入`localhost:8501`**
 
 <br>
 
-## Docker 部署
+## Mac OS 部署
+<details>
+  <summary><b>👉 前置环境：Python、Brew 说明 </b></summary>
+<br>
+  
+### Python
+  - 💡 选择 Python > 3.8 的版本
+  - 前往 Python 官网下载 PGK 安装包
+  - 运行安装，页面内选择标准安装
+### Brew
+  - 💡 使用下面的命令进行一键安装安装 `brew`
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+## &nbsp;
+</details>
+<br>
+
+> ‼️ 请确保前置环境已准备好后再继续下面的步骤‼️ 
+> ### 1. 安装FFMpeg
+> ```
+> brew install FFMpeg
+> ```
+> ### 2. 安装项目依赖
+> - 前往 Release 页面下载 Mac 的最新发行版
+> - cd 到项目根路径
+> ```
+> pip3 install -r requirements.txt
+> ```
+> ### 3. 运行项目Web
+> ```
+> streamlit run Chenyme-AAVT
+> ```
+>  - 输入 `chenymeaavt` 进入项目（此为新版本的保护功能，可关闭）
+>
+> &nbsp;
+>
+> ℹ️ **WebUI 会自动拉起，若没有自动跳转请手动在浏览器输入`localhost:8501`**
+
+<br>
+
+## Other 部署
+
+### Google Colab 部署
+> 感谢 @Kirie233 提供此版本
+
+具体使用方法，请查阅：[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+
+<br>
+
+### Docker 部署
 > 💡 目前 项目最新版本为 V0.9.0 此 Docker 方法的版本为 V0.8.x，
 >
 > 感谢 @Eisaichen 提供此版本
 
-具体使用方法，请查阅：📖 [eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))
-
 ```
 docker pull eisai/chenyme-aavt
 ```
-<br>
 
-
-## Google Colab 部署
-> 感谢 @Kirie233 提供此版本
-
-
-具体使用方法，请查阅：📖 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)，
+具体使用方法，请查阅：📖 [eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))
 
 <br>
-
-## Mac os 部署
-
-已支持，近期会写教程
-
-<br>
-
-## 其他环境部署
 
 ### Linux
 
-由于近期那台电脑丢在学校，暂时没研究，其实我觉得解决 FFMpeg 和 Cuda，应该就没问题了
+> 由于近期那台电脑丢在学校，暂时没研究，其实我觉得解决 FFMpeg 和 Cuda，应该就没问题了
+
+<br>
 
 <br>
 
@@ -164,8 +201,11 @@ docker pull eisai/chenyme-aavt
 [![Star History Chart](https://api.star-history.com/svg?repos=Chenyme/Chenyme-AAVT&type=Timeline)](https://star-history.com/#Chenyme/Chenyme-AAVT&Timeline)
 
 <br>
+<br>
 
 ### 主页BOT
+
+<br>
 
 ![11](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/bot.png)
 
@@ -173,11 +213,15 @@ docker pull eisai/chenyme-aavt
 
 ### 部分设置
 
+<br>
+
 ![12](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/setting.png)
 
 <br>
 
 ### 音频识别
+
+<br>
 
 ![13](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/audio.png)
 
@@ -185,11 +229,15 @@ docker pull eisai/chenyme-aavt
 
 ### 视频识别
 
+<br>
+
 ![14](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/video.png)
 
 <br>
 
 ### 图文博客
+
+<br>
 
 ![15](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/blog.png)
 
@@ -197,11 +245,15 @@ docker pull eisai/chenyme-aavt
 
 ### 字幕翻译
 
+<br>
+
 ![16](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/srt.png)
 
 <br>
 
 ### 声音模拟
+
+<br>
 
 ![17](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/opentts.png)
 
