@@ -166,31 +166,29 @@
 
 <br>
 
-## Other 部署
-
-### Google Colab 部署
+## Linux 部署
 > 感谢 @Kirie233 提供此版本
-
-具体使用方法，请查阅：[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+>
+> 具体使用方法，请查阅：📖 [issues/36](https://github.com/Chenyme/Chenyme-AAVT/issues/36#issuecomment-2284331590)
 
 <br>
 
-### Docker 部署
+## Google Colab 部署
+> 感谢 @dhlsam 提供此版本
+>
+> 具体使用方法，请查阅：[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+
+<br>
+
+## Docker 部署
 > 💡 目前 项目最新版本为 V0.9.0 此 Docker 方法的版本为 V0.8.x，
 >
 > 感谢 @Eisaichen 提供此版本
-
-```
-docker pull eisai/chenyme-aavt
-```
-
-具体使用方法，请查阅：📖 [eisai/chenyme-aavt]([https://www.ffmpeg.org/download.html](https://hub.docker.com/r/eisai/chenyme-aavt))
-
-<br>
-
-### Linux
-
-> 由于近期那台电脑丢在学校，暂时没研究，其实我觉得解决 FFMpeg 和 Cuda，应该就没问题了
+>
+> 具体使用方法，请查阅：📖 [eisai/chenyme-aavt](https://hub.docker.com/r/eisai/chenyme-aavt)
+> ```
+> docker pull eisai/chenyme-aavt
+> ```
 
 <br>
 
