@@ -7,12 +7,12 @@
 
 [![英文](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
 [![下载](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square&label=下载)](https://github.com/Chenyme/Chenyme-AAVT/releases)
-[![群组](https://img.shields.io/badge/群组-Telegram-blue?logo=telegram)](https://t.me/+j8SNSwhS7xk1NTc9)
 [![Latest Release](https://img.shields.io/github/v/release/Chenyme/Chenyme-AAVT.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT?logo=pypi)
 [![License](https://img.shields.io/github/license/Chenyme/Chenyme-AAVT.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/blob/main/LICENSE)
+[![群组](https://img.shields.io/badge/群组-Telegram-blue?logo=telegram)](https://t.me/+j8SNSwhS7xk1NTc9)
+![Docker Image Version](https://img.shields.io/docker/v/chenyme/chenyme-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Fchenyme%2Fchenyme-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
-
 </div>
 
 ---
@@ -162,6 +162,7 @@
 ```
 ## &nbsp;
 </details>
+
 <br>
 
 > ‼️ 请确保前置环境已准备好后再继续下面的步骤‼️ 
@@ -187,31 +188,40 @@
 
 <br>
 
+## Docker 部署
+>![Docker Image Version](https://img.shields.io/docker/v/chenyme/chenyme-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Fchenyme%2Fchenyme-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
+>
+> 感谢 [@Eisaichen](https://github.com/Eisaichen) 协助构建此镜像
+>
+> #### docker
+> ```
+> docker pull chenyme/chenyme-aavt:latest
+> ```
+> #### docker-compose
+> ```
+> git clone https://github.com/Chenyme/Chenyme-AAVT
+> cd Chenyme-AAVT
+> docker-compose up -d
+> ```
+
+<br>
+
 ## Linux 部署
-> 感谢 @dhlsam 提供此版本
+> 💡此版本为 AAVT V0.8.6 的 Linux CUDA 12.1 Docker 版本，最新版本为 V0.9.0
+>
+> 感谢 [@dhlsam](https://github.com/dhlsam) 提供此版本
 >
 > 具体使用方法，请查阅：📖 [issues/36](https://github.com/Chenyme/Chenyme-AAVT/issues/36#issuecomment-2284331590)
 
 <br>
 
 ## Google Colab 部署
-> 感谢 @Kirie233 提供此版本
+> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
 >
-> 具体使用方法，请查阅：[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
-
-<br>
-
-## Docker 部署
-> 💡 目前 项目最新版本为 V0.9.0 此 Docker 方法的版本为 V0.8.x，
+> 感谢 [@Kirie233](https://github.com/Kirie233) 提供 Colab 版本
 >
-> 感谢 @Eisaichen 提供此版本
->
-> 具体使用方法，请查阅：📖 [eisai/chenyme-aavt](https://hub.docker.com/r/eisai/chenyme-aavt)
-> ```
-> docker pull eisai/chenyme-aavt
-> ```
+> 具体使用方法，请查阅：📖 [AAVT.ipynb](https://github.com/Chenyme/Chenyme-AAVT/blob/main/AAVT.ipynb)
 
-<br>
 
 <br>
 
@@ -277,3 +287,4 @@
 ![17](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/opentts.png)
 
 <br>
+
