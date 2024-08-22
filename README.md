@@ -167,14 +167,14 @@
 <br>
 
 ## Linux 部署
-> 感谢 @Kirie233 提供此版本
+> 感谢 @dhlsam 提供此版本
 >
 > 具体使用方法，请查阅：📖 [issues/36](https://github.com/Chenyme/Chenyme-AAVT/issues/36#issuecomment-2284331590)
 
 <br>
 
 ## Google Colab 部署
-> 感谢 @dhlsam 提供此版本
+> 感谢 @Kirie233 提供此版本
 >
 > 具体使用方法，请查阅：[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
 
