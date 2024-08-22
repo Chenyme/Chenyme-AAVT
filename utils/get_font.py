@@ -23,7 +23,7 @@ def get_font_data():
             for font in fonts:
                 file.write(font + "\n")
 
-    elif system_type in ["Linux", "Darwin"]:
+    elif system_type in ["Darwin"]:
         import subprocess
         import re
 
@@ -34,6 +34,18 @@ def get_font_data():
         with open(path, 'w', encoding='utf-8') as file:
             for font in fonts:
                 file.write(font + "\n")
+                
+    elif system_type in ["Linux"]:
+        import subprocess
+        
+        result = subprocess.run(['fc-list', ':', 'family'], capture_output=True, text=True)
+        output = result.stdout
+        fonts = output.split('\n')
+        path = os.path.join(os.getcwd().replace("utils", ""), 'config', 'font.txt')
+        with open(path, 'w', encoding='utf-8') as file:
+            for font in fonts:
+                if font:
+                    file.write(font + "\n")
 
     else:
         print(f"获取字体失败！尚未支持的操作系统: {system_type}")
