@@ -1,0 +1,16 @@
+networks:
+  chenyme-aavt:
+
+services:
+  chenyme-aavt:
+    container_name: chenyme-aavt
+    image: chenyme/chenyme-aavt:latest
+    restart: unless-stopped
+    networks:
+      - chenyme-aavt
+    ports:
+      - "8501:8501"        # Web GUI
+    volumes:
+      - './conf:/app/config'
+      - './model:/app/model'
+      - './output:/app/cache'        # Output

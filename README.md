@@ -177,7 +177,7 @@
 > ```
 > ### 3. 运行项目Web
 > ```
-> streamlit run Chenyme-AAVT
+> streamlit run Chenyme-AAVT.py
 > ```
 >  - 输入 `chenymeaavt` 进入项目（此为新版本的保护功能，可关闭）
 >
