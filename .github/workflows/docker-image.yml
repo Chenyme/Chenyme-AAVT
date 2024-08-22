@@ -36,5 +36,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           pull: true
           push: true
-          tags: chenyme/chenyme-AAVT:${{ github.sha }}
+          tags: chenyme/chenyme-aavt:latest,chenyme/chenyme-aavt:${{ github.sha }}
             
