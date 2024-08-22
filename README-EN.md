@@ -156,7 +156,7 @@ Basic supported features, not all features:
 > ```
 > ### 3. Run the Project Web
 > ```
-> streamlit run Chenyme-AAVT
+> streamlit run Chenyme-AAVT.py
 > ```
 >  - Enter `chenymeaavt` to access the project (this is a protection feature of the new version, can be turned off)
 >
