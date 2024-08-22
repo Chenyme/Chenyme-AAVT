@@ -6,4 +6,4 @@ rsync -a --ignore-existing /app/_cache/ /app/cache/ > /dev/null
 
 . ./bin/activate
 python ./styles/info.py
-streamlit run Chenyme-AAVT.py
+streamlit run Chenyme-AAVT.py --browser.gatherUsageStats false
