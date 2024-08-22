@@ -3,13 +3,11 @@ name: Docker Image CI
 on:
   pull_request:
     branches: [ main ]
-    types: [ closed ]
   push:
     branches: [ main ]
 
 jobs:
   docker:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
