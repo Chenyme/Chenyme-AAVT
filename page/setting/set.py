@@ -85,14 +85,13 @@ faster_local_prompt = whispers["Faster_Local"]["Prompt"]  # 提示词
 faster_local_min_vad = whispers["Faster_Local"]["min_vad"]  # 最小 VAD 持续时间
 faster_local_beam_size = whispers["Faster_Local"]["beam_size"]  # Beam Size
 
-set_first = whispers["other"]["first"]
-
 log_setting = project["ffmpeg"]["log"]
 crf_setting = project["ffmpeg"]["crf"]
 quality_setting = project["ffmpeg"]["quality"]
 ffmpeg_setting = project["ffmpeg"]["ffmpeg"]
 open_protect = project["protect"]["open"]
 password_protect = project["protect"]["password"]
+
 
 @st.dialog('新增提示词')
 def add(config_dir):
@@ -145,14 +144,6 @@ if "set_first" in st.session_state:
 if "delete" in st.session_state:
     st.toast("已成功删除！", icon=":material/verified:")
     del st.session_state["delete"]
-
-if not set_first:
-    with open(whisper_path, 'w', encoding="utf-8") as f:
-        whispers["other"]["first"] = True
-        whispers["Faster_Local"]["path"] = model_path
-        toml.dump(whispers, f)
-    st.session_state.set_first = True
-    st.rerun()
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["**主页BOT**", "**识别设置**", "**翻译设置**", "**FFMpeg设置**", "**项目缓存**", "**其他设置**"])
 with tab1:

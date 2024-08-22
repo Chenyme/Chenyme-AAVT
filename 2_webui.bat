@@ -49,8 +49,9 @@ if %errorlevel% neq 0 (
     echo.
     echo [❌ ERROR] 运行出错！
     echo.
-    echo "若显示 OMP: Error #15，请点击项目目录中的闪退修复！"
-    echo "若显示其他报错，请前往GitHub或群内反馈！"
+    echo "若显示 缺失 fbgemm.dll，请使用Install选择修复版本！"
+    echo "若显示 缺失 cudnn_ops_infer64_8.dll 请前往GitHub下载相关dll！"
+    echo "若有其他报错，请阅读常见问题，或前往GitHub 或 群组讨论！"
     echo.
     pause
 )

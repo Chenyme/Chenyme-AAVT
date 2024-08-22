@@ -10,16 +10,24 @@ from openai import OpenAI
 style()
 path = os.getcwd() + "/"
 config_path = path + "config/llms.toml"
+whisper_path = path + "config/whisper.toml"
 project_config_path = path + "config/project.toml"
+model_path = path + "model/faster-whisper"
+
 with open(config_path, 'r') as config_file:
     llms = toml.load(config_file)
 with open(project_config_path, 'r', encoding='utf-8') as config_file:
     project = toml.load(config_file)
+with open(whisper_path, 'r', encoding="utf-8") as config_file:
+    whispers = toml.load(config_file)
 
 HomeKey = llms["Home"]["key"]
 HomeUrl = llms["Home"]["url"]
 HomeModel = llms["Home"]["model"]
 readme_read = project["other"]["first"]
+set_first = whispers["other"]["first"]
+
+
 
 parameter_mapping = {
     (0, 1): 'gpt-3.5-turbo',
@@ -81,6 +89,11 @@ def readme():
     st.write("")
 
     if st.button("**我已知晓&nbsp;&nbsp;&nbsp;不再弹出**", type="primary", use_container_width=True, key="blog_first_button"):
+        if not set_first:
+            with open(whisper_path, 'w', encoding="utf-8") as f:
+                whispers["other"]["first"] = True
+                whispers["Faster_Local"]["path"] = model_path
+                toml.dump(whispers, f)
         with open(project_config_path, 'w', encoding="utf-8") as f:
             project["other"]["first"] = True
             toml.dump(project, f)

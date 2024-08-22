@@ -91,7 +91,7 @@ echo.
 echo Pytorch 版本
 
 echo 1. 最新版本 (2.4.0)
-echo 2. 修复版本 (2.3.1)
+echo 2. 修复版本 (2.4.1)
 echo.
 
 echo 若您运行遇到 OSError: [WinError 126] Not found fbgemm.dll时 请选择修复版本
@@ -102,7 +102,7 @@ if "%torch_version_choice%"=="1" (
     set "torch_version=2.4.0"
     goto choose_cuda_version
 ) else if "%torch_version_choice%"=="2" (
-    set "torch_version=2.3.1"
+    set "torch_version=2.4.1"
     goto choose_cuda_version
 ) else (
     echo [❌ ERROR] 输入无效，请输入 1 到 2 之间的数字。
@@ -153,15 +153,15 @@ if "%cuda_version%"=="CPU" (
     if "%torch_version%"=="2.4.0" (
         pip install torch torchvision torchaudio
     ) else (
-        pip install torch==2.3.1 torchvision torchaudio
+        pip install torch==2.4.1 torchvision torchaudio
     )
 
 ) else (
     echo [✔️ OK] 正在进行安装 CUDA %cuda_version% 版本
-    if "%torch_version%"=="2.3.1" (
+    if "%torch_version%"=="2.4.0" (
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu%cuda_version%
     ) else (
-        pip install torch==2.3.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/test/cu%cuda_version%
+        pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/test/cu124
     )
 )
 
