@@ -21,7 +21,7 @@
 > 🌟 **如果本项目对您有帮助，记得 Star 🌟 支持一下吧~**
 >
 > 📝 **推荐识别时使用 Large 模型以获取更好的体验！由于正在备考，更新速度会放缓，感谢理解！** 
->
+> 
 > 📖 [**安装教程**](https://blog.chenyme.top/blog/aavt-install) | ❓ [ **常见问题**](https://blog.chenyme.top/blog/aavt-qa) | 💬 [ **电报群组**](https://t.me/+j8SNSwhS7xk1NTc9)
 
 <br>
@@ -132,17 +132,14 @@
 <br>
 
 > ‼️ 请确保前置环境已准备好后再继续下面的步骤‼️ 
+> 
 > ### 1. 运行部署脚本
 >  - 前往 Release 页面下载 `Win` 的最新发行版 （Win/Small）
->  - 运行 `1_Install.bat`，等待脚本检查
->  - 通过后根据界面内提示选择版本安装
+>  - 运行 `1_Install.bat`，等待脚本检查，通过后根据界面内提示选择版本安装
 > ### 2. 运行项目Web
 >  - 运行 `2_WebUI.bat`
->  - 输入 `chenymeaavt` 进入项目（此为新版本的保护功能，可关闭）
->
-> &nbsp;
->
-> ℹ️ **WebUI 会自动拉起，若没有自动跳转请手动在浏览器输入`localhost:8501`**
+>  - 等待 WebUI 自动拉起，或输入网址 `localhost:8501`
+>  - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
 
 <br>
 
@@ -172,19 +169,16 @@
 > ```
 > ### 2. 安装项目依赖
 > - 前往 Release 页面下载 `Mac` 的最新发行版 （Mac/Small）
-> - cd 到项目根路径
 > ```
+> cd Chenyme-AAVT
 > pip3 install -r requirements.txt
 > ```
 > ### 3. 运行项目Web
 > ```
 > streamlit run Chenyme-AAVT.py
 > ```
->  - 输入 `chenymeaavt` 进入项目（此为新版本的保护功能，可关闭）
->
-> &nbsp;
->
-> ℹ️ **WebUI 会自动拉起，若没有自动跳转请手动在浏览器输入`localhost:8501`**
+> - 等待 WebUI 自动拉起，或输入网址 `localhost:8501`
+> - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
 
 <br>
 
@@ -192,17 +186,22 @@
 >![Docker Image Version](https://img.shields.io/docker/v/chenyme/chenyme-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Fchenyme%2Fchenyme-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
 >
 > 感谢 [@Eisaichen](https://github.com/Eisaichen) 协助构建此镜像
->
-> #### docker
+
+> ### docker
 > ```
 > docker pull chenyme/chenyme-aavt:latest
 > ```
-> #### docker-compose
+> - 完成后，输入 `<您的服务器IP>:8501` 访问
+> - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
+
+> ### docker-compose
 > ```
 > git clone https://github.com/Chenyme/Chenyme-AAVT
 > cd Chenyme-AAVT
 > docker-compose up -d
 > ```
+> - 完成后，输入 `<您的服务器IP>:8501` 访问
+> - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
 
 <br>
 
@@ -225,11 +224,21 @@
 
 <br>
 
+## 感谢项目的贡献者
+
+[![][github-contrib-shield]][github-contrib-link]
+
+<!-- LINK GROUP -->
+
+[github-contrib-shield]: https://contrib.rocks/image?repo=Chenyme/Chenyme-AAVT
+[github-contrib-link]: https://github.com/Chenyme/Chenyme-AAVT/graphs/contributors
+
+<br>
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Chenyme/Chenyme-AAVT&type=Timeline)](https://star-history.com/#Chenyme/Chenyme-AAVT&Timeline)
 
-<br>
 <br>
 
 ### 主页BOT
