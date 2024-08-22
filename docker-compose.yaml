@@ -4,7 +4,7 @@ networks:
 services:
   chenyme-aavt:
     container_name: chenyme-aavt
-    image: chenymeaavt:test
+    image: chenyme/chenyme-aavt:latest
     restart: unless-stopped
     networks:
       - chenyme-aavt
