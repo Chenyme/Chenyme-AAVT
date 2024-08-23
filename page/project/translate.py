@@ -216,8 +216,7 @@ with tab2:
         st.write("###### API 调用间隔 / s")
         st.caption(
             "翻译时API的调用间隔。请参阅您的API服务商文档中的 每分钟调用最大限制速率 进行适当调整，若翻译时遇到报错 429：`Too Many Requests`、`RateLimitError` 请适当增大间隔。")
-        wait_time = st.number_input('翻译间隔(s)', min_value=0.0, max_value=5.0, value=wait_time_setting, step=0.1,
-                                    label_visibility="collapsed")
+        wait_time = st.number_input('翻译间隔(s)', min_value=0.0, max_value=5.0, value=wait_time_setting, step=0.1, label_visibility="collapsed")
         st.write("")
         st.write("###### 翻译提示词")
         st.caption("翻译使用的提示词，可前往全局设置-翻译设置中配置新的提示词")
@@ -292,7 +291,7 @@ with tab1:
                 translate_option = translation_dict[tuple(translate_index)]
 
                 msg_tra = st.toast("正在翻译字幕", icon=":material/translate:")
-                if translate_option == '本地模型':
+                if '本地模型' in translate_option:
                     result = local_translate_srt(system_prompt, user_prompt, local_key, local_url, local_model, srt_content, srt_setting)
                 elif 'gemini' in translate_option:
                     result = translate_srt(system_prompt, user_prompt, gemini_key, gemini_url, translate_option, srt_content, wait_time_setting, srt_setting)

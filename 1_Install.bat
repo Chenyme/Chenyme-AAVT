@@ -63,7 +63,7 @@ if %errorlevel% neq 0 (
 ) else (
     echo.
 
-    set /p confirm="检测到 torch、torchvision、torchaudio 已安装，是否卸载重装？ (Y/N): "
+    set /p confirm="检测到 torch、torchvision、torchaudio 已安装，是否卸载重装（版本修复也请按 Y）？ (Y/N): "
 
     if /i "%confirm%"=="Y" (
         pip uninstall -y torch torchvision torchaudio

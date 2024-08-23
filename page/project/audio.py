@@ -1,5 +1,4 @@
 import os
-
 import json
 import toml
 import time
@@ -396,7 +395,7 @@ with tab1:
                 translate_option = translation_dict[tuple(translate_index)]
                 if translate_option != '无需翻译':
                     msg_tra = st.toast("正在翻译字幕", icon=":material/translate:")
-                    if translate_option == '本地模型':
+                    if '本地模型' in translate_option:
                         result = local_translate(system_prompt, user_prompt, local_key, local_url, local_model, result, srt_setting)
                     elif 'gemini' in translate_option:
                         result = translate(system_prompt, user_prompt, gemini_key, gemini_url, translate_option, result, wait_time_setting, srt_setting)

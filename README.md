@@ -96,16 +96,13 @@
 > [!WARNING]
 > ### 关于 dll 缺失的公告
 >
-> 
-> 这些 dll 缺失 多个依赖 CUDA 和 Pytorch 的项目均有此问题，希望相关官方尽快修复 ~
->
 > 以下解决方法经过本人验证可有效解决，**麻烦给颗🌟Star吧**!
 >
 > &nbsp;
 > 
-> #### 1. ❌ `fbgemm.dll` 缺失。此为pytorch对win的mkl文件构建错误，官方已在2.4.1 Beta版本中修正，请遇到后重新 Install.bat，并在菜单栏选择 修复版本（2.4.1）修正
+> #### 1. ❌ `fbgemm.dll` 缺失。此为 pytorch 对 win 的 mkl 文件构建错误，官方已在 2.4.1 Beta 版本中修正，请遇到后重新 Install.bat，并在菜单栏选择 修复版本（2.4.1）修正
 >
-> #### 2. ❌ `cudnn_ops_infer64_8.dll` 缺失，导致启用GPU失败。请前往 github.com/Chenyme/Chenyme-AAVT/releases/tag/V0.9 中下载 CUDA_dll.zip 压缩包解压到CUDA目录 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin` 修复
+> #### 2. ❌ `cudnn_ops_infer64_8.dll` 缺失，导致启用 GPU 失败。请前往 [Releases](https://github.com/Chenyme/Chenyme-AAVT/releases/tag/V0.9) 中下载 CUDA_dll.zip 压缩包解压到CUDA目录 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin` 修复
 
 <br>
 
@@ -145,35 +142,36 @@
 
 ## Mac OS 部署
 <details>
-  <summary><b>👉 前置环境：Python、Brew 说明 </b></summary>
+  <summary><b>👉 前置环境：Python、Brew、FFMpeg 说明 </b></summary>
 <br>
   
 ### Python
-  - 💡 选择 Python > 3.8 的版本
+  - 选择 Python > 3.8 的版本
   - 前往 Python 官网下载 PGK 安装包
   - 运行安装，页面内选择标准安装
 ### Brew
   - 💡 使用下面的命令进行一键安装安装 `brew`
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+    ```
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
+### FFMpeg
+  - 💡 使用下面的命令进行一键安装安装 `FFMpeg`
+    ```
+    brew install FFMpeg
+    ```
 ## &nbsp;
 </details>
 
 <br>
 
-> ‼️ 请确保前置环境已准备好后再继续下面的步骤‼️ 
-> ### 1. 安装FFMpeg
-> ```
-> brew install FFMpeg
-> ```
-> ### 2. 安装项目依赖
+> ‼️ 请确保前置环境已准备好后再继续下面的步骤‼️
+> ### 1. 安装项目依赖
 > - 前往 Release 页面下载 `Mac` 的最新发行版 （Mac/Small）
 > ```
 > cd Chenyme-AAVT
 > pip3 install -r requirements.txt
 > ```
-> ### 3. 运行项目Web
+> ### 2. 运行项目Web
 > ```
 > streamlit run Chenyme-AAVT.py
 > ```
