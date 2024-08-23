@@ -1,0 +1,66 @@
+name: "错误报告"
+description: "用于报告项目中的错误或问题。请提供尽可能详细的信息以帮助我们重现和修复问题。"
+title: "【错误】[模块名称] 的 [简要错误描述]"
+labels: ["bug"]
+assignees: ''
+
+body:
+  - type: markdown
+    attributes:
+      value: "## 请详细填写以下信息来报告您的错误。"
+
+  - type: input
+    id: operating-system
+    attributes:
+      label: "操作系统"
+      description: "请填写您使用的操作系统版本。"
+      placeholder: "例如：Windows 10, macOS 12.3"
+
+  - type: input
+    id: project-version
+    attributes:
+      label: "项目版本"
+      description: "请输入项目的版本号。"
+      placeholder: "例如：v0.9.0"
+
+  - type: input
+    id: python-version
+    attributes:
+      label: "Python版本"
+      description: "请输入您使用的 Python 版本。"
+      placeholder: "例如：Python 3.9"
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "错误描述"
+      description: "简要描述发生错误的情况，尽量提供所有相关的上下文。"
+      placeholder: "描述错误是如何发生的，是否有特定条件或操作导致。"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: "重现步骤"
+      description: "请详细列出能够重现此错误的步骤。"
+      placeholder: |
+        1. 第一步
+        2. 第二步
+        3. 第三步
+      render: markdown
+
+  - type: textarea
+    id: error-screenshots
+    attributes:
+      label: "错误截图"
+      description: "请附上命令行和错误截图。"
+      placeholder: "将截图上传到此处。"
+      render: markdown
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: "其他信息（可选）"
+      description: "如果有其他可能有助于解决问题的信息，请填写在此。"
+      placeholder: "例如：是否影响其他功能？有没有临时解决办法？"
