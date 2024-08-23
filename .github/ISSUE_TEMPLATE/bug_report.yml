@@ -2,7 +2,6 @@ name: "错误报告"
 description: "用于报告项目中的错误或问题。请提供尽可能详细的信息以帮助我们重现和修复问题。"
 title: "【错误】[模块名称] 的 [简要错误描述]"
 labels: ["bug"]
-assignees: ''
 
 body:
   - type: markdown
@@ -21,7 +20,7 @@ body:
     attributes:
       label: "项目版本"
       description: "请输入项目的版本号。"
-      placeholder: "例如：v0.9.0"
+      placeholder: "例如：v1.0.0"
 
   - type: input
     id: python-version
