@@ -1,7 +1,7 @@
 name: "功能建议"
 description: "用于提交新功能或改进现有功能的建议。请尽量详细描述您的需求及其影响。"
 title: "【建议】[模块名称] 的 [简要建议描述]"
-labels: ["enhancement"]
+labels: ["【建议/adv.】"]
 
 body:
   - type: markdown
