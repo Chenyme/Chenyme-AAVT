@@ -1,18 +1,18 @@
 <div align="center">
 
-<img src="https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/chenymeaavt1.png" title="chenymeaavt.png" width="80%" />
+<img src="https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/looasndaavt1.png" title="looasndaavt.png" width="80%" />
 
 <br>
 <br>
 
 [![英文](https://img.shields.io/badge/%E8%8B%B1%E6%96%87-English-blue)](./README-EN.md)
-[![下载](https://img.shields.io/github/downloads/Chenyme/Chenyme-AAVT/total.svg?style=flat-square&label=下载)](https://github.com/Chenyme/Chenyme-AAVT/releases)
-[![Latest Release](https://img.shields.io/github/v/release/Chenyme/Chenyme-AAVT.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/releases)
+[![下载](https://img.shields.io/github/downloads/looasnd/looasnd-AAVT/total.svg?style=flat-square&label=下载)](https://github.com/looasnd/looasnd-AAVT/releases)
+[![Latest Release](https://img.shields.io/github/v/release/looasnd/looasnd-AAVT.svg?style=flat-square)](https://github.com/looasnd/looasnd-AAVT/releases)
 ![PyPI - Version](https://img.shields.io/pypi/v/AAVT?logo=pypi)
-[![License](https://img.shields.io/github/license/Chenyme/Chenyme-AAVT.svg?style=flat-square)](https://github.com/Chenyme/Chenyme-AAVT/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/looasnd/looasnd-AAVT.svg?style=flat-square)](https://github.com/looasnd/looasnd-AAVT/blob/main/LICENSE)
 [![群组](https://img.shields.io/badge/群组-Telegram-blue?logo=telegram)](https://t.me/+j8SNSwhS7xk1NTc9)
-![Docker Image Version](https://img.shields.io/docker/v/chenyme/chenyme-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Fchenyme%2Fchenyme-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+![Docker Image Version](https://img.shields.io/docker/v/looasnd/looasnd-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Flooasnd%2Flooasnd-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/looasnd-AAVT/blob/main/AAVT.ipynb)
 </div>
 
 ---
@@ -22,15 +22,15 @@
 >
 > 📝 **推荐识别时使用 Large 模型以获取更好的体验！由于正在备考，更新速度会放缓，感谢理解！** 
 > 
-> 📖 [**安装教程**](https://blog.chenyme.top/blog/aavt-install) | ❓ [ **常见问题**](https://blog.chenyme.top/blog/aavt-qa) | 💬 [ **电报群组**](https://t.me/+j8SNSwhS7xk1NTc9)
+> 📖 [**安装教程**](https://blog.looasnd.top/blog/aavt-install) | ❓ [ **常见问题**](https://blog.looasnd.top/blog/aavt-qa) | 💬 [ **电报群组**](https://t.me/+j8SNSwhS7xk1NTc9)
 >
-> ### 新项目：[ **Srtranslate**](https://github.com/chenyme/Srtranslate) | 官网：[srt.chenyme.com](https://srt.chenyme.com)
+> ### 新项目：[ **Srtranslate**](https://github.com/looasnd/Srtranslate) | 官网：[srt.looasnd.com](https://srt.looasnd.com)
 > ### 体验更加专业智能、高效精确的srt字幕翻译！
 
 <br>
 
 ## 项目介绍
-**Chenyme-AAVT 全自动视频翻译项目** 致力于提供一个简便高效且免费的媒体识别与翻译自动化流程，帮助您快速完成音视频字幕的识别、翻译和处理等多种功能，当然目前项目已经不仅仅是帮您识别并翻译声音，还可以自动化生成营销图文、对字幕单独翻译。计划未来会基于现有基本功能继续加入更多有意思的工具，比如 实时识别、口型校正、声音克隆、音色辨别 等等，敬请期待！
+**looasnd-AAVT 全自动视频翻译项目** 致力于提供一个简便高效且免费的媒体识别与翻译自动化流程，帮助您快速完成音视频字幕的识别、翻译和处理等多种功能，当然目前项目已经不仅仅是帮您识别并翻译声音，还可以自动化生成营销图文、对字幕单独翻译。计划未来会基于现有基本功能继续加入更多有意思的工具，比如 实时识别、口型校正、声音克隆、音色辨别 等等，敬请期待！
 
 当前已支持的**基本**功能，非全部功能：
 
@@ -38,7 +38,7 @@
 
 <br>
 
-![20240820210851.jpg](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/home.jpg)
+![20240820210851.jpg](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/home.jpg)
 
 <br>
 
@@ -105,7 +105,7 @@
 > 
 > #### 1. ❌ `fbgemm.dll` 缺失。此为 pytorch 对 win 的 mkl 文件构建错误，官方已在 2.4.1 Beta 版本中修正，请遇到后重新 Install.bat，并在菜单栏选择 修复版本（2.4.1）修正
 >
-> #### 2. ❌ `cudnn_ops_infer64_8.dll` 缺失，导致启用 GPU 失败。请前往 [Releases](https://github.com/Chenyme/Chenyme-AAVT/releases/tag/V0.9) 中下载 CUDA_dll.zip 压缩包解压到CUDA目录 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin` 修复
+> #### 2. ❌ `cudnn_ops_infer64_8.dll` 缺失，导致启用 GPU 失败。请前往 [Releases](https://github.com/looasnd/looasnd-AAVT/releases/tag/V0.9) 中下载 CUDA_dll.zip 压缩包解压到CUDA目录 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin` 修复
 
 <br>
 
@@ -114,15 +114,15 @@
   <summary><b>👉 前置环境：Python、FFmpeg、CUDA 说明 </b></summary>
 <br>
   
-### Python | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#47a521d01156)
+### Python | 📖 [教程](https://blog.looasnd.top/blog/aavt-install#47a521d01156)
   - 💡 选择 Python > 3.8 的版本
   - 前往 Python 官网下载 安装程序
   - 运行安装，在安装时请点击 ADD TO PATH 选项
-### FFMpeg | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#1897915fc461)
+### FFMpeg | 📖 [教程](https://blog.looasnd.top/blog/aavt-install#1897915fc461)
   - 💡 若您不知道如何安装编译，请直接在项目Release中的下载 `Win` 版本，自带编译后的FFMpeg
   - 前往 FFMpeg 官网下载编译好的 Windows 版本
   - 设置 FFmpeg 为环境变量
-### CUDA(CPU 可忽略) | 📖 [教程](https://blog.chenyme.top/blog/aavt-install#1faea2d7295f)
+### CUDA(CPU 可忽略) | 📖 [教程](https://blog.looasnd.top/blog/aavt-install#1faea2d7295f)
   - 💡 推荐使用版本为 CUDA11.8、12.1、12.4
   - 前往 CUDA 官网下载 CUDA 安装程序
   - 安装 CUDA
@@ -139,7 +139,7 @@
 > ### 2. 运行项目Web
 >  - 运行 `2_WebUI.bat`
 >  - 等待 WebUI 自动拉起，或输入网址 `localhost:8501`
->  - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
+>  - 项目验证密码 `looasndaavt`（此为新版本的保护功能，可关闭）
 
 <br>
 
@@ -171,38 +171,38 @@
 > ### 1. 安装项目依赖
 > - 前往 Release 页面下载 `Mac` 的最新发行版 （Mac/Small）
 > ```
-> cd Chenyme-AAVT
+> cd looasnd-AAVT
 > pip3 install -r requirements.txt
 > ```
 > ### 2. 运行项目Web
 > ```
-> streamlit run Chenyme-AAVT.py
+> streamlit run looasnd-AAVT.py
 > ```
 > - 等待 WebUI 自动拉起，或输入网址 `localhost:8501`
-> - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
+> - 项目验证密码 `looasndaavt`（此为新版本的保护功能，可关闭）
 
 <br>
 
 ## Docker 部署
->![Docker Image Version](https://img.shields.io/docker/v/chenyme/chenyme-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Fchenyme%2Fchenyme-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
+>![Docker Image Version](https://img.shields.io/docker/v/looasnd/looasnd-aavt?logo=docker&color=blue&link=https%3A%2F%2Fhub.docker.com%2Flayers%2Flooasnd%2Flooasnd-aavt%2Fv0.9.0%2Fimages%2Fsha256-5f704a4a3aba20396ad0f3c94a1ffcd0b9d89d82a33aa1b16601fd7613a74e6c%3Fcontext%3Drepo)
 >
 > 感谢 [@Eisaichen](https://github.com/Eisaichen) 协助构建此镜像
 
 > ### docker
 > ```
-> docker pull chenyme/chenyme-aavt:latest
+> docker pull looasnd/looasnd-aavt:latest
 > ```
 > - 完成后，输入 `<您的服务器IP>:8501` 访问
-> - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
+> - 项目验证密码 `looasndaavt`（此为新版本的保护功能，可关闭）
 
 > ### docker-compose
 > ```
-> git clone https://github.com/Chenyme/Chenyme-AAVT
-> cd Chenyme-AAVT
+> git clone https://github.com/looasnd/looasnd-AAVT
+> cd looasnd-AAVT
 > docker-compose up -d
 > ```
 > - 完成后，输入 `<您的服务器IP>:8501` 访问
-> - 项目验证密码 `chenymeaavt`（此为新版本的保护功能，可关闭）
+> - 项目验证密码 `looasndaavt`（此为新版本的保护功能，可关闭）
 
 <br>
 
@@ -211,16 +211,16 @@
 >
 > 感谢 [@dhlsam](https://github.com/dhlsam) 提供此版本
 >
-> 具体使用方法，请查阅：📖 [issues/36](https://github.com/Chenyme/Chenyme-AAVT/issues/36#issuecomment-2284331590)
+> 具体使用方法，请查阅：📖 [issues/36](https://github.com/looasnd/looasnd-AAVT/issues/36#issuecomment-2284331590)
 
 <br>
 
 ## Google Colab 部署
-> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/Chenyme-AAVT/blob/main/AAVT.ipynb)
+> [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Kirie233/looasnd-AAVT/blob/main/AAVT.ipynb)
 >
 > 感谢 [@Kirie233](https://github.com/Kirie233) 提供 Colab 版本
 >
-> 具体使用方法，请查阅：📖 [AAVT.ipynb](https://github.com/Chenyme/Chenyme-AAVT/blob/main/AAVT.ipynb)
+> 具体使用方法，请查阅：📖 [AAVT.ipynb](https://github.com/looasnd/looasnd-AAVT/blob/main/AAVT.ipynb)
 
 
 <br>
@@ -231,14 +231,14 @@
 
 <!-- LINK GROUP -->
 
-[github-contrib-shield]: https://contrib.rocks/image?repo=Chenyme/Chenyme-AAVT
-[github-contrib-link]: https://github.com/Chenyme/Chenyme-AAVT/graphs/contributors
+[github-contrib-shield]: https://contrib.rocks/image?repo=looasnd/looasnd-AAVT
+[github-contrib-link]: https://github.com/looasnd/looasnd-AAVT/graphs/contributors
 
 <br>
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Chenyme/Chenyme-AAVT&type=Timeline)](https://star-history.com/#Chenyme/Chenyme-AAVT&Timeline)
+[![Star History Chart](https://api.star-history.com/svg?repos=looasnd/looasnd-AAVT&type=Timeline)](https://star-history.com/#looasnd/looasnd-AAVT&Timeline)
 
 <br>
 
@@ -246,7 +246,7 @@
 
 <br>
 
-![11](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/bot.png)
+![11](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/bot.png)
 
 <br>
 
@@ -254,7 +254,7 @@
 
 <br>
 
-![12](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/setting.png)
+![12](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/setting.png)
 
 <br>
 
@@ -262,7 +262,7 @@
 
 <br>
 
-![13](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/audio.png)
+![13](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/audio.png)
 
 <br>
 
@@ -270,7 +270,7 @@
 
 <br>
 
-![14](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/video.png)
+![14](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/video.png)
 
 <br>
 
@@ -278,7 +278,7 @@
 
 <br>
 
-![15](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/blog.png)
+![15](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/blog.png)
 
 <br>
 
@@ -286,7 +286,7 @@
 
 <br>
 
-![16](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/srt.png)
+![16](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/srt.png)
 
 <br>
 
@@ -294,7 +294,8 @@
 
 <br>
 
-![17](https://github.com/Chenyme/Chenyme-AAVT/blob/main/cache/public/picture/opentts.png)
+![17](https://github.com/looasnd/looasnd-AAVT/blob/main/cache/public/picture/opentts.png)
 
 <br>
+
 
