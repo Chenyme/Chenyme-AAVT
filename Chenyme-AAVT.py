@@ -31,6 +31,7 @@ if "verify" in st.session_state:
             st.Page(page="page/project/audio.py", title="音频识别", icon=":material/graphic_eq:"),
             st.Page(page="page/project/video.py", title="视频识别", icon=":material/subscriptions:"),
             st.Page(page="page/project/translate.py", title="字幕翻译", icon=":material/subtitles:"),
+            st.Page(page="page/project/camb_dub.py", title="Camb 一键配音", icon=":material/voice_selection:"),
         ],
         "Test": [
             st.Page("page/tests/test.py", title="声音克隆", icon=":material/view_in_ar:"),

@@ -22,5 +22,8 @@ Prompt = "Don't make each line too long."
 min_vad = 500
 beam_size = 5
 
+[Camb]
+Language = "en"
+
 [other]
 first = false

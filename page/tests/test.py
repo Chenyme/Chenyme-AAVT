@@ -5,6 +5,7 @@ import streamlit as st
 from openai import OpenAI
 import streamlit_antd_components as sac
 from styles.global_style import style
+from utils.public import CambTTS
 
 style()
 path = os.getcwd() + "/"
@@ -25,7 +26,13 @@ with open(project_config_path, 'r', encoding='utf-8') as config_file:
 chatgpt_key = llms["ChatGPT"]["key"]  # Openai
 chatgpt_url = llms["ChatGPT"]["url"]
 
-tab1, tab2 = st.tabs(["**OpenTTS**", "**ChatTTS**"])
+camb_cfg = llms.get("Camb", {})
+camb_key = camb_cfg.get("key", "")
+camb_default_voice = camb_cfg.get("voice_id", 147320)
+camb_default_language = camb_cfg.get("language", "en-us")
+camb_default_model = camb_cfg.get("speech_model", "mars-flash")
+
+tab1, tab2, tab3 = st.tabs(["**OpenTTS**", "**ChatTTS**", "**Camb AI TTS**"])
 with tab1:
     col1, col2 = st.columns([0.75, 0.25])
     TTSSetting = st.expander("**Settings / 设置**", expanded=False, icon=":material/settings:")
@@ -91,7 +98,64 @@ with tab2:
 
     &nbsp;  
 
-    如有问题，可前往&nbsp;  **[GitHub](https://github.com/Chenyme/Chenyme-AAVT)** &nbsp; |&nbsp;  **[Telegram](https://t.me/+j8SNSwhS7xk1NTc9)** &nbsp; |&nbsp;  **[MyBlog](https://blog.chenyme.top)** &nbsp; 查看相关信息或提问反馈！  
+    如有问题，可前往&nbsp;  **[GitHub](https://github.com/Chenyme/Chenyme-AAVT)** &nbsp; |&nbsp;  **[Telegram](https://t.me/+j8SNSwhS7xk1NTc9)** &nbsp; |&nbsp;  **[MyBlog](https://blog.chenyme.top)** &nbsp; 查看相关信息或提问反馈！
 
-    &nbsp;  
+    &nbsp;
     """, icon=":material/error_med:")
+
+with tab3:
+    col1, col2 = st.columns([0.75, 0.25])
+    CambSetting = st.expander("**Settings / 设置**", expanded=False, icon=":material/settings:")
+    CambPreview = st.expander("**TTS Preview / TTS 预览**", expanded=True, icon=":material/record_voice_over:")
+
+    with CambPreview:
+        st.write("")
+        st.caption("模拟文本")
+        camb_input = st.text_area("Camb 文本", value="Today is a wonderful day to build something people love!", height=150, label_visibility="collapsed")
+
+    with CambSetting:
+        st.write("")
+        col3, col4, col5 = st.columns(3, gap="large")
+        with col3:
+            st.caption("Camb 语音模型")
+            camb_model = st.selectbox("Camb 模型", ["mars-flash", "mars-pro", "mars-instruct"],
+                                      index=["mars-flash", "mars-pro", "mars-instruct"].index(camb_default_model) if camb_default_model in ["mars-flash", "mars-pro", "mars-instruct"] else 0,
+                                      label_visibility="collapsed")
+        with col4:
+            st.caption("语言代码 (BCP-47)")
+            camb_language = st.text_input("Camb 语言", value=camb_default_language, label_visibility="collapsed")
+        with col5:
+            st.caption("音色 ID")
+            camb_voice = st.number_input("Camb Voice ID", value=int(camb_default_voice), step=1, label_visibility="collapsed")
+
+    with col1:
+        st.write("")
+        st.write("")
+        st.write("### Camb AI TTS")
+        st.caption("Camb AI 文本到语音 (140+ 语言)")
+    with col2:
+        st.write("")
+        st.write("")
+        if st.button("**开始生成**", use_container_width=True, type="primary", key="camb_tts_run"):
+            if not camb_key and not os.environ.get("CAMB_API_KEY"):
+                st.toast("请先在设置中配置 CAMB_API_KEY！", icon=":material/release_alert:")
+            else:
+                current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+                camb_cache_dir = tts_cache_path + "camb_" + current_time
+                os.makedirs(camb_cache_dir)
+                camb_output = f"{camb_cache_dir}/CambTTSOutput.wav"
+                try:
+                    CambTTS(camb_key, camb_input, camb_output,
+                            voice_id=int(camb_voice), language=camb_language, speech_model=camb_model)
+                    st.session_state.tts_path = camb_output
+                except Exception as e:
+                    st.error(f"Camb TTS 运行失败: {e}", icon=":material/error:")
+
+    with CambPreview:
+        try:
+            if st.session_state.get("tts_path", "").endswith("CambTTSOutput.wav"):
+                with open(st.session_state.tts_path, 'rb') as f:
+                    st.caption("生成的音频")
+                    st.audio(f.read())
+        except Exception:
+            pass

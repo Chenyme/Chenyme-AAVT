@@ -46,6 +46,13 @@ url = "https://open.bigmodel.cn/api/paas/v4/"
 key = ""
 url = "https://api.lingyiwanwu.com/v1"
 
+[Camb]
+key = ""
+url = "https://client.camb.ai/apis"
+voice_id = 147320
+language = "en-us"
+speech_model = "mars-flash"
+
 [translate]
 context_size = 2
 summarize = false

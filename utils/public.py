@@ -1229,3 +1229,305 @@ def write_llms(view, language, key, url, model, text, token, temp):
 def encode_image(path):
     with open(path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
+
+
+# ---------------------------------------------------------------------------
+# Camb AI adapters (STT / Translation / TTS / One-shot Dubbing)
+# ---------------------------------------------------------------------------
+
+def _get_camb_client(api_key: str = ""):
+    """Build a Camb AI SDK client. Falls back to CAMB_API_KEY env var."""
+    # NOTE: import directly from camb.client — the camb-sdk `__init__.py` lazy-import
+    # map is broken on Python 3.14.
+    from camb.client import CambAI
+    return CambAI(api_key=api_key or os.environ.get("CAMB_API_KEY", ""))
+
+
+def _find_lang_id(lang_list, code):
+    """Resolve a language code (e.g. 'en', 'zh', 'en-us') to a Camb numeric language id."""
+    if code is None:
+        return None
+    low = str(code).lower()
+    base = re.split(r"[-_]", low)[0]
+    # exact short_name match
+    for l in lang_list:
+        sn = (getattr(l, "short_name", "") or "").lower()
+        if sn == low:
+            return getattr(l, "id", None)
+    # exact base match
+    for l in lang_list:
+        sn = (getattr(l, "short_name", "") or "").lower()
+        if sn == base:
+            return getattr(l, "id", None)
+    # startsWith on short_name
+    for l in lang_list:
+        sn = (getattr(l, "short_name", "") or "").lower()
+        if sn.startswith(base):
+            return getattr(l, "id", None)
+    # fallback: language field
+    for l in lang_list:
+        lang = (getattr(l, "language", "") or "").lower()
+        if lang == low or lang.startswith(base):
+            return getattr(l, "id", None)
+    return None
+
+
+def _camb_language_ids(source_lang: str, target_lang: str, api_key: str = ""):
+    """Resolve (source_lang_code, target_lang_code) to Camb numeric (source_id, target_id)."""
+    client = _get_camb_client(api_key)
+    src_list = client.languages.get_source_languages()
+    tgt_list = client.languages.get_target_languages()
+    src_id = _find_lang_id(src_list, source_lang)
+    tgt_id = _find_lang_id(tgt_list, target_lang)
+    if src_id is None:
+        raise ValueError(f"Camb: source language '{source_lang}' not found")
+    if tgt_id is None:
+        raise ValueError(f"Camb: target language '{target_lang}' not found")
+    return src_id, tgt_id
+
+
+def _camb_get(obj, key, default=None):
+    """Camb SDK sometimes returns pydantic models, sometimes plain dicts. Read either."""
+    if isinstance(obj, dict):
+        return obj.get(key, default)
+    return getattr(obj, key, default)
+
+
+def _camb_poll(status_fn, task_id, interval=3.0, timeout=900.0):
+    """Poll a Camb task until SUCCESS, return run_id. Raises on ERROR / timeout."""
+    start = time.time()
+    while time.time() - start < timeout:
+        res = status_fn(task_id=task_id)
+        status = _camb_get(res, "status")
+        if status == "SUCCESS":
+            return _camb_get(res, "run_id")
+        if status in ("ERROR", "FAILURE", "REVOKED"):
+            reason = _camb_get(res, "exception_reason") or _camb_get(res, "message") or status
+            raise RuntimeError(f"Camb task {task_id} failed: {reason}")
+        time.sleep(interval)
+    raise TimeoutError(f"Camb task {task_id} timed out after {timeout}s")
+
+
+def CambWhisperResult(api_key: str, path: str, language: str = "en"):
+    """Camb AI transcription adapter. Mirrors OpenaiWhisperResult output shape."""
+    print("\n\033[1;35m*** Camb AI 转录模式 ***\033[0m\n")
+    print(f"\033[1;34m🈴 识别语言: {language}\033[0m")
+
+    audio_path = Path(path)
+    try:
+        if audio_path.is_file():
+            audio_file_path = audio_path
+        else:
+            audio_file_path = audio_path / "output.mp3"
+        if not audio_file_path.is_file():
+            raise FileNotFoundError(f"文件未找到：{audio_file_path}")
+    except FileNotFoundError as e:
+        return {"error": f"文件错误：{str(e)}"}
+
+    try:
+        client = _get_camb_client(api_key)
+        src_list = client.languages.get_source_languages()
+        language_id = _find_lang_id(src_list, language) or 1
+
+        with audio_file_path.open("rb") as media_file:
+            create_res = client.transcription.create_transcription(
+                media_file=media_file,
+                language=language_id,
+            )
+        task_id = _camb_get(create_res, "task_id")
+        run_id = _camb_poll(
+            client.transcription.get_transcription_task_status,
+            task_id,
+            interval=3.0,
+            timeout=900.0,
+        )
+        transcription = client.transcription.get_transcription_result(run_id=run_id)
+    except Exception as e:
+        return {"error": f"Camb AI 转录请求失败：{str(e)}"}
+
+    # Result shape: .transcript is a list of {start, end, text, speaker}
+    raw_segs = (
+        _camb_get(transcription, "transcript", None)
+        or _camb_get(transcription, "segments", None)
+        or []
+    )
+
+    def _seg_get(s, key, default=None):
+        if isinstance(s, dict):
+            return s.get(key, default)
+        return getattr(s, key, default)
+
+    segments = []
+    text_parts = []
+    for idx, seg in enumerate(raw_segs):
+        seg_text = _seg_get(seg, "text", "") or ""
+        text_parts.append(seg_text)
+        segments.append({
+            'id': idx,
+            'seek': 0,
+            'start': _seg_get(seg, "start", 0) or 0,
+            'end': _seg_get(seg, "end", 0) or 0,
+            'text': seg_text,
+            'tokens': [],
+            'temperature': 0.0,
+            'avg_logprob': 0.0,
+            'compression_ratio': 0.0,
+            'no_speech_prob': 0.0,
+        })
+
+    result = {
+        'text': _camb_get(transcription, "text", "") or " ".join(text_parts),
+        'segments': segments,
+    }
+    print(f"\033[1;34m📝 Camb 识别结果:\033[0m\n{result['text']}\n")
+    return result
+
+
+def camb_translate(system_prompt, user_prompt, api_key, source_lang, target_lang, result, wait_time, srt):
+    """Camb AI translation adapter. Matches the signature style of translate()."""
+    print("\n\033[1;35m*** Camb AI 翻译模式 ***\033[0m\n")
+    print(f"\033[1;34m🈴 翻译引擎: Camb AI ({source_lang} -> {target_lang})\033[0m")
+
+    try:
+        client = _get_camb_client(api_key)
+        source_id, target_id = _camb_language_ids(source_lang, target_lang, api_key=api_key)
+    except Exception as e:
+        print(f"\033[1;31m❌ Camb 客户端初始化失败: {e}\033[0m")
+        raise
+
+    segments = result['segments']
+    for segment_id, segment in enumerate(segments):
+        text = segment['text']
+        try:
+            create_res = client.translation.create_translation(
+                texts=[str(text)],
+                source_language=source_id,
+                target_language=target_id,
+            )
+            task_id = _camb_get(create_res, "task_id")
+            if not task_id:
+                # Defensive inline fallback
+                inline = _camb_get(create_res, "texts")
+                answer = (inline or [""])[0] if inline else ""
+            else:
+                run_id = _camb_poll(
+                    client.translation.get_translation_task_status,
+                    task_id,
+                    interval=1.5,
+                    timeout=120.0,
+                )
+                tr_result = client.translation.get_translation_result(run_id=run_id)
+                texts_out = _camb_get(tr_result, "texts") or []
+                answer = texts_out[0] if texts_out else ""
+        except Exception as e:
+            print(f"\033[1;31m❌ Camb 翻译异常: {e}\033[0m")
+            raise
+
+        if srt == "原始语言为首":
+            result['segments'][segment_id]['text'] = str(text) + "\n" + str(answer)
+        elif srt == "目标语言为首":
+            result['segments'][segment_id]['text'] = str(answer) + "\n" + str(text)
+        else:
+            result['segments'][segment_id]['text'] = answer
+        print(answer)
+        time.sleep(wait_time)
+
+    return result
+
+
+def camb_translate_srt(system_prompt, user_prompt, api_key, source_lang, target_lang, srt_content, wait_time, srt):
+    """Camb AI adapter for the SRT-list translation path used in translate.py."""
+    wrapped = {'segments': srt_content}
+    camb_translate(system_prompt, user_prompt, api_key, source_lang, target_lang, wrapped, wait_time, srt)
+    return srt_content
+
+
+def CambTTS(api_key: str, text: str, output_path: str, voice_id: int = 156549,
+            language: str = "en-us", speech_model: str = "mars-flash"):
+    """Camb AI TTS adapter. Uses the streaming (non-task) path; writes WAV bytes to output_path.
+
+    Returns the output path. Collects the iterator-of-bytes into a buffer so callers can
+    also grab the raw audio bytes if needed. voice_id is REQUIRED by tts-stream; default
+    156549 is a verified en-us voice — look up alternatives via GET /list-voices.
+    """
+    from camb.types.stream_tts_output_configuration import StreamTtsOutputConfiguration
+    print("\n\033[1;35m*** Camb AI TTS 模式 ***\033[0m\n")
+    print(f"\033[1;34m🔊 模型: {speech_model} | 语言: {language} | voice_id: {voice_id}\033[0m")
+
+    client = _get_camb_client(api_key)
+    response = client.text_to_speech.tts(
+        text=text,
+        language=language,
+        speech_model=speech_model,
+        voice_id=voice_id,
+        output_configuration=StreamTtsOutputConfiguration(format="wav", sample_rate=22050),
+    )
+
+    buf = bytearray()
+    for chunk in response:
+        if isinstance(chunk, (bytes, bytearray)):
+            buf.extend(chunk)
+        elif hasattr(chunk, "content"):
+            buf.extend(chunk.content)
+
+    with open(output_path, "wb") as f:
+        f.write(bytes(buf))
+    print(f"\033[1;34m🎧 Camb TTS 已保存至: {output_path} ({len(buf)} bytes)\033[0m")
+    return output_path
+
+
+def CambDubbing(api_key: str, video_url: str, source_language: str, target_language: str,
+                output_path: str, poll_interval: int = 5, timeout: int = 1800):
+    """Camb AI end-to-end video dubbing. Takes a PUBLIC video_url, polls, and downloads the result.
+
+    NOTE: The Camb dubbing API requires a public URL — no local file upload.
+    """
+    print("\n\033[1;35m*** Camb AI One-shot 视频配音模式 ***\033[0m\n")
+    print(f"\033[1;34m🎬 源语言: {source_language} -> 目标语言: {target_language}\033[0m")
+
+    client = _get_camb_client(api_key)
+    source_id, target_id = _camb_language_ids(source_language, target_language, api_key=api_key)
+
+    create_res = client.dub.create_dub(
+        video_url=video_url,
+        source_language=source_id,
+        target_language=target_id,
+    )
+    task_id = _camb_get(create_res, "task_id")
+    if not task_id:
+        raise RuntimeError(f"Camb 未返回 task_id: {create_res}")
+
+    run_id = _camb_poll(
+        client.dub.get_dubbing_status,
+        task_id,
+        interval=float(poll_interval),
+        timeout=float(timeout),
+    )
+
+    results = client.dub.get_dubbed_run_info(run_id=run_id)
+    # Extract a downloadable URL from the response (SDK shape may vary).
+    download_url = None
+    try:
+        item = results[0] if isinstance(results, list) and results else results
+        if isinstance(item, dict):
+            download_url = item.get("video_url") or item.get("url") or item.get("output_video_url")
+        else:
+            download_url = (
+                getattr(item, "video_url", None)
+                or getattr(item, "url", None)
+                or getattr(item, "output_video_url", None)
+            )
+    except Exception:
+        pass
+
+    if not download_url:
+        raise RuntimeError(f"Camb 未返回下载 URL: {results}")
+
+    resp = requests.get(download_url, stream=True)
+    resp.raise_for_status()
+    with open(output_path, "wb") as f:
+        for chunk in resp.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
+    print(f"\033[1;34m🎉 Camb 配音完成: {output_path}\033[0m")
+    return output_path

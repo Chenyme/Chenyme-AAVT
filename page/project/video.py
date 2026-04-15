@@ -11,7 +11,8 @@ import streamlit_antd_components as sac
 from styles.global_style import style
 from utils.public import (FileToMp3, OpenaiWhisperResult, runWhisperSeperateProc, translate, local_translate, encode_image,
                           generate_srt_from_result, generate_srt_from_result_2, srt_mv, parse_srt_file, convert_to_srt,
-                          show_video, add_font_settings, srt_to_ass, srt_to_vtt, srt_to_sbv, extract_frames, write_llms)
+                          show_video, add_font_settings, srt_to_ass, srt_to_vtt, srt_to_sbv, extract_frames, write_llms,
+                          CambWhisperResult, camb_translate)
 
 style()
 
@@ -77,6 +78,8 @@ chatglm_url = llms["ChatGLM"]["url"]
 
 ai01_key = llms["Yi"]["key"]  # 01
 ai01_url = llms["Yi"]["url"]
+
+camb_key = llms.get("Camb", {}).get("key", "")  # Camb AI
 
 whisper_mode = whispers["Mode"]["WhisperMode"]  # whisper_mode
 
@@ -168,7 +171,8 @@ translation_dict = {
     (30, 35): 'yi-large',
     (30, 36): 'yi-large-rag',
     (30, 37): 'yi-large-turbo',
-    (30, 38): 'yi-large-preview'
+    (30, 38): 'yi-large-preview',
+    (39,): 'camb-translate'
 }
 
 
@@ -297,6 +301,7 @@ with tab4:
                 sac.CasItem('yi-large-rag', icon='folder2-open'),
                 sac.CasItem('yi-large-turbo', icon='folder2-open'),
                 sac.CasItem('yi-large-preview', icon='folder2-open')]),
+            sac.CasItem('Camb AI / 多语种', icon='folder2'),
         ], label='', search=True, index=video_translate_index, return_index=True)
         if video_translate_index != [0]:
             st.write("")
@@ -515,6 +520,8 @@ with tab1:
                     result = runWhisperSeperateProc(output_file, faster_gpu, faster_whisper_model_index, faster_prompt, faster_temp, faster_vad, language_index, faster_beam_size, faster_min_vad)
                 if whisper_mode == "FasterWhisper - LocalModel":
                     result = runWhisperSeperateProc(output_file, faster_local_gpu, faster_whisper_model_local_index, faster_local_prompt, faster_local_temp, faster_local_vad, language_index, faster_local_beam_size, faster_local_min_vad)
+                if whisper_mode == "CambAI - API":
+                    result = CambWhisperResult(camb_key, output_file, language_index if language_index != "自动识别" else "en")
                 if 'error' in result:
                     print(f"\033[1;31m❌ Whisper识别异常: {result['error']}\033[0m")
                     st.error(f"处理失败，错误信息：{result['error']}")
@@ -541,6 +548,8 @@ with tab1:
                         result = translate(system_prompt, user_prompt, deepseek_key, deepseek_url, translate_option, result, video_wait_time_setting, srt_setting)
                     elif 'claude' in translate_option:
                         result = translate(system_prompt, user_prompt, claude_key, claude_url, translate_option, result, video_wait_time_setting, srt_setting)
+                    elif 'camb' in translate_option:
+                        result = camb_translate(system_prompt, user_prompt, camb_key, video_language2_index1, video_language2_index2, result, video_wait_time_setting, srt_setting)
                     print("\033[1;34m🎉 字幕翻译已完成！\033[0m")
                     msg_tra.toast("翻译任务结束！", icon=":material/translate:")
 
