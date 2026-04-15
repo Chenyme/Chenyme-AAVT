@@ -66,6 +66,15 @@ chatglm_url = llms["ChatGLM"]["url"]
 ai01_key = llms["Yi"]["key"]  # 01
 ai01_url = llms["Yi"]["url"]
 
+if "Camb" not in llms:
+    llms["Camb"] = {"key": "", "url": "https://client.camb.ai/apis",
+                    "voice_id": 147320, "language": "en-us", "speech_model": "mars-flash"}
+camb_key = llms["Camb"].get("key", "")  # Camb AI
+camb_url = llms["Camb"].get("url", "https://client.camb.ai/apis")
+camb_voice_id = llms["Camb"].get("voice_id", 147320)
+camb_language = llms["Camb"].get("language", "en-us")
+camb_speech_model = llms["Camb"].get("speech_model", "mars-flash")
+
 whisper_mode = whispers["Mode"]["WhisperMode"]  # whisper_mode
 whisper_temp = whispers["OpenAI"]["Temp"]  # whisper_temp
 whisper_prompt = whispers["OpenAI"]["Prompt"]  # whisper_mode
@@ -224,8 +233,8 @@ with tab1:
 
 with tab2:
     WhisperSave = st.container()
-    mode = ["OpenAIWhisper - API", "OpenAIWhisper - Local", "FasterWhisper - AutoDownload", "FasterWhisper - LocalModel", "WhisperX"]
-    whisper_mode = st.selectbox("**Whisper 后端**", mode, index=mode.index(whisper_mode))
+    mode = ["OpenAIWhisper - API", "OpenAIWhisper - Local", "FasterWhisper - AutoDownload", "FasterWhisper - LocalModel", "WhisperX", "CambAI - API"]
+    whisper_mode = st.selectbox("**Whisper 后端**", mode, index=mode.index(whisper_mode) if whisper_mode in mode else 0)
     st.write("")
 
     with st.container(border=True):
@@ -368,6 +377,42 @@ with tab2:
                             toml.dump(whispers, f)
                         st.session_state.save = True
                         st.rerun()
+                with col1:
+                    st.write("")
+                    st.write("")
+                    st.subheader("识别后端设置")
+                    st.caption("Identify Backend Settings")
+                    st.write("")
+
+        if whisper_mode == "CambAI - API":
+            st.write("##### CambAI - 云端转录")
+            st.info("**使用提示：** \n\n 调用 Camb AI 的 transcription API 进行识别，支持 140+ 语言。请在下方填写 `CAMB_API_KEY`。", icon=":material/lightbulb:")
+            st.write("")
+            col1, col2 = st.columns(2)
+            with col1:
+                camb_key_in = st.text_input("CAMB_API_KEY", value=camb_key, placeholder="Camb AI 密钥", type="password")
+            with col2:
+                camb_url_in = st.text_input("Camb API 地址", value=camb_url, placeholder="默认：https://client.camb.ai/apis")
+            st.write("")
+            with WhisperSave:
+                col1, col2 = st.columns([0.75, 0.3])
+                with col2:
+                    st.write("")
+                    st.write("")
+                    if st.button("**保存 Camb Mode 配置**", use_container_width=True, type="primary"):
+                        if not camb_key_in:
+                            st.toast("CAMB_API_KEY 不能为空！", icon=":material/release_alert:")
+                        else:
+                            with open(llms_path, 'w', encoding="utf-8") as f:
+                                llms["Camb"]["key"] = camb_key_in
+                                llms["Camb"]["url"] = camb_url_in
+                                toml.dump(llms, f)
+                            with open(whisper_path, 'w', encoding="utf-8") as f:
+                                whispers["Mode"]["WhisperMode"] = whisper_mode
+                                toml.dump(whispers, f)
+                            os.environ["CAMB_API_KEY"] = camb_key_in
+                            st.session_state.save = True
+                            st.rerun()
                 with col1:
                     st.write("")
                     st.write("")
@@ -612,6 +657,46 @@ with tab3:
                         st.success("**保存成功！**", icon=":material/check:")
                         del st.session_state["save_success"]
                 ai01_setting(ai01_url, ai01_key)
+        st.write("")
+
+        with st.container(border=True):
+            st.write("##### Camb AI")
+            st.write("调用 Camb AI 提供 STT / 翻译 / TTS / 一键视频配音等多语种语音能力")
+            if st.button("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**配置**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", key="camb_button", type="primary"):
+                @st.dialog('Camb AI 设置')
+                def camb_setting(url, key, voice_id, language, speech_model):
+                    st.write("官方网址：**[camb.ai](https://camb.ai)** \n\n Camb AI 提供 TTS / STT / 翻译 / 配音 等语音能力，支持 140+ 语言。")
+                    st.write("")
+                    url = st.text_input("**API 地址**", url, placeholder="Camb AI API 接口", help="默认值：`https://client.camb.ai/apis`")
+                    key = st.text_input("**CAMB_API_KEY**", key, placeholder="Camb AI API 密钥", type="password")
+                    voice_id = st.number_input("**默认音色 ID**", value=int(voice_id), step=1)
+                    language = st.text_input("**默认语言 (BCP-47)**", value=language, placeholder="en-us")
+                    speech_model = st.selectbox("**默认 TTS 模型**", ["mars-flash", "mars-pro", "mars-instruct"],
+                                                index=["mars-flash", "mars-pro", "mars-instruct"].index(speech_model)
+                                                if speech_model in ["mars-flash", "mars-pro", "mars-instruct"] else 0)
+                    st.write("")
+                    if st.button("**保存配置**", use_container_width=True, type="primary", key="camb_save_btn"):
+                        with open(llms_path, 'w', encoding="utf-8") as f:
+                            llms["Camb"]["url"] = url
+                            llms["Camb"]["key"] = key
+                            llms["Camb"]["voice_id"] = int(voice_id)
+                            llms["Camb"]["language"] = language
+                            llms["Camb"]["speech_model"] = speech_model
+                            toml.dump(llms, f)
+                        os.environ["CAMB_API_KEY"] = key
+                        st.session_state.save_success = True
+                    if st.button("**接口测试**", use_container_width=True, type="primary", key="camb_test_btn"):
+                        try:
+                            from camb.client import CambAI
+                            client = CambAI(api_key=key)
+                            client.languages.get_target_languages()
+                            st.success("**测试成功！**", icon=":material/check:")
+                        except Exception as e:
+                            st.error(f"**测试失败：{e}**", icon=":material/error:")
+                    if "save_success" in st.session_state:
+                        st.success("**保存成功！**", icon=":material/check:")
+                        del st.session_state["save_success"]
+                camb_setting(camb_url, camb_key, camb_voice_id, camb_language, camb_speech_model)
 
     with col2:
         with st.container(border=True):

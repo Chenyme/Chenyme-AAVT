@@ -10,3 +10,4 @@ numpy<2.0.0
 torch
 torchvision
 torchaudio
+camb-sdk
